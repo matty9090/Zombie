@@ -5,11 +5,11 @@ using UnityEngine.EventSystems;
 
 public class Game : MonoBehaviour
 {
-    [SerializeField] private Camera MainCamera;
-    [SerializeField] private Character Character;
-    [SerializeField] private Canvas Menu;
-    [SerializeField] private Canvas Hud;
-    [SerializeField] private Transform CharacterStart;
+    [SerializeField] private Camera MainCamera = null;
+    [SerializeField] private Character Character = null;
+    [SerializeField] private Canvas Menu = null;
+    [SerializeField] private Canvas Hud = null;
+    [SerializeField] private Transform CharacterStart = null;
 
     private RaycastHit[] mRaycastHits;
     private Character mCharacter;

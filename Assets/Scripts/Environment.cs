@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class Environment : MonoBehaviour
 {
-    [SerializeField] private List<EnvironmentTile> AccessibleTiles;
-    [SerializeField] private List<EnvironmentTile> InaccessibleTiles;
+    [SerializeField] private List<EnvironmentTile> AccessibleTiles = null;
+    [SerializeField] private List<EnvironmentTile> InaccessibleTiles = null;
     [SerializeField] private Vector2Int Size;
-    [SerializeField] private float AccessiblePercentage;
+    [SerializeField] private float AccessiblePercentage = 0.0f;
 
     private EnvironmentTile[][] mMap;
     private List<EnvironmentTile> mAll;
