@@ -1,13 +1,24 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Character : MonoBehaviour
 {
     [SerializeField] private float SingleNodeMoveTime = 0.5f;
+    [SerializeField] public int MaxHealth = 100;
+
+    public int Health { get; private set; }
 
     public EnvironmentTile CurrentPosition { get; set; }
-    private bool IsMoving = false;
+    public UnityEvent HealthChangedEvent;
+
+    private bool mIsMoving = false;
+
+    private void Start()
+    {
+        Health = MaxHealth;
+    }
 
     private IEnumerator DoMove(Vector3 position, Vector3 destination)
     {
@@ -24,11 +35,11 @@ public class Character : MonoBehaviour
                 t += Time.deltaTime;
                 p = Vector3.Lerp(position, destination, t / SingleNodeMoveTime);
                 transform.position = p;
-                IsMoving = true;
+                mIsMoving = true;
                 yield return null;
             }
 
-            IsMoving = false;
+            mIsMoving = false;
         }
     }
 
@@ -58,6 +69,13 @@ public class Character : MonoBehaviour
 
     private void Update()
     {
-        GetComponentInChildren<Animator>().SetFloat("Speed", IsMoving ? 1.0f : 0.0f);
+        GetComponentInChildren<Animator>().SetFloat("Speed", mIsMoving ? 1.0f : 0.0f);
+    }
+
+    public void Damage(int Amount)
+    {
+        Health -= Amount;
+        Health = Mathf.Clamp(Health, 0, MaxHealth);
+        HealthChangedEvent.Invoke();
     }
 }
