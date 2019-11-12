@@ -7,6 +7,7 @@ public class Character : MonoBehaviour
     [SerializeField] private float SingleNodeMoveTime = 0.5f;
 
     public EnvironmentTile CurrentPosition { get; set; }
+    private bool IsMoving = false;
 
     private IEnumerator DoMove(Vector3 position, Vector3 destination)
     {
@@ -23,8 +24,11 @@ public class Character : MonoBehaviour
                 t += Time.deltaTime;
                 p = Vector3.Lerp(position, destination, t / SingleNodeMoveTime);
                 transform.position = p;
+                IsMoving = true;
                 yield return null;
             }
+
+            IsMoving = false;
         }
     }
 
@@ -50,5 +54,10 @@ public class Character : MonoBehaviour
         // that clicks can interupt any current route animation
         StopAllCoroutines();
         StartCoroutine(DoGoTo(route));
+    }
+
+    private void Update()
+    {
+        GetComponentInChildren<Animator>().SetFloat("Speed", IsMoving ? 1.0f : 0.0f);
     }
 }

@@ -835,7 +835,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MainCamera: {fileID: 963194227}
-  Character: {fileID: 792252150293316475, guid: 0ec771fc79c748e4694b82068b3883e1,
+  Character: {fileID: 5274306839814300217, guid: 7697ee03830ec994e8a34c7e19227c4c,
     type: 3}
   Menu: {fileID: 2099476870}
   Hud: {fileID: 1579498796}
