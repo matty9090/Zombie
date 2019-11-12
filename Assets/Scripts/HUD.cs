@@ -8,7 +8,6 @@ public class HUD : MonoBehaviour
     [SerializeField] private List<Text> ResourceTexts = null;
     [SerializeField] private Game Game = null;
 
-    private enum EResource { Wood, Stone };
     private Resources Resources;
 
     void Start()

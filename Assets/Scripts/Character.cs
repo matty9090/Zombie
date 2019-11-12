@@ -12,8 +12,9 @@ public class Character : MonoBehaviour
 
     public EnvironmentTile CurrentPosition { get; set; }
     public UnityEvent HealthChangedEvent;
+    public enum EState { Idle, Moving, Harvesting };
 
-    private bool mIsMoving = false;
+    private EState State = EState.Idle;
 
     private void Start()
     {
@@ -35,11 +36,11 @@ public class Character : MonoBehaviour
                 t += Time.deltaTime;
                 p = Vector3.Lerp(position, destination, t / SingleNodeMoveTime);
                 transform.position = p;
-                mIsMoving = true;
+                State = EState.Moving;
                 yield return null;
             }
 
-            mIsMoving = false;
+            State = EState.Idle;
         }
     }
 
@@ -70,7 +71,7 @@ public class Character : MonoBehaviour
 
     private void Update()
     {
-        GetComponentInChildren<Animator>().SetFloat("Speed", mIsMoving ? 1.0f : 0.0f);
+        GetComponentInChildren<Animator>().SetFloat("Speed", State == EState.Moving ? 1.0f : 0.0f);
     }
 
     public void Damage(int Amount)

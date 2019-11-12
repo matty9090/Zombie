@@ -1,5 +1,7 @@
 ﻿using UnityEngine.Events;
 
+public enum EResource { Wood, Stone };
+
 public class Resources
 {
     public int Wood {

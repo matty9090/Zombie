@@ -40,19 +40,25 @@ public class Game : MonoBehaviour
         
         if (Physics.RaycastNonAlloc(screenClick, mRaycastHits) > 0)
         {
-            EnvironmentTile tile = mRaycastHits[0].transform.GetComponent<EnvironmentTile>();
-            
+            Transform objTransform = mRaycastHits[0].transform;
+
+            EnvironmentTile tile = objTransform.GetComponent<EnvironmentTile>();
+            Harvestable harvestable = objTransform.GetComponent<Harvestable>();
+
             if (tile != null)
             {
-                // We hovered over a tile so set the hover tile position and make it visible
-                HoverTile.transform.position = tile.Position;
-                HoverTile.GetComponent<MeshRenderer>().enabled = true;
-
                 if (Input.GetMouseButtonDown(0))
                 {
                     List<EnvironmentTile> route = mMap.Solve(mCharacter.CurrentPosition, tile);
                     mCharacter.GoTo(route);
                 }
+            }
+
+            if(tile != null || harvestable != null)
+            {
+                // We hovered over a tile which can be clicked on so set the hover tile position and make it visible
+                HoverTile.transform.position = tile.Position;
+                HoverTile.GetComponent<MeshRenderer>().enabled = true;
             }
         }
     }
