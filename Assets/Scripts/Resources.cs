@@ -1,9 +1,31 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine.Events;
 
-public struct Resources
+public class Resources
 {
-    public int Wood { get; set; }
-    public int Stone { get; set; }
+    public int Wood {
+        get {
+            return mWood;
+        }
+
+        set {
+            mWood = value;
+            ResourcesChangedEvent.Invoke();
+        }
+    }
+
+    public int Stone {
+        get {
+            return mStone;
+        }
+
+        set {
+            mStone = value;
+            ResourcesChangedEvent.Invoke();
+        }
+    }
+
+    private int mWood = 0;
+    private int mStone = 0;
+
+    public UnityEvent ResourcesChangedEvent = new UnityEvent();
 }

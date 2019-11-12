@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 public class Game : MonoBehaviour
 {
@@ -13,7 +12,7 @@ public class Game : MonoBehaviour
     [SerializeField] private GameObject HoverTile = null;
     [SerializeField] private HealthBar HealthBar = null;
     
-    public Resources Resources;
+    public Resources Resources { get; set; }
 
     private RaycastHit[] mRaycastHits;
     private Character mCharacter;
@@ -21,16 +20,14 @@ public class Game : MonoBehaviour
 
     private readonly int NumberOfRaycastHits = 1;
 
-    void Start()
+    void Awake()
     {
+        Resources = new Resources();
         mRaycastHits = new RaycastHit[NumberOfRaycastHits];
         mMap = GetComponentInChildren<Environment>();
         mCharacter = Instantiate(Character, transform);
         HealthBar.ProvideCharacter(mCharacter);
         ShowMenu(true);
-
-        Resources.Wood = 0;
-        Resources.Stone = 0;
     }
 
     void Update()
