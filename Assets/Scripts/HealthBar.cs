@@ -14,7 +14,7 @@ public class HealthBar : MonoBehaviour
 
     void HealthChanged()
     {
-        if(mCharacter)
+        if (mCharacter)
         {
             Vector3 scale = transform.localScale;
             scale.x = (float)mCharacter.Health / (float)mCharacter.MaxHealth;

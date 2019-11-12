@@ -49,6 +49,7 @@ public class Character : MonoBehaviour
         if (route != null)
         {
             Vector3 position = CurrentPosition.Position;
+
             for (int count = 0; count < route.Count; ++count)
             {
                 Vector3 next = route[count].Position;

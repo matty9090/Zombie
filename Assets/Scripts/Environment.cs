@@ -46,13 +46,14 @@ public class Environment : MonoBehaviour
 
                     // Use different colours to represent the state of the nodes
                     Color c = Color.white;
-                    if ( !mMap[x][y].IsAccessible )
+
+                    if (!mMap[x][y].IsAccessible)
                     {
                         c = Color.red;
                     }
                     else
                     {
-                        if(mLastSolution != null && mLastSolution.Contains( mMap[x][y] ))
+                        if (mLastSolution != null && mLastSolution.Contains( mMap[x][y] ))
                         {
                             c = Color.green;
                         }
@@ -84,6 +85,7 @@ public class Environment : MonoBehaviour
         for ( int x = 0; x < Size.x; ++x)
         {
             mMap[x] = new EnvironmentTile[Size.y];
+
             for ( int y = 0; y < Size.y; ++y)
             {
                 bool isAccessible = start || Random.value < AccessiblePercentage;
@@ -119,6 +121,7 @@ public class Environment : MonoBehaviour
             {
                 EnvironmentTile tile = mMap[x][y];
                 tile.Connections = new List<EnvironmentTile>();
+
                 if (x > 0)
                 {
                     tile.Connections.Add(mMap[x - 1][y]);
@@ -148,10 +151,12 @@ public class Environment : MonoBehaviour
         // is used to calculate the local goal during the search for a path to a location
         float result = float.MaxValue;
         EnvironmentTile directConnection = a.Connections.Find(c => c == b);
+
         if (directConnection != null)
         {
             result = TileSize;
         }
+
         return result;
     }
 
@@ -186,16 +191,18 @@ public class Environment : MonoBehaviour
     public List<EnvironmentTile> Solve(EnvironmentTile begin, EnvironmentTile destination)
     {
         List<EnvironmentTile> result = null;
+
         if (begin != null && destination != null)
         {
             // Nothing to solve if there is a direct connection between these two locations
             EnvironmentTile directConnection = begin.Connections.Find(c => c == destination);
+            
             if (directConnection == null)
             {
                 // Set all the state to its starting values
                 mToBeTested.Clear();
 
-                for( int count = 0; count < mAll.Count; ++count )
+                for (int count = 0; count < mAll.Count; ++count)
                 {
                     mAll[count].Parent = null;
                     mAll[count].Global = float.MaxValue;

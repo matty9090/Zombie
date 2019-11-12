@@ -62,7 +62,7 @@ public class Game : MonoBehaviour
             Menu.enabled = show;
             Hud.enabled = !show;
 
-            if( show )
+            if (show)
             {
                 mCharacter.transform.position = CharacterStart.position;
                 mCharacter.transform.rotation = CharacterStart.rotation;
