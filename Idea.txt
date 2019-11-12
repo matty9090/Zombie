@@ -8,3 +8,4 @@ Details
  - Health regenerates back up after a wave
  - Player can fight zombies with a weapon
  - Research system?
+ - Use lakes provided in some way?

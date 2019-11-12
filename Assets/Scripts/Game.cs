@@ -12,6 +12,8 @@ public class Game : MonoBehaviour
     [SerializeField] private Transform CharacterStart = null;
     [SerializeField] private GameObject HoverTile = null;
     [SerializeField] private HealthBar HealthBar = null;
+    
+    public Resources Resources;
 
     private RaycastHit[] mRaycastHits;
     private Character mCharacter;
@@ -26,6 +28,9 @@ public class Game : MonoBehaviour
         mCharacter = Instantiate(Character, transform);
         HealthBar.ProvideCharacter(mCharacter);
         ShowMenu(true);
+
+        Resources.Wood = 0;
+        Resources.Stone = 0;
     }
 
     void Update()
