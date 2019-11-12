@@ -47,18 +47,47 @@ public class Game : MonoBehaviour
 
             if (tile != null)
             {
-                if (Input.GetMouseButtonDown(0))
-                {
-                    List<EnvironmentTile> route = mMap.Solve(mCharacter.CurrentPosition, tile);
-                    mCharacter.GoTo(route);
-                }
-            }
-
-            if(tile != null || harvestable != null)
-            {
                 // We hovered over a tile which can be clicked on so set the hover tile position and make it visible
                 HoverTile.transform.position = tile.Position;
                 HoverTile.GetComponent<MeshRenderer>().enabled = true;
+
+                if (Input.GetMouseButtonDown(0))
+                {
+                    if (harvestable != null)
+                    {
+                        List<EnvironmentTile> bestRoute = null;
+                        float minDist = float.MaxValue;
+
+                        // Harvestable tiles do not have a direct path to them so find the path to the closest walkable tile
+                        foreach (EnvironmentTile t in tile.Connections)
+                        {
+                            int dist = (int)Vector3.Distance(t.Position, mCharacter.CurrentPosition.Position);
+                            var route = mMap.Solve(mCharacter.CurrentPosition, t);
+
+                            if(route != null && dist < minDist)
+                            {
+                                bestRoute = route;
+                                minDist = dist;
+                            }
+                        }
+
+                        // Found path
+                        if(bestRoute != null)
+                        {
+                            MoveTask task = new MoveTask();
+                            task.Type = EMoveTask.Harvest;
+                            task.HarvestTarget = harvestable;
+
+                            mCharacter.Task = task;
+                            mCharacter.GoTo(bestRoute);
+                        }
+                    }
+                    else
+                    {
+                        List<EnvironmentTile> route = mMap.Solve(mCharacter.CurrentPosition, tile);
+                        mCharacter.GoTo(route);
+                    }
+                }
             }
         }
     }

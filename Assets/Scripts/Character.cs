@@ -3,22 +3,36 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
+public enum EMoveTask { Attack, Harvest };
+
+public class MoveTask
+{
+    public EMoveTask Type { get; set; }
+    public Character AttackTarget { get; set; }
+    public Harvestable HarvestTarget { get; set; }
+}
+
 public class Character : MonoBehaviour
 {
     [SerializeField] private float SingleNodeMoveTime = 0.5f;
     [SerializeField] public int MaxHealth = 100;
+    [SerializeField] public float HarvestTime = 2.0f;
 
     public int Health { get; private set; }
-
+    public MoveTask Task { get; set; }
     public EnvironmentTile CurrentPosition { get; set; }
     public UnityEvent HealthChangedEvent;
-    public enum EState { Idle, Moving, Harvesting };
+    public enum EState { Idle, Moving, Harvesting, Attacking };
 
     private EState State = EState.Idle;
+    private Harvestable HarvestTarget = null;
+    private Character AttackTarget = null;
+    private float HarvestTimeRemaining;
 
     private void Start()
     {
         Health = MaxHealth;
+        Task = null;
     }
 
     private IEnumerator DoMove(Vector3 position, Vector3 destination)
@@ -39,8 +53,6 @@ public class Character : MonoBehaviour
                 State = EState.Moving;
                 yield return null;
             }
-
-            State = EState.Idle;
         }
     }
 
@@ -58,6 +70,30 @@ public class Character : MonoBehaviour
                 CurrentPosition = route[count];
                 position = next;
             }
+
+            // Finished path, check task
+            if (Task != null)
+            {
+                switch (Task.Type)
+                {
+                    case EMoveTask.Harvest:
+                        State = EState.Harvesting;
+                        HarvestTarget = Task.HarvestTarget;
+                        HarvestTimeRemaining = HarvestTime;
+                        break;
+
+                    case EMoveTask.Attack:
+                        State = EState.Attacking;
+                        AttackTarget = Task.AttackTarget;
+                        break;
+                }
+
+                Task = null;
+            }
+            else
+            {
+                State = EState.Idle;
+            }
         }
     }
 
@@ -72,6 +108,33 @@ public class Character : MonoBehaviour
     private void Update()
     {
         GetComponentInChildren<Animator>().SetFloat("Speed", State == EState.Moving ? 1.0f : 0.0f);
+
+        switch (State)
+        {
+            case EState.Harvesting:
+                StateHarvesting();
+                break;
+        }
+    }
+
+    private void StateHarvesting()
+    {
+        HarvestTimeRemaining -= Time.deltaTime;
+
+        if (HarvestTimeRemaining <= 0.0f)
+        {
+            var res = GameObject.Find("Game").GetComponent<Game>().Resources;
+            var environment = GameObject.Find("Environment").GetComponent<Environment>();
+
+            if (HarvestTarget.Type == EResource.Wood)
+                res.Wood += HarvestTarget.Amount;
+            else if (HarvestTarget.Type == EResource.Stone)
+                res.Stone += HarvestTarget.Amount;
+
+            environment.Harvest(HarvestTarget);
+
+            State = EState.Idle;
+        }
     }
 
     public void Damage(int Amount)

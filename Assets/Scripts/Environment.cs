@@ -114,7 +114,7 @@ public class Environment : MonoBehaviour
 
     private void SetupConnections()
     {
-        // Currently we are only setting up connections between adjacnt nodes
+        // Currently we are only setting up connections between adjacent nodes
         for (int x = 0; x < Size.x; ++x)
         {
             for (int y = 0; y < Size.y; ++y)
@@ -297,5 +297,16 @@ public class Environment : MonoBehaviour
         mLastSolution = result;
 
         return result;
+    }
+
+    public void Harvest(Harvestable tile)
+    {
+        var envTile = tile.GetComponent<EnvironmentTile>();
+        envTile.IsAccessible = true;
+
+        for(int i = 0; i < tile.transform.childCount; ++i)
+        {
+            Destroy(tile.transform.GetChild(i).gameObject);
+        }
     }
 }

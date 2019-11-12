@@ -107,8 +107,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bde70f25107590438c44fdfa828b81b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Amount: 0
-  Type: 0
+  Amount: 26
+  Type: 1
 --- !u!65 &3326984392988397809
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -129,11 +129,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5846123823054606725}
     m_Modifications:
-    - target: {fileID: -927199367670048503, guid: e9aeb4e10e8a61b45925afb1be2adeee,
-        type: 3}
-      propertyPath: m_Name
-      value: stone_large6
-      objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: e9aeb4e10e8a61b45925afb1be2adeee,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -188,6 +183,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: e9aeb4e10e8a61b45925afb1be2adeee,
+        type: 3}
+      propertyPath: m_Name
+      value: stone_large6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e9aeb4e10e8a61b45925afb1be2adeee, type: 3}
