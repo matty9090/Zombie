@@ -16,7 +16,7 @@ public class Character : MonoBehaviour
 {
     [SerializeField] private float SingleNodeMoveTime = 0.5f;
     [SerializeField] public int MaxHealth = 100;
-    [SerializeField] public float HarvestTime = 2.0f;
+    [SerializeField] public float HarvestTime = 1.8f;
 
     public int Health { get; private set; }
     public MoveTask Task { get; set; }
@@ -80,6 +80,10 @@ public class Character : MonoBehaviour
                         State = EState.Harvesting;
                         HarvestTarget = Task.HarvestTarget;
                         HarvestTimeRemaining = HarvestTime;
+
+                        Vector3 target = HarvestTarget.GetComponent<EnvironmentTile>().Position;
+                        transform.LookAt(new Vector3(target.x, position.y, target.z));
+
                         break;
 
                     case EMoveTask.Attack:
@@ -108,6 +112,7 @@ public class Character : MonoBehaviour
     private void Update()
     {
         GetComponentInChildren<Animator>().SetFloat("Speed", State == EState.Moving ? 1.0f : 0.0f);
+        GetComponentInChildren<Animator>().SetBool("IsHarvesting", State == EState.Harvesting);
 
         switch (State)
         {
