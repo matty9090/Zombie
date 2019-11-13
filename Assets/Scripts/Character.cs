@@ -27,12 +27,15 @@ public class Character : MonoBehaviour
     private EState State = EState.Idle;
     private Harvestable HarvestTarget = null;
     private Character AttackTarget = null;
+    private Environment Environment = null;
+    private List<EnvironmentTile> CurrentPath = null;
     private float HarvestTimeRemaining;
 
     private void Start()
     {
         Health = MaxHealth;
         Task = null;
+        Environment = GameObject.Find("Environment").GetComponent<Environment>();
     }
 
     private IEnumerator DoMove(Vector3 position, Vector3 destination)
@@ -119,6 +122,10 @@ public class Character : MonoBehaviour
             case EState.Harvesting:
                 StateHarvesting();
                 break;
+
+            case EState.Attacking:
+                StateAttacking();
+                break;
         }
     }
 
@@ -140,6 +147,13 @@ public class Character : MonoBehaviour
 
             State = EState.Idle;
         }
+    }
+
+    private void StateAttacking()
+    {
+        Debug.Log("Attacking");
+        //var path = Environment.Solve(CurrentPosition, AttackTarget.CurrentPosition);
+        //GoTo(path);
     }
 
     public void Damage(int Amount)

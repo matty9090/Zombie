@@ -26,6 +26,21 @@ public class Environment : MonoBehaviour
         mToBeTested = new List<EnvironmentTile>();
     }
 
+    // Get all accessible tiles on the outer edges
+    public List<EnvironmentTile> GetAvailableEdgeTiles()
+    {
+        List<EnvironmentTile> tiles = new List<EnvironmentTile>();
+
+        for (int x = 0; x < Size.x - 1; ++x) tiles.Add(mMap[x][0]);
+        for (int y = 0; y < Size.y - 1; ++y) tiles.Add(mMap[0][y]);
+        for (int x = 1; x < Size.x; ++x) tiles.Add(mMap[x][Size.y - 1]);
+        for (int y = 1; y < Size.y; ++y) tiles.Add(mMap[Size.x - 1][y]);
+
+        tiles.RemoveAll((EnvironmentTile t) => { return !t.IsAccessible; });
+
+        return tiles;
+    }
+
     private void OnDrawGizmos()
     {
         // Draw the environment nodes and connections if we have them

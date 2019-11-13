@@ -1467,14 +1467,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85bf7546c1981c340b60aa6f224518ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MainCamera: {fileID: 963194227}
   Character: {fileID: 5274306839814300217, guid: 7697ee03830ec994e8a34c7e19227c4c,
     type: 3}
+  EnemySkin: {fileID: 2800000, guid: e60a5ba9ab8f2e8418f155f3d71987aa, type: 3}
   Menu: {fileID: 2099476870}
   Hud: {fileID: 1579498796}
   CharacterStart: {fileID: 561634765}
-  HoverTile: {fileID: 1051840996}
   HealthBar: {fileID: 103700472}
+  BuildingTime: 90
+  MainCamera: {fileID: 963194227}
+  HoverTile: {fileID: 1051840996}
 --- !u!4 &896303072
 Transform:
   m_ObjectHideFlags: 0
