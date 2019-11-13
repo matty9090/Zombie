@@ -14,9 +14,13 @@ public class Game : MonoBehaviour
     
     public Resources Resources { get; set; }
 
+    private enum EState { Idle, PlacingBuilding };
     private RaycastHit[] mRaycastHits;
-    private Character mCharacter;
-    private Environment mMap;
+    private Character mCharacter = null;
+    private Environment mMap = null;
+    private GameObject mSelectedBuilding = null;
+    private UIBuilding mSelectedBuildingUI = null;
+    private EState mState = EState.Idle;
 
     private readonly int NumberOfRaycastHits = 1;
 
@@ -51,7 +55,7 @@ public class Game : MonoBehaviour
                 HoverTile.transform.position = tile.Position;
                 HoverTile.GetComponent<MeshRenderer>().enabled = true;
 
-                if (Input.GetMouseButtonDown(0))
+                if (Input.GetMouseButtonDown(0) && mState == EState.Idle)
                 {
                     if (harvestable != null)
                     {
@@ -82,12 +86,54 @@ public class Game : MonoBehaviour
                             mCharacter.GoTo(bestRoute);
                         }
                     }
-                    else
+                    else if (tile.IsAccessible)
                     {
                         List<EnvironmentTile> route = mMap.Solve(mCharacter.CurrentPosition, tile);
                         mCharacter.GoTo(route);
                     }
                 }
+            }
+        }
+
+        switch (mState)
+        {
+            case EState.PlacingBuilding:
+                StatePlacingBuilding();
+                break;
+        }
+    }
+
+    private void StatePlacingBuilding()
+    {
+        if (HoverTile == null || mSelectedBuilding == null)
+            return;
+
+        bool isEnabled = HoverTile.GetComponent<MeshRenderer>().enabled;
+        mSelectedBuilding.GetComponent<MeshRenderer>().enabled = isEnabled;
+        mSelectedBuilding.transform.position = HoverTile.transform.position;
+
+        if (Input.GetMouseButtonUp(1))
+        {
+            Destroy(mSelectedBuilding);
+            mState = EState.Idle;
+        }
+        else if(Input.GetKeyUp(KeyCode.R))
+        {
+            mSelectedBuilding.transform.Rotate(new Vector3(0.0f, 90.0f, 0.0f));
+        }
+        else if (Input.GetMouseButtonUp(0) && isEnabled)
+        {
+            Ray screenClick = MainCamera.ScreenPointToRay(Input.mousePosition);
+            int num = Physics.RaycastNonAlloc(screenClick, mRaycastHits);
+            EnvironmentTile tile = mRaycastHits[0].transform.GetComponent<EnvironmentTile>();
+
+            if (num > 0 && tile != null)
+            {
+                Resources.Wood -= mSelectedBuildingUI.Wood;
+                Resources.Stone -= mSelectedBuildingUI.Stone;
+                mSelectedBuilding = null;
+                tile.IsAccessible = false;
+                mState = EState.Idle;
             }
         }
     }
@@ -111,6 +157,16 @@ public class Game : MonoBehaviour
                 mCharacter.transform.rotation = Quaternion.identity;
                 mCharacter.CurrentPosition = mMap.Start;
             }
+        }
+    }
+
+    public void UIBuildingClicked(UIBuilding element)
+    {
+        if(Resources.Wood >= element.Wood && Resources.Stone >= element.Stone)
+        {
+            mState = EState.PlacingBuilding;
+            mSelectedBuilding = Instantiate(element.Object);
+            mSelectedBuildingUI = element;
         }
     }
 

@@ -304,9 +304,13 @@ public class Environment : MonoBehaviour
         var envTile = tile.GetComponent<EnvironmentTile>();
         envTile.IsAccessible = true;
 
+        // Destroy all children to give just environment tile
         for(int i = 0; i < tile.transform.childCount; ++i)
         {
             Destroy(tile.transform.GetChild(i).gameObject);
         }
+
+        // Destroy the harvestable component
+        Destroy(tile);
     }
 }
