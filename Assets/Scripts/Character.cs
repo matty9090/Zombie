@@ -38,10 +38,10 @@ public class Character : MonoBehaviour
         Environment = GameObject.Find("Environment").GetComponent<Environment>();
     }
 
-    private IEnumerator DoMove(Vector3 position, Vector3 destination)
+    private IEnumerator DoMove(Vector3 position, Vector3 destination, bool accessible)
     {
         // Move between the two specified positions over the specified amount of time
-        if (position != destination)
+        if (position != destination && accessible)
         {
             transform.rotation = Quaternion.LookRotation(destination - position, Vector3.up);
 
@@ -69,7 +69,7 @@ public class Character : MonoBehaviour
             for (int count = 0; count < route.Count; ++count)
             {
                 Vector3 next = route[count].Position;
-                yield return DoMove(position, next);
+                yield return DoMove(position, next, route[count].IsAccessible);
                 CurrentPosition = route[count];
                 position = next;
             }

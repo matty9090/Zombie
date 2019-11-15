@@ -255,6 +255,8 @@ public class Environment : MonoBehaviour
                         {
                             EnvironmentTile neighbour = currentNode.Connections[count];
 
+                            //Debug.DrawRay(neighbour.Position + Vector3.up * 10.0f, Vector3.down * 10.0f, Color.blue, 12.0f);
+
                             if (!neighbour.Visited && neighbour.IsAccessible)
                             {
                                 mToBeTested.Add(neighbour);
