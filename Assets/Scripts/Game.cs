@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Game : MonoBehaviour
 {
-    [SerializeField] private Texture2D EnemySkin = null;
     [SerializeField] private HealthBar HealthBar = null;
     [SerializeField] private int BuildingTime = 90;
 
@@ -12,6 +11,7 @@ public class Game : MonoBehaviour
     [SerializeField] public Canvas Hud = null;
     [SerializeField] public Camera MainCamera = null;
     [SerializeField] public Character Character = null;
+    [SerializeField] public Zombie Zombie = null;
     [SerializeField] public GameObject HoverTile = null;
     [SerializeField] public Transform CharacterStart = null;
     

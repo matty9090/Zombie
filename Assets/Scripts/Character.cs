@@ -15,12 +15,8 @@ public class MoveTask
 public class Character : MonoBehaviour
 {
     [SerializeField] private float SingleNodeMoveTime = 0.5f;
-    [SerializeField] private int DamageAmount = 1;
-    [SerializeField] private float DamageTime = 0.8f;
     [SerializeField] public int MaxHealth = 100;
     [SerializeField] public float HarvestTime = 1.8f;
-    [SerializeField] private float DistanceThreshold = 12.0f;
-    [SerializeField] private float ZombieMoveSpeed = 10.0f;
 
     public int Health { get; private set; }
     public MoveTask Task { get; set; }
@@ -34,7 +30,6 @@ public class Character : MonoBehaviour
     private Environment Environment = null;
     private List<EnvironmentTile> CurrentPath = null;
     private float HarvestTimeRemaining;
-    private float DamageTimeRemaining;
 
     private void Start()
     {
@@ -108,23 +103,6 @@ public class Character : MonoBehaviour
         }
     }
 
-    private IEnumerator DoGoToAsEnemy(Character player)
-    {
-        if (player != null)
-        {
-            while (Vector3.Distance(transform.position, player.transform.position) > DistanceThreshold)
-            {
-                var delta = player.transform.position - transform.position;
-                transform.rotation = Quaternion.LookRotation(delta, Vector3.up);
-                transform.position += transform.forward * ZombieMoveSpeed * Time.deltaTime;
-                yield return null;
-            }
-
-            State = EState.Attacking;
-            AttackTarget = player;
-        }
-    }
-
     public void GoTo(List<EnvironmentTile> route)
     {
         // Clear all coroutines before starting the new route so 
@@ -132,13 +110,6 @@ public class Character : MonoBehaviour
         State = EState.Moving;
         StopAllCoroutines();
         StartCoroutine(DoGoTo(route));
-    }
-
-    public void GoToAsEnemy(Character player)
-    {
-        State = EState.Moving;
-        StopAllCoroutines();
-        StartCoroutine(DoGoToAsEnemy(player));
     }
 
     private void Update()
@@ -180,33 +151,7 @@ public class Character : MonoBehaviour
 
     private void StateAttacking()
     {
-        var dist = Vector3.Distance(AttackTarget.transform.position, transform.position);
-
-        if (dist > DistanceThreshold)
-        {
-            GoToAsEnemy(AttackTarget);
-        }
-        else
-        {
-            DamageTimeRemaining -= Time.deltaTime;
-
-            if (DamageTimeRemaining <= 0)
-            {
-                DamageTimeRemaining = DamageTime;
-                AttackTarget.Damage(DamageAmount);
-            }
-        }
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.GetComponentInChildren<Harvestable>())
-        {
-            Debug.Log("Triggered " + other.name);
-
-            var env = GameObject.Find("Environment").GetComponent<Environment>();
-            env.Harvest(other.GetComponentInChildren<Harvestable>());
-        }
+        
     }
 
     public void Damage(int Amount)

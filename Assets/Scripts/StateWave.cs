@@ -6,7 +6,7 @@ public class StateWave : IState
 {
     private Game Game = null;
     private GameObject HoverTile = null;
-    private List<Character> Enemies;
+    private List<Zombie> Enemies;
     private int NumEnemies = 10;
 
     private readonly int NumberOfRaycastHits = 1;
@@ -21,7 +21,7 @@ public class StateWave : IState
 
     public void OnEnter()
     {
-        Enemies = new List<Character>();
+        Enemies = new List<Zombie>();
 
         var env = GameObject.Find("Environment").GetComponent<Environment>();
         var startTiles = env.GetAvailableEdgeTiles();
@@ -35,11 +35,9 @@ public class StateWave : IState
             var startTile = startTiles[Random.Range(0, startTiles.Count - 1)];
             Vector3 s = startTile.Position;
 
-            var enemy = Game.Instantiate(Game.Character);
+            var enemy = Game.Instantiate(Game.Zombie);
             enemy.transform.position = s;
-            enemy.CurrentPosition = startTile;
-            //enemy.Task = task;
-            enemy.GoToAsEnemy(Game.CharacterInst);
+            enemy.GoTo(Game.CharacterInst);
 
             Enemies.Add(enemy);
         }
