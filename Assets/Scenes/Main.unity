@@ -1474,7 +1474,7 @@ MonoBehaviour:
   MainCamera: {fileID: 963194227}
   Character: {fileID: 5274306839814300217, guid: 7697ee03830ec994e8a34c7e19227c4c,
     type: 3}
-  Zombie: {fileID: 0}
+  Zombie: {fileID: -4257765628900811965, guid: de757cbdd0ef1a7428bfc1e0c018bf36, type: 3}
   HoverTile: {fileID: 1051840996}
   CharacterStart: {fileID: 561634765}
 --- !u!4 &896303072
