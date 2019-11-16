@@ -1468,15 +1468,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   EnemySkin: {fileID: 2800000, guid: e60a5ba9ab8f2e8418f155f3d71987aa, type: 3}
-  Menu: {fileID: 2099476870}
-  Hud: {fileID: 1579498796}
-  CharacterStart: {fileID: 561634765}
   HealthBar: {fileID: 103700472}
   BuildingTime: 4
+  Menu: {fileID: 2099476870}
+  Hud: {fileID: 1579498796}
   MainCamera: {fileID: 963194227}
   Character: {fileID: 5274306839814300217, guid: 7697ee03830ec994e8a34c7e19227c4c,
     type: 3}
   HoverTile: {fileID: 1051840996}
+  CharacterStart: {fileID: 561634765}
 --- !u!4 &896303072
 Transform:
   m_ObjectHideFlags: 0

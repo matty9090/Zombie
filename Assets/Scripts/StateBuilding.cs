@@ -66,7 +66,7 @@ public class StateBuilding : IState
                         // Harvestable tiles do not have a direct path to them so find the path to the closest walkable tile
                         foreach (EnvironmentTile t in tile.Connections)
                         {
-                            int dist = (int)Vector3.Distance(t.Position, Game.CharacterInst.CurrentPosition.Position);
+                            float dist = (int)Vector3.Distance(t.Position, Game.CharacterInst.CurrentPosition.Position);
                             var route = Game.Map.Solve(Game.CharacterInst.CurrentPosition, t);
 
                             if (route != null && dist < minDist)

@@ -38,8 +38,8 @@ public class StateWave : IState
             var enemy = Game.Instantiate(Game.Character);
             enemy.transform.position = s;
             enemy.CurrentPosition = startTile;
-            enemy.Task = task;
-            enemy.GoTo(env.Solve(startTile, Game.CharacterInst.CurrentPosition));
+            //enemy.Task = task;
+            enemy.GoToAsEnemy(Game.CharacterInst);
 
             Enemies.Add(enemy);
         }

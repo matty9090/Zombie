@@ -15,8 +15,12 @@ public class MoveTask
 public class Character : MonoBehaviour
 {
     [SerializeField] private float SingleNodeMoveTime = 0.5f;
+    [SerializeField] private int DamageAmount = 1;
+    [SerializeField] private float DamageTime = 0.8f;
     [SerializeField] public int MaxHealth = 100;
     [SerializeField] public float HarvestTime = 1.8f;
+    [SerializeField] private float DistanceThreshold = 12.0f;
+    [SerializeField] private float ZombieMoveSpeed = 10.0f;
 
     public int Health { get; private set; }
     public MoveTask Task { get; set; }
@@ -30,12 +34,12 @@ public class Character : MonoBehaviour
     private Environment Environment = null;
     private List<EnvironmentTile> CurrentPath = null;
     private float HarvestTimeRemaining;
+    private float DamageTimeRemaining;
 
     private void Start()
     {
         Health = MaxHealth;
         Task = null;
-        Environment = GameObject.Find("Environment").GetComponent<Environment>();
     }
 
     private IEnumerator DoMove(Vector3 position, Vector3 destination, bool accessible)
@@ -104,18 +108,43 @@ public class Character : MonoBehaviour
         }
     }
 
+    private IEnumerator DoGoToAsEnemy(Character player)
+    {
+        if (player != null)
+        {
+            while (Vector3.Distance(transform.position, player.transform.position) > DistanceThreshold)
+            {
+                var delta = player.transform.position - transform.position;
+                transform.rotation = Quaternion.LookRotation(delta, Vector3.up);
+                transform.position += transform.forward * ZombieMoveSpeed * Time.deltaTime;
+                yield return null;
+            }
+
+            State = EState.Attacking;
+            AttackTarget = player;
+        }
+    }
+
     public void GoTo(List<EnvironmentTile> route)
     {
         // Clear all coroutines before starting the new route so 
         // that clicks can interupt any current route animation
+        State = EState.Moving;
         StopAllCoroutines();
         StartCoroutine(DoGoTo(route));
+    }
+
+    public void GoToAsEnemy(Character player)
+    {
+        State = EState.Moving;
+        StopAllCoroutines();
+        StartCoroutine(DoGoToAsEnemy(player));
     }
 
     private void Update()
     {
         GetComponentInChildren<Animator>().SetFloat("Speed", State == EState.Moving ? 1.0f : 0.0f);
-        GetComponentInChildren<Animator>().SetBool("IsHarvesting", State == EState.Harvesting);
+        GetComponentInChildren<Animator>().SetBool("IsHarvesting", State == EState.Harvesting || State == EState.Attacking);
 
         switch (State)
         {
@@ -151,9 +180,22 @@ public class Character : MonoBehaviour
 
     private void StateAttacking()
     {
-        Debug.Log("Attacking");
-        //var path = Environment.Solve(CurrentPosition, AttackTarget.CurrentPosition);
-        //GoTo(path);
+        var dist = Vector3.Distance(AttackTarget.transform.position, transform.position);
+
+        if (dist > DistanceThreshold)
+        {
+            GoToAsEnemy(AttackTarget);
+        }
+        else
+        {
+            DamageTimeRemaining -= Time.deltaTime;
+
+            if (DamageTimeRemaining <= 0)
+            {
+                DamageTimeRemaining = DamageTime;
+                AttackTarget.Damage(DamageAmount);
+            }
+        }
     }
 
     public void Damage(int Amount)
