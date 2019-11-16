@@ -198,6 +198,17 @@ public class Character : MonoBehaviour
         }
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.GetComponentInChildren<Harvestable>())
+        {
+            Debug.Log("Triggered " + other.name);
+
+            var env = GameObject.Find("Environment").GetComponent<Environment>();
+            env.Harvest(other.GetComponentInChildren<Harvestable>());
+        }
+    }
+
     public void Damage(int Amount)
     {
         Health -= Amount;
