@@ -8,21 +8,25 @@ public class Zombie : MonoBehaviour
     [SerializeField] private float ZombieMoveSpeed = 10.0f;
     [SerializeField] private int DamageAmount = 1;
     [SerializeField] private float DamageTime = 0.8f;
+    [SerializeField] private float HarvestTime = 1.4f;
     [SerializeField] public int MaxHealth = 100;
 
-    public enum EState { Moving, Attacking };
+    public enum EState { Moving, Attacking, Harvesting };
     private EState State = EState.Moving;
 
-    public int Health { get; private set; }
     private Character AttackTarget = null;
+    private Harvestable HarvestTarget = null;
+
+    public int Health { get; private set; }
     private float DamageTimeRemaining;
+    private float HarvestTimeRemaining;
 
     void Start()
     {
         Health = MaxHealth;
     }
 
-    private IEnumerator DoGoToAsEnemy(Character player)
+    private IEnumerator DoGoTo(Character player)
     {
         if (player != null)
         {
@@ -35,15 +39,15 @@ public class Zombie : MonoBehaviour
             }
 
             State = EState.Attacking;
-            AttackTarget = player;
         }
     }
 
     public void GoTo(Character player)
     {
         State = EState.Moving;
+        AttackTarget = player;
         StopAllCoroutines();
-        StartCoroutine(DoGoToAsEnemy(player));
+        StartCoroutine(DoGoTo(player));
     }
 
     void Update()
@@ -70,14 +74,31 @@ public class Zombie : MonoBehaviour
                 }
             }
         }
+        else if (State == EState.Harvesting)
+        {
+            HarvestTimeRemaining -= Time.deltaTime;
+
+            if (HarvestTimeRemaining < 0)
+            {
+                if (HarvestTarget != null)
+                {
+                    var env = GameObject.Find("Environment").GetComponent<Environment>();
+                    env.Harvest(HarvestTarget.GetComponent<Harvestable>());
+                }
+
+                GoTo(AttackTarget);
+            }
+        }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.GetComponentInChildren<Harvestable>())
+        if (other.GetComponent<Harvestable>())
         {
-            var env = GameObject.Find("Environment").GetComponent<Environment>();
-            env.Harvest(other.GetComponentInChildren<Harvestable>());
+            StopAllCoroutines();
+            HarvestTarget = other.GetComponent<Harvestable>();
+            HarvestTimeRemaining = HarvestTime;
+            State = EState.Harvesting;
         }
     }
 }

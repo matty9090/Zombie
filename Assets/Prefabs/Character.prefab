@@ -47,12 +47,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SingleNodeMoveTime: 0.5
-  DamageAmount: 6
-  DamageTime: 0.8
   MaxHealth: 100
   HarvestTime: 1.8
-  DistanceThreshold: 12
-  ZombieMoveSpeed: 10
   HealthChangedEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -83,7 +79,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 84
+  m_Constraints: 116
   m_CollisionDetection: 0
 --- !u!1001 &4612816500360645043
 PrefabInstance:
