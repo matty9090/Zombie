@@ -53,7 +53,7 @@ public class Zombie : MonoBehaviour
     void Update()
     {
         GetComponentInChildren<Animator>().SetFloat("Speed", State == EState.Moving ? 1.0f : 0.0f);
-        GetComponentInChildren<Animator>().SetBool("IsHarvesting", State == EState.Attacking);
+        GetComponentInChildren<Animator>().SetBool("IsHarvesting", State == EState.Harvesting || State == EState.Attacking);
 
         if (State == EState.Attacking)
         {

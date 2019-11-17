@@ -20,17 +20,14 @@ public class Game : MonoBehaviour
     public Environment Map { get; private set; }
 
     private enum EGameState { Menu, Building, Wave, GameOver };
-    private RaycastHit[] mRaycastHits;
     private EGameState mGameState = EGameState.Building;
     private float BuildingTimer = 0.0f;
 
     private Dictionary<EGameState, IState> mStates;
-    private readonly int NumberOfRaycastHits = 1;
 
     void Awake()
     {
         Resources = new Resources();
-        mRaycastHits = new RaycastHit[NumberOfRaycastHits];
         Map = GetComponentInChildren<Environment>();
         CharacterInst = Instantiate(Character, transform);
         BuildingTimer = (float)BuildingTime;
