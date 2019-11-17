@@ -111,6 +111,13 @@ public class StateBuilding : IState
         if (HoverTile == null || mSelectedBuilding == null)
             return;
 
+        var raycastTile = mRaycastHits[0].transform.GetComponent<EnvironmentTile>();
+
+        if (raycastTile != null)
+        {
+            HoverTile.GetComponent<MeshRenderer>().material = raycastTile.IsAccessible ? Game.HoverMaterialG : Game.HoverMaterialR;
+        }
+
         bool isEnabled = HoverTile.GetComponent<MeshRenderer>().enabled;
         mSelectedBuilding.GetComponent<MeshRenderer>().enabled = isEnabled;
         mSelectedBuilding.transform.position = HoverTile.transform.position;
@@ -130,7 +137,7 @@ public class StateBuilding : IState
             int num = Physics.RaycastNonAlloc(screenClick, mRaycastHits);
             EnvironmentTile tile = mRaycastHits[0].transform.GetComponent<EnvironmentTile>();
 
-            if (num > 0 && tile != null)
+            if (num > 0 && tile != null && tile.IsAccessible)
             {
                 Resources.Wood -= mSelectedBuildingUI.Wood;
                 Resources.Stone -= mSelectedBuildingUI.Stone;

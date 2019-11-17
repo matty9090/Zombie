@@ -1636,6 +1636,8 @@ MonoBehaviour:
   Zombie: {fileID: -4257765628900811965, guid: de757cbdd0ef1a7428bfc1e0c018bf36, type: 3}
   HoverTile: {fileID: 1051840996}
   CharacterStart: {fileID: 561634765}
+  HoverMaterialG: {fileID: 2100000, guid: 57d897d89abf3bb4a97f8ea7e406b5f4, type: 2}
+  HoverMaterialR: {fileID: 2100000, guid: 487dbb23e6f2fd54ba9675e54d68e66a, type: 2}
 --- !u!4 &896303072
 Transform:
   m_ObjectHideFlags: 0

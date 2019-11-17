@@ -14,7 +14,9 @@ public class Game : MonoBehaviour
     [SerializeField] public Zombie Zombie = null;
     [SerializeField] public GameObject HoverTile = null;
     [SerializeField] public Transform CharacterStart = null;
-    
+    [SerializeField] public Material HoverMaterialG = null;
+    [SerializeField] public Material HoverMaterialR = null;
+
     public Character CharacterInst { get; private set;  }
     public Resources Resources { get; set; }
     public Environment Map { get; private set; }
