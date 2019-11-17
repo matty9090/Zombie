@@ -50,6 +50,31 @@ public class Zombie : MonoBehaviour
         StartCoroutine(DoGoTo(player));
     }
 
+    private IEnumerator EffectDamage()
+    {
+        var renderers = GetComponentsInChildren<SkinnedMeshRenderer>();
+
+        foreach (var renderer in renderers)
+            renderer.material.color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+
+        float red = 0.0f;
+
+        while(red < 1.0f)
+        {
+            foreach (var renderer in renderers)
+            {
+                renderer.material.color = new Color(red, 0.0f, 0.0f, 1.0f);
+            }
+
+            red += Time.deltaTime * 2.0f;
+
+            yield return null;
+        }
+
+        foreach (var renderer in renderers)
+            renderer.material.color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+    }
+
     void Update()
     {
         GetComponentInChildren<Animator>().SetFloat("Speed", State == EState.Moving ? 1.0f : 0.0f);
@@ -100,6 +125,30 @@ public class Zombie : MonoBehaviour
             HarvestTarget = destroyable;
             HarvestTimeRemaining = HarvestTime;
             State = EState.Harvesting;
+        }
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        var damagable = other.GetComponent<Damagable>();
+
+        if (damagable != null)
+        {
+            damagable.DamageTimer -= Time.deltaTime;
+
+            if (damagable.DamageTimer < 0.0f)
+            {
+                damagable.DamageTimer = damagable.DamageTime;
+                Health -= damagable.DamageAmount;
+
+                StopCoroutine(EffectDamage());
+                StartCoroutine(EffectDamage());
+
+                if (Health <= 0)
+                {
+                    Destroy(gameObject);
+                }
+            }
         }
     }
 }

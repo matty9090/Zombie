@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 607490065271948882}
   - component: {fileID: 6580521659878800043}
   - component: {fileID: 1999379982866354462}
+  - component: {fileID: -5233419166199299148}
+  - component: {fileID: 1565211630006398252}
   m_Layer: 0
   m_Name: Spikes
   m_TagString: Untagged
@@ -98,3 +100,31 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &-5233419166199299148
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4858930557033434743}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 186d59329a245d84189ea30f7337fee3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DamageTime: 0.6
+  DamageTimer: 0
+  DamageAmount: 30
+--- !u!65 &1565211630006398252
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4858930557033434743}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 4.410525, y: 4.7044005, z: 6.117682}
+  m_Center: {x: 0.0023465157, y: 0.061027057, z: 3.053075}
