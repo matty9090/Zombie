@@ -15,7 +15,7 @@ public class Zombie : MonoBehaviour
     private EState State = EState.Moving;
 
     private Character AttackTarget = null;
-    private Harvestable HarvestTarget = null;
+    private IDestroyable HarvestTarget = null;
 
     public int Health { get; private set; }
     private float DamageTimeRemaining;
@@ -82,8 +82,7 @@ public class Zombie : MonoBehaviour
             {
                 if (HarvestTarget != null)
                 {
-                    var env = GameObject.Find("Environment").GetComponent<Environment>();
-                    env.Harvest(HarvestTarget.GetComponent<Harvestable>());
+                    HarvestTarget.DestroyObject();
                 }
 
                 GoTo(AttackTarget);
@@ -93,10 +92,12 @@ public class Zombie : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.GetComponent<Harvestable>())
+        var destroyable = other.GetComponent<IDestroyable>();
+
+        if (destroyable != null)
         {
             StopAllCoroutines();
-            HarvestTarget = other.GetComponent<Harvestable>();
+            HarvestTarget = destroyable;
             HarvestTimeRemaining = HarvestTime;
             State = EState.Harvesting;
         }

@@ -335,6 +335,9 @@ public class Environment : MonoBehaviour
 
     public void Harvest(Harvestable tile)
     {
+        if (tile == null)
+            return;
+
         var envTile = tile.GetComponent<EnvironmentTile>();
         envTile.IsAccessible = true;
 
