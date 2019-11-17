@@ -53,10 +53,6 @@ public class Zombie : MonoBehaviour
     private IEnumerator EffectDamage()
     {
         var renderers = GetComponentsInChildren<SkinnedMeshRenderer>();
-
-        foreach (var renderer in renderers)
-            renderer.material.color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
-
         float red = 0.0f;
 
         while(red < 1.0f)
@@ -72,7 +68,9 @@ public class Zombie : MonoBehaviour
         }
 
         foreach (var renderer in renderers)
+        {
             renderer.material.color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+        }
     }
 
     void Update()

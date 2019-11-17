@@ -111,11 +111,11 @@ public class StateBuilding : IState
         if (HoverTile == null || mSelectedBuilding == null)
             return;
 
-        var raycastTile = mRaycastHits[0].transform.GetComponent<EnvironmentTile>();
+        var tile = mRaycastHits[0].transform.GetComponent<EnvironmentTile>();
 
-        if (raycastTile != null)
+        if (tile != null)
         {
-            HoverTile.GetComponent<MeshRenderer>().material = raycastTile.IsAccessible ? Game.HoverMaterialG : Game.HoverMaterialR;
+            HoverTile.GetComponent<MeshRenderer>().material = tile.IsAccessible ? Game.HoverMaterialG : Game.HoverMaterialR;
         }
 
         bool isEnabled = HoverTile.GetComponent<MeshRenderer>().enabled;
@@ -135,7 +135,6 @@ public class StateBuilding : IState
         {
             Ray screenClick = Game.MainCamera.ScreenPointToRay(Input.mousePosition);
             int num = Physics.RaycastNonAlloc(screenClick, mRaycastHits);
-            EnvironmentTile tile = mRaycastHits[0].transform.GetComponent<EnvironmentTile>();
 
             if (num > 0 && tile != null && tile.IsAccessible)
             {
