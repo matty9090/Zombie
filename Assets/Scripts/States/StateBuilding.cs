@@ -32,7 +32,8 @@ public class StateBuilding : IState
 
     public void OnExit()
     {
-
+        if (mSelectedBuilding != null)
+            Game.Destroy(mSelectedBuilding);
     }
 
     public void Update()
