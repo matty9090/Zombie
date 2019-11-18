@@ -67,7 +67,8 @@ public class StateBuilding : IState
                         foreach (EnvironmentTile t in tile.Connections)
                         {
                             float dist = (int)Vector3.Distance(t.Position, Game.CharacterInst.CurrentPosition.Position);
-                            var route = Game.Map.Solve(Game.CharacterInst.CurrentPosition, t);
+                            var startPos = Game.CharacterInst.NextTile != null ? Game.CharacterInst.NextTile : Game.CharacterInst.CurrentPosition;
+                            var route = Game.Map.Solve(startPos, t);
 
                             if (route != null && dist < minDist)
                             {
@@ -89,7 +90,8 @@ public class StateBuilding : IState
                     }
                     else if (tile.IsAccessible)
                     {
-                        List<EnvironmentTile> route = Game.Map.Solve(Game.CharacterInst.CurrentPosition, tile);
+                        var startPos = Game.CharacterInst.NextTile != null ? Game.CharacterInst.NextTile : Game.CharacterInst.CurrentPosition;
+                        List<EnvironmentTile> route = Game.Map.Solve(startPos, tile);
                         Game.CharacterInst.GoTo(route);
                     }
                 }

@@ -22,6 +22,7 @@ public class Character : MonoBehaviour
     public MoveTask Task { get; set; }
     public EnvironmentTile CurrentPosition { get; set; }
     public UnityEvent HealthChangedEvent;
+    public EnvironmentTile NextTile = null;
     public enum EState { Idle, Moving, Harvesting, Attacking };
 
     private EState State = EState.Idle;
@@ -31,35 +32,48 @@ public class Character : MonoBehaviour
     private List<EnvironmentTile> CurrentPath = null;
     private float HarvestTimeRemaining;
 
+    struct LastMove
+    {
+        public float t;
+        public Vector3 start;
+        public EnvironmentTile destination;
+    }
+
+    private LastMove mLastMove;
+
     private void Start()
     {
         Health = MaxHealth;
         Task = null;
     }
 
-    private IEnumerator DoMove(Vector3 position, Vector3 destination, bool accessible)
+    private IEnumerator DoMove(Vector3 position, Vector3 destination, bool accessible, float overrideT = 0.0f)
     {
         // Move between the two specified positions over the specified amount of time
         if (position != destination && accessible)
         {
             transform.rotation = Quaternion.LookRotation(destination - position, Vector3.up);
-
-            Vector3 p = transform.position;
-            float t = 0.0f;
+            float t = overrideT;
 
             while (t < SingleNodeMoveTime)
             {
                 t += Time.deltaTime;
-                p = Vector3.Lerp(position, destination, t / SingleNodeMoveTime);
-                transform.position = p;
+                mLastMove.t = t;
+                transform.position = Vector3.Lerp(position, destination, t / SingleNodeMoveTime);
                 State = EState.Moving;
                 yield return null;
             }
         }
     }
 
-    private IEnumerator DoGoTo(List<EnvironmentTile> route)
+    private IEnumerator DoGoTo(List<EnvironmentTile> route, bool finishLastMove)
     {
+        if (finishLastMove)
+        {
+            yield return DoMove(mLastMove.start, mLastMove.destination.Position, true, mLastMove.t);
+            CurrentPosition = mLastMove.destination;
+        }
+
         // Move through each tile in the given route
         if (route != null)
         {
@@ -68,6 +82,8 @@ public class Character : MonoBehaviour
             for (int count = 0; count < route.Count; ++count)
             {
                 Vector3 next = route[count].Position;
+                NextTile = route[count];
+                mLastMove = new LastMove { start = position, destination = route[count], t = 0.0f };
                 yield return DoMove(position, next, route[count].IsAccessible);
                 CurrentPosition = route[count];
                 position = next;
@@ -107,9 +123,9 @@ public class Character : MonoBehaviour
     {
         // Clear all coroutines before starting the new route so 
         // that clicks can interupt any current route animation
-        State = EState.Moving;
         StopAllCoroutines();
-        StartCoroutine(DoGoTo(route));
+        StartCoroutine(DoGoTo(route, State == EState.Moving));
+        State = EState.Moving;
     }
 
     private void Update()
