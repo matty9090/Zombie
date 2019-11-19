@@ -16,6 +16,9 @@ public class Game : MonoBehaviour
     [SerializeField] public Transform CharacterStart = null;
     [SerializeField] public Material HoverMaterialG = null;
     [SerializeField] public Material HoverMaterialR = null;
+    [SerializeField] public Texture2D CursorNormal = null;
+    [SerializeField] public Texture2D CursorBuild = null;
+    [SerializeField] public Texture2D CursorFight = null;
 
     public Character CharacterInst { get; private set;  }
     public Resources Resources { get; set; }
@@ -34,6 +37,8 @@ public class Game : MonoBehaviour
         CharacterInst = Instantiate(Character, transform);
         BuildingTimer = (float)BuildingTime;
         HealthBar.ProvideCharacter(CharacterInst);
+
+        Cursor.SetCursor(CursorNormal, Vector2.zero, CursorMode.ForceSoftware);
 
         mStates = new Dictionary<EGameState, IState>
         {

@@ -10,11 +10,9 @@ public class StateWave : IState
     private int NumEnemies = 10;
 
     private readonly int NumberOfRaycastHits = 1;
-    private RaycastHit[] mRaycastHits;
 
     public StateWave()
     {
-        mRaycastHits = new RaycastHit[NumberOfRaycastHits];
         Game = GameObject.Find("Game").GetComponent<Game>();
         HoverTile = Game.HoverTile;
     }
@@ -26,9 +24,7 @@ public class StateWave : IState
         var env = GameObject.Find("Environment").GetComponent<Environment>();
         var startTiles = env.GetAvailableEdgeTiles();
 
-        MoveTask task = new MoveTask();
-        task.Type = EMoveTask.Attack;
-        task.AttackTarget = Game.CharacterInst;
+        Cursor.SetCursor(Game.CursorNormal, Vector2.zero, CursorMode.ForceSoftware);
 
         for (int i = 0; i < NumEnemies; ++i)
         {
@@ -52,16 +48,25 @@ public class StateWave : IState
     {
         HoverTile.GetComponent<MeshRenderer>().enabled = false;
 
+        Cursor.SetCursor(Game.CursorNormal, Vector2.zero, CursorMode.ForceSoftware);
+
         // Check to see if the player has clicked a tile and if they have, try to find a path to that 
         // tile. If we find a path then the character will move along it to the clicked tile. 
         Ray screenClick = Game.MainCamera.ScreenPointToRay(Input.mousePosition);
+        RaycastHit HitZombieInfo, HitTerrainInfo;
 
-        if (Physics.RaycastNonAlloc(screenClick, mRaycastHits) > 0)
+        if (Physics.Raycast(screenClick, out HitZombieInfo, 1000.0f, LayerMask.GetMask("Character")))
         {
-            Transform objTransform = mRaycastHits[0].transform;
+            if(HitZombieInfo.transform.GetComponent<Zombie>())
+            {
+                Cursor.SetCursor(Game.CursorFight, Vector2.zero, CursorMode.ForceSoftware);
+            }
+        }
 
+        if (Physics.Raycast(screenClick, out HitTerrainInfo, 1000.0f, LayerMask.GetMask("Default")))
+        {
+            Transform objTransform = HitTerrainInfo.transform;
             EnvironmentTile tile = objTransform.GetComponent<EnvironmentTile>();
-            Harvestable harvestable = objTransform.GetComponent<Harvestable>();
 
             if (tile != null)
             {
@@ -73,7 +78,8 @@ public class StateWave : IState
                 {
                     if (tile.IsAccessible)
                     {
-                        List<EnvironmentTile> route = Game.Map.Solve(Game.CharacterInst.CurrentPosition, tile);
+                        var startPos = Game.CharacterInst.NextTile != null ? Game.CharacterInst.NextTile : Game.CharacterInst.CurrentPosition;
+                        List<EnvironmentTile> route = Game.Map.Solve(startPos, tile);
                         Game.CharacterInst.GoTo(route);
                     }
                 }

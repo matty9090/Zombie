@@ -34,6 +34,8 @@ public class StateBuilding : IState
     {
         if (mSelectedBuilding != null)
             Game.Destroy(mSelectedBuilding);
+
+        HoverTile.GetComponent<MeshRenderer>().material = Game.HoverMaterialG;
     }
 
     public void Update()
@@ -103,6 +105,11 @@ public class StateBuilding : IState
         {
             case EControllerState.PlacingBuilding:
                 StatePlacingBuilding();
+                Cursor.SetCursor(Game.CursorBuild, Vector2.zero, CursorMode.ForceSoftware);
+                break;
+
+            case EControllerState.Idle:
+                Cursor.SetCursor(Game.CursorNormal, Vector2.zero, CursorMode.ForceSoftware);
                 break;
         }
     }

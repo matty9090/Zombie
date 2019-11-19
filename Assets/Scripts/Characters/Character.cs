@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public enum EMoveTask { Attack, Harvest };
+public enum EMoveTask { Harvest };
 
 public class MoveTask
 {
@@ -27,9 +27,6 @@ public class Character : MonoBehaviour
 
     private EState State = EState.Idle;
     private Harvestable HarvestTarget = null;
-    private Character AttackTarget = null;
-    private Environment Environment = null;
-    private List<EnvironmentTile> CurrentPath = null;
     private float HarvestTimeRemaining;
 
     struct LastMove
@@ -102,11 +99,6 @@ public class Character : MonoBehaviour
                         Vector3 target = HarvestTarget.GetComponent<EnvironmentTile>().Position;
                         transform.LookAt(new Vector3(target.x, position.y, target.z));
 
-                        break;
-
-                    case EMoveTask.Attack:
-                        State = EState.Attacking;
-                        AttackTarget = Task.AttackTarget;
                         break;
                 }
 
