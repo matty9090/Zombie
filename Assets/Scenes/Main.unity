@@ -1284,17 +1284,17 @@ PrefabInstance:
     - target: {fileID: 4087072041035813189, guid: b111a89c74af04b4aa8ac28b7c1d2ec6,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 14.59
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4087072041035813189, guid: b111a89c74af04b4aa8ac28b7c1d2ec6,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 11.96
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4087072041035813189, guid: b111a89c74af04b4aa8ac28b7c1d2ec6,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 14.52704
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4087072041035813189, guid: b111a89c74af04b4aa8ac28b7c1d2ec6,
         type: 3}
@@ -1334,6 +1334,11 @@ PrefabInstance:
     - target: {fileID: 4087072041035813189, guid: b111a89c74af04b4aa8ac28b7c1d2ec6,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4087072041035813191, guid: b111a89c74af04b4aa8ac28b7c1d2ec6,
+        type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -1627,7 +1632,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HealthBar: {fileID: 103700472}
-  BuildingTime: 4
+  BuildingTime: 40
   Menu: {fileID: 2099476870}
   Hud: {fileID: 1579498796}
   MainCamera: {fileID: 963194227}
