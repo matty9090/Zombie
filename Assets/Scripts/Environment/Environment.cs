@@ -17,6 +17,7 @@ public class Environment : MonoBehaviour
     private List<EnvironmentTile> mAll;
     private List<EnvironmentTile> mToBeTested;
     private List<EnvironmentTile> mLastSolution;
+    private List<EnvironmentTile> mEdges;
 
     private enum ENbr { Edge, Land, Sea };
     private readonly Vector3 NodeSize = Vector3.one * 9.0f; 
@@ -30,6 +31,7 @@ public class Environment : MonoBehaviour
     {
         mAll = new List<EnvironmentTile>();
         mToBeTested = new List<EnvironmentTile>();
+        mEdges = new List<EnvironmentTile>();
 
         Size = new Vector2Int(HeightMap.width, HeightMap.height);
         Debug.Log(Size);
@@ -38,16 +40,18 @@ public class Environment : MonoBehaviour
     // Get all accessible tiles on the outer edges
     public List<EnvironmentTile> GetAvailableEdgeTiles()
     {
-        List<EnvironmentTile> tiles = new List<EnvironmentTile>();
+        var edges = new List<EnvironmentTile>();
 
-        for (int x = 0; x < Size.x - 1; ++x) tiles.Add(mMap[x][0]);
-        for (int y = 0; y < Size.y - 1; ++y) tiles.Add(mMap[0][y]);
-        for (int x = 1; x < Size.x; ++x) tiles.Add(mMap[x][Size.y - 1]);
-        for (int y = 1; y < Size.y; ++y) tiles.Add(mMap[Size.x - 1][y]);
-
-        tiles.RemoveAll((EnvironmentTile t) => { return !t.IsAccessible; });
-
-        return tiles;
+        foreach (var edge in mEdges)
+        {
+            foreach (var con in edge.Connections)
+            {
+                if (con.IsAccessible)
+                    edges.Add(con);
+            }
+        }
+        
+        return edges;
     }
 
     private void OnDrawGizmos()
@@ -125,7 +129,6 @@ public class Environment : MonoBehaviour
 
                 if (isEdge)
                 {
-                    prefab = WaterTile;
                     ENbr[][] nbrs = new ENbr[3][];
 
                     for (int i = -1; i <= 1; ++i)
@@ -181,6 +184,9 @@ public class Environment : MonoBehaviour
 
                 mMap[x][y] = tile;
                 mAll.Add(tile);
+
+                if (isEdge)
+                    mEdges.Add(tile);
 
                 if (start)
                 {

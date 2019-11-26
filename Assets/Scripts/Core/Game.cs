@@ -37,6 +37,7 @@ public class Game : MonoBehaviour
         CharacterInst = Instantiate(Character, transform);
         BuildingTimer = (float)BuildingTime;
         HealthBar.ProvideCharacter(CharacterInst);
+        MainCamera.GetComponent<FollowCamera>().Character = CharacterInst;
 
         Cursor.SetCursor(CursorNormal, Vector2.zero, CursorMode.ForceSoftware);
 
