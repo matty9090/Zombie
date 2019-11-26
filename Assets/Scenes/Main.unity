@@ -1947,7 +1947,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.3
-  far clip plane: 500
+  far clip plane: 1000
   field of view: 20
   orthographic: 0
   orthographic size: 5
@@ -1974,7 +1974,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   m_LocalRotation: {x: 0.287084, y: -0, z: -0, w: 0.9579054}
-  m_LocalPosition: {x: -0.6, y: 189, z: -302}
+  m_LocalPosition: {x: -0.6, y: 240, z: -400}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -2876,8 +2876,25 @@ MonoBehaviour:
   - {fileID: 10103160160458647, guid: aa373cc3cd8cfa7418126bd0b9a47880, type: 3}
   - {fileID: 8392035395846825301, guid: 4c0f70225ccee9c4eb8b566b0124f754, type: 3}
   - {fileID: 428312736237616533, guid: b2937a6c300c0624a8fb7c65bf8b21b3, type: 3}
-  Size: {x: 20, y: 15}
+  WaterTile: {fileID: 3497857427692381023, guid: 6fd0a3b203ccba04aaad482075b3e79d,
+    type: 3}
+  WaterTilesStraight:
+  - {fileID: 3981078657637557860, guid: 6ef10bbd45dc7944f86743e19338c6bc, type: 3}
+  - {fileID: 3981078657637557860, guid: 4879f2c038fa2244ebaa83c2ed2d542b, type: 3}
+  - {fileID: 3981078657637557860, guid: c2b83485edd58c04b9624bb61ce8365d, type: 3}
+  - {fileID: -1506256111480181184, guid: 5584247f7ea8dee48ae8da8b597addf4, type: 3}
+  WaterTilesCorners:
+  - {fileID: 6000390978579492241, guid: cd1b2a27702f8484e9889f248735f2e4, type: 3}
+  - {fileID: 6000390978579492241, guid: 01084de0cff045349adbc01126f65f00, type: 3}
+  - {fileID: 6000390978579492241, guid: 592a8d425c86d7a46ba1caca29188936, type: 3}
+  - {fileID: 6000390978579492241, guid: 65d958be428ac224cbfdb79965999eb8, type: 3}
+  WaterTilesInner:
+  - {fileID: 5882932740170456683, guid: 170059183002bd946bc6a29e4d746c32, type: 3}
+  - {fileID: 5882932740170456683, guid: 24a51e26838e2c54991c6a9a3aac05a8, type: 3}
+  - {fileID: 5882932740170456683, guid: 18f85ce77cddfac40a1e4a9be1904027, type: 3}
+  - {fileID: 5882932740170456683, guid: b187742324546cd45947cc00b9c94b97, type: 3}
   AccessiblePercentage: 0.85
+  HeightMap: {fileID: 2800000, guid: a6669cef27f33974d9f7901cb995e9b1, type: 3}
 --- !u!4 &2083344931
 Transform:
   m_ObjectHideFlags: 0

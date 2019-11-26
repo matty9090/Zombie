@@ -6,17 +6,23 @@ public class Environment : MonoBehaviour
 {
     [SerializeField] private List<EnvironmentTile> AccessibleTiles = null;
     [SerializeField] private List<EnvironmentTile> InaccessibleTiles = null;
-    [SerializeField] private Vector2Int Size;
+    [SerializeField] private EnvironmentTile WaterTile = null;
+    [SerializeField] private List<EnvironmentTile> WaterTilesStraight = null;
+    [SerializeField] private List<EnvironmentTile> WaterTilesCorners = null;
+    [SerializeField] private List<EnvironmentTile> WaterTilesInner = null;
     [SerializeField] private float AccessiblePercentage = 0.0f;
+    [SerializeField] private Texture2D HeightMap = null;
 
     private EnvironmentTile[][] mMap;
     private List<EnvironmentTile> mAll;
     private List<EnvironmentTile> mToBeTested;
     private List<EnvironmentTile> mLastSolution;
 
+    private enum ENbr { Edge, Land, Sea };
     private readonly Vector3 NodeSize = Vector3.one * 9.0f; 
     private const float TileSize = 10.0f;
     private const float TileHeight = 2.5f;
+    private Vector2Int Size;
 
     public EnvironmentTile Start { get; private set; }
 
@@ -24,6 +30,9 @@ public class Environment : MonoBehaviour
     {
         mAll = new List<EnvironmentTile>();
         mToBeTested = new List<EnvironmentTile>();
+
+        Size = new Vector2Int(HeightMap.width, HeightMap.height);
+        Debug.Log(Size);
     }
 
     // Get all accessible tiles on the outer edges
@@ -95,31 +104,90 @@ public class Environment : MonoBehaviour
         int halfWidth = Size.x / 2;
         int halfHeight = Size.y / 2;
         Vector3 position = new Vector3( -(halfWidth * TileSize), 0.0f, -(halfHeight * TileSize) );
-        bool start = true;
+        Vector2Int startPos = new Vector2Int(halfWidth - 1, halfHeight - 1);
 
-        for ( int x = 0; x < Size.x; ++x)
+        for (int x = 0; x < Size.x; ++x)
         {
             mMap[x] = new EnvironmentTile[Size.y];
 
-            for ( int y = 0; y < Size.y; ++y)
+            for (int y = 0; y < Size.y; ++y)
             {
+                var pixel = HeightMap.GetPixel(x, y);
+                bool start = (x == startPos.x && y == startPos.y);
                 bool isAccessible = start || Random.value < AccessiblePercentage;
+                bool isWater = pixel.g < 0.5f;
+                bool isEdge = pixel.b > 0.5f;
+
+                isAccessible = isWater || isEdge ? false : isAccessible;
+
                 List<EnvironmentTile> tiles = isAccessible ? AccessibleTiles : InaccessibleTiles;
-                EnvironmentTile prefab = tiles[Random.Range(0, tiles.Count)];
+                EnvironmentTile prefab = null;
+
+                if (isEdge)
+                {
+                    prefab = WaterTile;
+                    ENbr[][] nbrs = new ENbr[3][];
+
+                    for (int i = -1; i <= 1; ++i)
+                    {
+                        nbrs[i + 1] = new ENbr[3];
+
+                        for (int j = -1; j <= 1; ++j)
+                        {
+                            if (HeightMap.GetPixel(x + i, y + j).b > 0.5f)
+                                nbrs[i + 1][j + 1] = ENbr.Edge;
+                            else if (HeightMap.GetPixel(x + i, y + j).g > 0.5)
+                                nbrs[i + 1][j + 1] = ENbr.Land;
+                            else
+                                nbrs[i + 1][j + 1] = ENbr.Sea;
+                        }
+                    }
+
+                    if (nbrs[0][1] == ENbr.Edge && nbrs[2][1] == ENbr.Edge && nbrs[1][0] == ENbr.Land)      // Top
+                        prefab = WaterTilesStraight[0];
+                    else if (nbrs[0][1] == ENbr.Edge && nbrs[2][1] == ENbr.Edge && nbrs[1][2] == ENbr.Land) // Bottom
+                        prefab = WaterTilesStraight[2];
+                    else if (nbrs[1][0] == ENbr.Edge && nbrs[1][2] == ENbr.Edge && nbrs[0][1] == ENbr.Land) // Right
+                        prefab = WaterTilesStraight[1];
+                    else if (nbrs[1][0] == ENbr.Edge && nbrs[1][2] == ENbr.Edge && nbrs[2][1] == ENbr.Land) // Left
+                        prefab = WaterTilesStraight[3];
+                    else if (nbrs[0][1] == ENbr.Edge && nbrs[1][2] == ENbr.Edge && nbrs[1][0] == ENbr.Sea)  // Outer NE
+                        prefab = WaterTilesCorners[1];
+                    else if (nbrs[0][1] == ENbr.Edge && nbrs[1][0] == ENbr.Edge && nbrs[1][2] == ENbr.Sea)  // Outer SE
+                        prefab = WaterTilesCorners[0];
+                    else if (nbrs[1][2] == ENbr.Edge && nbrs[2][1] == ENbr.Edge && nbrs[1][0] == ENbr.Sea)  // Outer SW
+                        prefab = WaterTilesCorners[2];
+                    else if (nbrs[1][0] == ENbr.Edge && nbrs[2][1] == ENbr.Edge && nbrs[1][2] == ENbr.Sea)  // Outer NW
+                        prefab = WaterTilesCorners[3];
+                    else if (nbrs[0][1] == ENbr.Edge && nbrs[1][2] == ENbr.Edge) // Inner NE
+                        prefab = WaterTilesInner[0];
+                    else if (nbrs[1][2] == ENbr.Edge && nbrs[2][1] == ENbr.Edge) // Inner NW
+                        prefab = WaterTilesInner[1];
+                    else if (nbrs[0][1] == ENbr.Edge && nbrs[1][0] == ENbr.Edge) // Inner SW
+                        prefab = WaterTilesInner[2];
+                    else if (nbrs[1][0] == ENbr.Edge && nbrs[2][1] == ENbr.Edge) // Inner SE
+                        prefab = WaterTilesInner[3];
+                }
+                else
+                {
+                    prefab = isWater ? WaterTile : tiles[Random.Range(0, tiles.Count)];
+                }
+
                 EnvironmentTile tile = Instantiate(prefab, position, Quaternion.identity, transform);
+
                 tile.Position = new Vector3( position.x + (TileSize / 2), TileHeight, position.z + (TileSize / 2));
                 tile.IsAccessible = isAccessible;
-                tile.gameObject.name = string.Format("Tile({0},{1})", x, y);
+                tile.gameObject.name = string.Format("Tile({0}, {1})", x, y);
+
                 mMap[x][y] = tile;
                 mAll.Add(tile);
 
-                if(start)
+                if (start)
                 {
                     Start = tile;
                 }
 
                 position.z += TileSize;
-                start = false;
             }
 
             position.x += TileSize;
