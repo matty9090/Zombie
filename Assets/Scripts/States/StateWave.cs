@@ -11,8 +11,6 @@ public class StateWave : IState
     private float AttackSpeed = 0.32f;
     private float AttackTimer = 0.0f;
 
-    private readonly int NumberOfRaycastHits = 1;
-
     public StateWave()
     {
         Game = GameObject.Find("Game").GetComponent<Game>();
