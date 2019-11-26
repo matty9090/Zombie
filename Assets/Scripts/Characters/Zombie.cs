@@ -126,6 +126,19 @@ public class Zombie : MonoBehaviour
         }
     }
 
+    public void Damage(int amount)
+    {
+        Health -= amount;
+
+        StopCoroutine(EffectDamage());
+        StartCoroutine(EffectDamage());
+
+        if (Health <= 0)
+        {
+            Destroy(gameObject);
+        }
+    }
+
     private void OnTriggerStay(Collider other)
     {
         var damagable = other.GetComponent<Damagable>();
@@ -137,15 +150,7 @@ public class Zombie : MonoBehaviour
             if (damagable.DamageTimer < 0.0f)
             {
                 damagable.DamageTimer = damagable.DamageTime;
-                Health -= damagable.DamageAmount;
-
-                StopCoroutine(EffectDamage());
-                StartCoroutine(EffectDamage());
-
-                if (Health <= 0)
-                {
-                    Destroy(gameObject);
-                }
+                Damage(damagable.DamageAmount);
             }
         }
     }

@@ -84,6 +84,7 @@ public class StateWave : IState
         {
             AttackTimer = AttackSpeed;
             Game.CharacterInst.GetComponentInChildren<Animator>().SetTrigger("Attack");
+            Game.CharacterInst.Attack();
         }
     }
 }

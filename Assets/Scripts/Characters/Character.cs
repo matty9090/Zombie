@@ -14,7 +14,9 @@ public class MoveTask
 
 public class Character : MonoBehaviour
 {
+    [SerializeField] private int DamageAmount = 40;
     [SerializeField] private float SingleNodeMoveTime = 0.5f;
+    [SerializeField] private PlayerAttack AttackCollision = null;
     [SerializeField] public int MaxHealth = 100;
     [SerializeField] public float HarvestTime = 1.8f;
 
@@ -160,6 +162,17 @@ public class Character : MonoBehaviour
     private void StateAttacking()
     {
         
+    }
+
+    public void Attack()
+    {
+        foreach (var obj in AttackCollision.Colliders)
+        {
+            if(obj && obj.transform.GetComponent<Zombie>())
+            {
+                obj.transform.GetComponent<Zombie>().Damage(DamageAmount);
+            }
+        }
     }
 
     public void Damage(int Amount)
