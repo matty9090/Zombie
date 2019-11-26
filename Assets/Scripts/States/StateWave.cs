@@ -8,6 +8,8 @@ public class StateWave : IState
     private GameObject HoverTile = null;
     private List<Zombie> Enemies;
     private int NumEnemies = 10;
+    private float AttackSpeed = 0.32f;
+    private float AttackTimer = 0.0f;
 
     private readonly int NumberOfRaycastHits = 1;
 
@@ -37,6 +39,8 @@ public class StateWave : IState
 
             Enemies.Add(enemy);
         }
+
+        Cursor.SetCursor(Game.CursorNormal, Vector2.zero, CursorMode.ForceSoftware);
     }
 
     public void OnExit()
@@ -48,20 +52,8 @@ public class StateWave : IState
     {
         HoverTile.GetComponent<MeshRenderer>().enabled = false;
 
-        Cursor.SetCursor(Game.CursorNormal, Vector2.zero, CursorMode.ForceSoftware);
-
-        // Check to see if the player has clicked a tile and if they have, try to find a path to that 
-        // tile. If we find a path then the character will move along it to the clicked tile. 
         Ray screenClick = Game.MainCamera.ScreenPointToRay(Input.mousePosition);
-        RaycastHit HitZombieInfo, HitTerrainInfo;
-
-        if (Physics.Raycast(screenClick, out HitZombieInfo, 1000.0f, LayerMask.GetMask("Character")))
-        {
-            if(HitZombieInfo.transform.GetComponent<Zombie>())
-            {
-                Cursor.SetCursor(Game.CursorFight, Vector2.zero, CursorMode.ForceSoftware);
-            }
-        }
+        RaycastHit HitTerrainInfo;
 
         if (Physics.Raycast(screenClick, out HitTerrainInfo, 1000.0f, LayerMask.GetMask("Default")))
         {
@@ -84,6 +76,14 @@ public class StateWave : IState
                     }
                 }
             }
+        }
+
+        AttackTimer -= Time.deltaTime;
+
+        if(Input.GetMouseButtonDown(1) && AttackTimer < 0.0f)
+        {
+            AttackTimer = AttackSpeed;
+            Game.CharacterInst.GetComponentInChildren<Animator>().SetTrigger("Attack");
         }
     }
 }
