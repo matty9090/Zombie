@@ -12,6 +12,7 @@ public class Environment : MonoBehaviour
     [SerializeField] private List<EnvironmentTile> WaterTilesInner = null;
     [SerializeField] private float AccessiblePercentage = 0.0f;
     [SerializeField] private Texture2D HeightMap = null;
+    [SerializeField] private GameObject EffectPoof = null;
 
     private EnvironmentTile[][] mMap;
     private List<EnvironmentTile> mAll;
@@ -411,6 +412,9 @@ public class Environment : MonoBehaviour
     {
         if (tile == null)
             return;
+
+        var poof = Instantiate(EffectPoof);
+        poof.transform.position = tile.transform.position + new Vector3(5.0f, 5.0f, 5.0f);
 
         var envTile = tile.GetComponent<EnvironmentTile>();
         envTile.IsAccessible = true;

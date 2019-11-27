@@ -1632,7 +1632,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HealthBar: {fileID: 103700472}
-  BuildingTime: 4
+  BuildingTime: 60
   Menu: {fileID: 2099476870}
   Hud: {fileID: 1579498796}
   MainCamera: {fileID: 963194227}
@@ -2927,6 +2927,8 @@ MonoBehaviour:
   - {fileID: 5882932740170456683, guid: b187742324546cd45947cc00b9c94b97, type: 3}
   AccessiblePercentage: 0.85
   HeightMap: {fileID: 2800000, guid: a6669cef27f33974d9f7901cb995e9b1, type: 3}
+  EffectPoof: {fileID: 5533024768869695289, guid: 26b5a57b3f3f0de44895d2c573b0040a,
+    type: 3}
 --- !u!4 &2083344931
 Transform:
   m_ObjectHideFlags: 0
