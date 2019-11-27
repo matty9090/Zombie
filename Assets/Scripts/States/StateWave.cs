@@ -19,6 +19,13 @@ public class StateWave : IState
 
     public void OnEnter()
     {
+        RenderSettings.ambientLight = Color.black;
+        GameObject.Find("Directional Light").GetComponent<Light>().color = Color.black;
+        Game.CharacterInst.GetComponentInChildren<Light>().enabled = true;
+        Game.MainCamera.GetComponent<FollowOutsideBoxCamera>().enabled = false;
+        Game.MainCamera.GetComponent<FollowCamera>().enabled = true;
+        Game.MainCamera.GetComponent<FollowCamera>().SetCharacter(Game.CharacterInst);
+
         Enemies = new List<Zombie>();
 
         var env = GameObject.Find("Environment").GetComponent<Environment>();

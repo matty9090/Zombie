@@ -19,6 +19,8 @@ public class Game : MonoBehaviour
     [SerializeField] public Texture2D CursorNormal = null;
     [SerializeField] public Texture2D CursorBuild = null;
     [SerializeField] public Texture2D CursorFight = null;
+    [SerializeField] public Color DayColour;
+    [SerializeField] public Color NightColour;
 
     public Character CharacterInst { get; private set;  }
     public Resources Resources { get; set; }

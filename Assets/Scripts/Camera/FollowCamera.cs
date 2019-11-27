@@ -19,7 +19,7 @@ public class FollowCamera : MonoBehaviour, ICamera
 
     private void Start()
     {
-        mOffset = transform.position;
+        mOffset = transform.position * 0.6f + new Vector3(0.0f, 0.0f, -20.0f);
     }
 
     void Update()
