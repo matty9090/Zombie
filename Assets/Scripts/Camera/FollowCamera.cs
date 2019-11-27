@@ -2,10 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FollowCamera : MonoBehaviour
+public class FollowCamera : MonoBehaviour, ICamera
 {
-    public Character Character = null;
+    private Character mCharacter = null;
     private Vector3 mOffset;
+
+    public void SetCharacter(Character c)
+    {
+        mCharacter = c;
+    }
+
+    public void SetEnabled(bool e)
+    {
+        enabled = e;
+    }
 
     private void Start()
     {
@@ -14,6 +24,6 @@ public class FollowCamera : MonoBehaviour
 
     void Update()
     {
-        transform.position = Character.transform.position + mOffset;
+        transform.position = mCharacter.transform.position + mOffset;
     }
 }

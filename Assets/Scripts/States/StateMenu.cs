@@ -35,14 +35,14 @@ public class StateMenu : IState
 
             if (show)
             {
-                Game.MainCamera.GetComponent<FollowCamera>().enabled = false;
+                Game.MainCamera.GetComponent<ICamera>().SetEnabled(false);
                 Game.CharacterInst.transform.position = Game.CharacterStart.position;
                 Game.CharacterInst.transform.rotation = Game.CharacterStart.rotation;
                 Game.Map.CleanUpWorld();
             }
             else
             {
-                Game.MainCamera.GetComponent<FollowCamera>().enabled = true;
+                Game.MainCamera.GetComponent<ICamera>().SetEnabled(true);
                 Game.CharacterInst.transform.position = Game.Map.Start.Position;
                 Game.CharacterInst.transform.rotation = Quaternion.identity;
                 Game.CharacterInst.CurrentPosition = Game.Map.Start;
