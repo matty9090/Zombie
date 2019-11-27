@@ -1995,7 +1995,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   EdgeTop: 0.2
   EdgeRight: 0.2
-  EdgeBottom: 0.4
+  EdgeBottom: 0.3
   EdgeLeft: 0.2
 --- !u!1 &1051840996 stripped
 GameObject:
