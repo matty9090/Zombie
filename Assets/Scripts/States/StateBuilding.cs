@@ -28,7 +28,13 @@ public class StateBuilding : IState
 
     public void OnEnter()
     {
+        var UI = GameObject.Find("BuildUI");
 
+        if (UI)
+        {
+            UI.GetComponent<CanvasGroup>().alpha = 0.0f;
+            UI.GetComponent<Animator>().SetTrigger("Show");
+        }
     }
 
     public void OnExit()
@@ -37,6 +43,8 @@ public class StateBuilding : IState
             Game.Destroy(mSelectedBuilding);
 
         HoverTile.GetComponent<MeshRenderer>().material = Game.HoverMaterialG;
+
+        GameObject.Find("BuildUI")?.GetComponent<Animator>().SetTrigger("Hide");
     }
 
     public void Update()
@@ -137,6 +145,7 @@ public class StateBuilding : IState
         {
             Game.Destroy(mSelectedBuilding);
             mControllerState = EControllerState.Idle;
+            HoverTile.GetComponent<MeshRenderer>().material = Game.HoverMaterialG;
         }
         else if (Input.GetKeyUp(KeyCode.R))
         {

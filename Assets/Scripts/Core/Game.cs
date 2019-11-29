@@ -27,7 +27,7 @@ public class Game : MonoBehaviour
     public Environment Map { get; private set; }
 
     private enum EGameState { Menu, Building, Wave, GameOver };
-    private EGameState mGameState = EGameState.Building;
+    private EGameState mGameState = EGameState.Menu;
     private float BuildingTimer = 0.0f;
 
     private Dictionary<EGameState, IState> mStates;
@@ -50,7 +50,7 @@ public class Game : MonoBehaviour
             [EGameState.Wave]     = new StateWave()
         };
 
-        SwitchState(EGameState.Menu);
+        mStates[mGameState].OnEnter();
     }
 
     private void SwitchState(EGameState state)
