@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class StateBuilding : IState
 {
@@ -141,7 +142,7 @@ public class StateBuilding : IState
         {
             mSelectedBuilding.transform.Rotate(new Vector3(0.0f, 90.0f, 0.0f));
         }
-        else if (Input.GetMouseButtonUp(0) && isEnabled)
+        else if (Input.GetMouseButtonUp(0) && isEnabled && !EventSystem.current.IsPointerOverGameObject())
         {
             Ray screenClick = Game.MainCamera.ScreenPointToRay(Input.mousePosition);
             int num = Physics.RaycastNonAlloc(screenClick, mRaycastHits);

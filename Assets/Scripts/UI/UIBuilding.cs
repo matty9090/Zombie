@@ -13,7 +13,7 @@ public class UIBuilding : MonoBehaviour
 
     private void Start()
     {
-        GetComponent<Text>().text = Name;
+        GetComponentInChildren<Text>().text = Name;
 
         var game = GameObject.Find("Game").GetComponent<Game>();
         var btn = GetComponent<Button>();
