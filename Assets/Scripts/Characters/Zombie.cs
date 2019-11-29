@@ -103,11 +103,12 @@ public class Zombie : MonoBehaviour
 
             if (HarvestTimeRemaining < 0)
             {
-                if (HarvestTarget != null)
+                if (HarvestTarget != null && !HarvestTarget.Equals(null))
                 {
                     HarvestTarget.DestroyObject();
                 }
 
+                HarvestTarget = null;
                 GoTo(AttackTarget);
             }
         }
