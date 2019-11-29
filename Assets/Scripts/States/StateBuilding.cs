@@ -28,13 +28,7 @@ public class StateBuilding : IState
 
     public void OnEnter()
     {
-        var UI = GameObject.Find("BuildUI");
-
-        if (UI)
-        {
-            UI.GetComponent<CanvasGroup>().alpha = 0.0f;
-            UI.GetComponent<Animator>().SetTrigger("Show");
-        }
+        GameObject.Find("BuildUI")?.GetComponent<Animator>().SetTrigger("Show");
     }
 
     public void OnExit()
@@ -68,13 +62,13 @@ public class StateBuilding : IState
                 HoverTile.transform.position = tile.Position;
                 HoverTile.GetComponent<MeshRenderer>().enabled = true;
 
-                if (Input.GetMouseButtonDown(0) && mControllerState == EControllerState.Idle)
+                if (Input.GetMouseButtonDown(0) && mControllerState == EControllerState.Idle && !EventSystem.current.IsPointerOverGameObject())
                 {
                     if (harvestable != null)
                     {
                         List<EnvironmentTile> bestRoute = null;
                         float minDist = float.MaxValue;
-
+                        
                         // Harvestable tiles do not have a direct path to them so find the path to the closest walkable tile
                         foreach (EnvironmentTile t in tile.Connections)
                         {

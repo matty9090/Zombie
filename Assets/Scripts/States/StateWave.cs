@@ -10,6 +10,7 @@ public class StateWave : IState
     private int NumEnemies = 10;
     private float AttackSpeed = 0.32f;
     private float AttackTimer = 0.0f;
+    private float ZombieTimer = 4.0f;
 
     public StateWave()
     {
@@ -19,19 +20,83 @@ public class StateWave : IState
 
     public void OnEnter()
     {
-        RenderSettings.ambientLight = Color.black;
-        GameObject.Find("Directional Light").GetComponent<Light>().color = Color.black;
-        Game.CharacterInst.GetComponentInChildren<Light>().enabled = true;
-        Game.MainCamera.GetComponent<FollowOutsideBoxCamera>().enabled = false;
+        Enemies = new List<Zombie>();
+
+        Game.StartCoroutine(SpawnEnemies());
+        Game.StartCoroutine(SmoothCentreCamera());
+
+        Cursor.SetCursor(Game.CursorNormal, Vector2.zero, CursorMode.ForceSoftware);
+    }
+
+    public void OnExit()
+    {
+
+    }
+
+    private IEnumerator TimerHelper(float timer, System.Action<float> func = null)
+    {
+        while (timer >= 0.0f)
+        {
+            timer -= Time.deltaTime;
+            func?.Invoke(timer);
+            yield return null;
+        }
+    }
+
+    private IEnumerator SmoothCentreCamera()
+    {
+        var cam = Game.MainCamera.GetComponent<FollowOutsideBoxCamera>();
+        var initial = cam.transform.position;
+        var final = Game.CharacterInst.transform.position + Game.MainCamera.GetComponent<FollowCamera>().Offset;
+        var dir = final - initial;
+
+        yield return TimerHelper(1.2f, (float t) => cam.transform.position = initial + dir * Mathf.SmoothStep(0.0f, 1.0f, 1.0f - t));
+
+        cam.enabled = false;
         Game.MainCamera.GetComponent<FollowCamera>().enabled = true;
         Game.MainCamera.GetComponent<FollowCamera>().SetCharacter(Game.CharacterInst);
 
-        Enemies = new List<Zombie>();
+        yield return FadeLights();
+    }
+
+    private IEnumerator FadeLights()
+    {
+        var dirLight = GameObject.Find("Directional Light").GetComponent<Light>();
+        var col1 = RenderSettings.ambientLight;
+        var col2 = dirLight.color;
+
+        yield return TimerHelper(1.8f, (float t) =>
+        {
+            t = (1.0f - t);
+
+            RenderSettings.ambientLight = new Color(
+                Mathf.Lerp(col1.r, Game.NightColour.r, t),
+                Mathf.Lerp(col1.g, Game.NightColour.g, t),
+                Mathf.Lerp(col1.b, Game.NightColour.b, t)
+            );
+
+            dirLight.color = new Color(
+                Mathf.Lerp(col2.r, Game.NightColour.r, t),
+                Mathf.Lerp(col2.g, Game.NightColour.g, t),
+                Mathf.Lerp(col2.b, Game.NightColour.b, t)
+            );
+        });
+
+        yield return TimerHelper(0.6f);
+
+        var charLight = Game.CharacterInst.GetComponentInChildren<Light>();
+        var maxIntensity = charLight.intensity;
+        charLight.enabled = true;
+
+        yield return TimerHelper(0.8f, (float t) => charLight.intensity = Mathf.SmoothStep(0.0f, maxIntensity, 1.0f - t));
+    }
+
+    private IEnumerator SpawnEnemies()
+    {
+        yield return TimerHelper(ZombieTimer);
 
         var env = GameObject.Find("Environment").GetComponent<Environment>();
         var startTiles = env.GetAvailableEdgeTiles();
-
-        Cursor.SetCursor(Game.CursorNormal, Vector2.zero, CursorMode.ForceSoftware);
 
         for (int i = 0; i < NumEnemies; ++i)
         {
@@ -44,13 +109,6 @@ public class StateWave : IState
 
             Enemies.Add(enemy);
         }
-
-        Cursor.SetCursor(Game.CursorNormal, Vector2.zero, CursorMode.ForceSoftware);
-    }
-
-    public void OnExit()
-    {
-
     }
 
     public void Update()

@@ -1368,7 +1368,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HealthBar: {fileID: 103700472}
-  BuildingTime: 12
+  BuildingTime: 6
   Menu: {fileID: 2099476870}
   Hud: {fileID: 1579498796}
   MainCamera: {fileID: 963194227}
@@ -1383,7 +1383,7 @@ MonoBehaviour:
   CursorBuild: {fileID: 2800000, guid: 461723160fc88fc408f5b0642b4314f6, type: 3}
   CursorFight: {fileID: 2800000, guid: b2e271e57bc857b45833ac6f82fe875d, type: 3}
   DayColour: {r: 1, g: 0.95686275, b: 0.8392157, a: 0}
-  NightColour: {r: 0.9529412, g: 0.6784314, b: 0.44313726, a: 0}
+  NightColour: {r: 0, g: 0, b: 0, a: 0}
 --- !u!4 &896303072
 Transform:
   m_ObjectHideFlags: 0
@@ -1571,6 +1571,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d4bc84224dfeee45bdbf469d45a0512, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Offset: {x: 0, y: 160, z: -240}
 --- !u!114 &963194230
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2234,7 +2235,7 @@ GameObject:
   - component: {fileID: 1760387278}
   - component: {fileID: 1760387277}
   m_Layer: 5
-  m_Name: GameObject
+  m_Name: HealthBg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

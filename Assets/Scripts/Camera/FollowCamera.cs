@@ -5,7 +5,7 @@ using UnityEngine;
 public class FollowCamera : MonoBehaviour, ICamera
 {
     private Character mCharacter = null;
-    private Vector3 mOffset;
+    public Vector3 Offset = new Vector3(0.0f, 160.0f, -240.0f);
 
     public void SetCharacter(Character c)
     {
@@ -17,13 +17,8 @@ public class FollowCamera : MonoBehaviour, ICamera
         enabled = e;
     }
 
-    private void Start()
-    {
-        mOffset = transform.position * 0.6f + new Vector3(0.0f, 0.0f, -20.0f);
-    }
-
     void Update()
     {
-        transform.position = mCharacter.transform.position + mOffset;
+        transform.position = mCharacter.transform.position + Offset;
     }
 }
