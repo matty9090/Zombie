@@ -29,6 +29,8 @@ public class StateBuilding : IState
     public void OnEnter()
     {
         GameObject.Find("BuildUI")?.GetComponent<Animator>().SetTrigger("Show");
+        Game.MainCamera.GetComponent<FollowCamera>().enabled = false;
+        Game.MainCamera.GetComponent<FreeRoamCamera>().enabled = true;
     }
 
     public void OnExit()

@@ -10,7 +10,7 @@ public class StateWave : IState
     private int NumEnemies = 10;
     private float AttackSpeed = 0.32f;
     private float AttackTimer = 0.0f;
-    private float ZombieTimer = 4.0f;
+    private float ZombieTimer = 6.4f;
 
     public StateWave()
     {
@@ -45,7 +45,7 @@ public class StateWave : IState
 
     private IEnumerator SmoothCentreCamera()
     {
-        var cam = Game.MainCamera.GetComponent<FollowOutsideBoxCamera>();
+        var cam = Game.MainCamera.GetComponent<FreeRoamCamera>();
         var initial = cam.transform.position;
         var final = Game.CharacterInst.transform.position + Game.MainCamera.GetComponent<FollowCamera>().Offset;
         var dir = final - initial;

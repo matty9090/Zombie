@@ -1368,7 +1368,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HealthBar: {fileID: 103700472}
-  BuildingTime: 6
+  BuildingTime: 20
   Menu: {fileID: 2099476870}
   Hud: {fileID: 1579498796}
   MainCamera: {fileID: 963194227}
@@ -1485,8 +1485,8 @@ GameObject:
   - component: {fileID: 963194228}
   - component: {fileID: 963194227}
   - component: {fileID: 963194226}
-  - component: {fileID: 963194230}
   - component: {fileID: 963194229}
+  - component: {fileID: 963194231}
   m_Layer: 0
   m_Name: MainCamera
   m_TagString: MainCamera
@@ -1572,7 +1572,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Offset: {x: 0, y: 160, z: -240}
---- !u!114 &963194230
+--- !u!114 &963194231
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1581,13 +1581,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 963194225}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 47719b15d94a8d24d8cfe663729d8939, type: 3}
+  m_Script: {fileID: 11500000, guid: ce038b820011c5045a327222b31ad7e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EdgeTop: 0.2
-  EdgeRight: 0.2
-  EdgeBottom: 0.3
-  EdgeLeft: 0.2
+  Speed: 44
 --- !u!1 &1051840996 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4087072041035813177, guid: b111a89c74af04b4aa8ac28b7c1d2ec6,
