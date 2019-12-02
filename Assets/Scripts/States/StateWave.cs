@@ -149,5 +149,10 @@ public class StateWave : IState
             Game.CharacterInst.GetComponentInChildren<Animator>().SetTrigger("Attack");
             Game.CharacterInst.Attack();
         }
+
+        // Face direction of cursor
+        Vector3 cursorDir = HitTerrainInfo.point - Game.CharacterInst.transform.position;
+        cursorDir.y = 0.0f;
+        Game.CharacterInst.transform.rotation = Quaternion.LookRotation(cursorDir, Vector3.up);
     }
 }
