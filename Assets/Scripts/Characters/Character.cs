@@ -19,6 +19,8 @@ public class Character : MonoBehaviour
     [SerializeField] private PlayerAttack AttackCollision = null;
     [SerializeField] public int MaxHealth = 100;
     [SerializeField] public float HarvestTime = 1.8f;
+    [SerializeField] public float HarvestSoundTime = 0.5f;
+    [SerializeField] public float FootstepTime = 0.28f;
 
     public int Health { get; private set; }
     public MoveTask Task { get; set; }
@@ -30,6 +32,8 @@ public class Character : MonoBehaviour
     private EState State = EState.Idle;
     private Harvestable HarvestTarget = null;
     private float HarvestTimeRemaining;
+    private float HarvestSoundTimeRemaining = 0.0f;
+    private float FootstepTimeRemaining = 0.0f;
 
     struct LastMove
     {
@@ -136,11 +140,23 @@ public class Character : MonoBehaviour
             case EState.Attacking:
                 StateAttacking();
                 break;
+
+            case EState.Moving:
+                StateMoving();
+                break;
         }
     }
 
     private void StateHarvesting()
     {
+        HarvestSoundTimeRemaining -= Time.deltaTime;
+
+        if (HarvestSoundTimeRemaining < 0.0f)
+        {
+            HarvestSoundTimeRemaining = HarvestSoundTime;
+            GameObject.Find("Game").GetComponent<Game>().AudioManager.Play(HarvestTarget.GatherSound);
+        }
+
         HarvestTimeRemaining -= Time.deltaTime;
 
         if (HarvestTimeRemaining <= 0.0f)
@@ -164,6 +180,17 @@ public class Character : MonoBehaviour
         
     }
 
+    private void StateMoving()
+    {
+        FootstepTimeRemaining -= Time.deltaTime;
+
+        if (FootstepTimeRemaining < 0.0f)
+        {
+            FootstepTimeRemaining = FootstepTime;
+            GameObject.Find("Game").GetComponent<Game>().AudioManager.Play("Walk");
+        }
+    }
+
     public void Attack()
     {
         foreach (var obj in AttackCollision.Colliders)
@@ -173,6 +200,8 @@ public class Character : MonoBehaviour
                 obj.transform.GetComponent<Zombie>().Damage(DamageAmount);
             }
         }
+
+        GameObject.Find("Game").GetComponent<Game>().AudioManager.Play("Punch");
     }
 
     public void Damage(int Amount)
@@ -180,5 +209,7 @@ public class Character : MonoBehaviour
         Health -= Amount;
         Health = Mathf.Clamp(Health, 0, MaxHealth);
         HealthChangedEvent.Invoke();
+
+        GameObject.Find("Game").GetComponent<Game>().AudioManager.PlayLayered("ZombieBite");
     }
 }

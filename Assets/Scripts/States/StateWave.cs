@@ -84,11 +84,13 @@ public class StateWave : IState
 
         yield return TimerHelper(0.6f);
 
+        Game.AudioManager.Play("Torch");
+
         var charLight = Game.CharacterInst.GetComponentInChildren<Light>();
         var maxIntensity = charLight.intensity;
         charLight.enabled = true;
 
-        yield return TimerHelper(0.8f, (float t) => charLight.intensity = Mathf.SmoothStep(0.0f, maxIntensity, 1.0f - t));
+        yield return TimerHelper(0.3f, (float t) => charLight.intensity = Mathf.SmoothStep(0.0f, maxIntensity, 1.0f - t));
     }
 
     private IEnumerator SpawnEnemies()
@@ -135,7 +137,19 @@ public class StateWave : IState
                     {
                         var startPos = Game.CharacterInst.NextTile != null ? Game.CharacterInst.NextTile : Game.CharacterInst.CurrentPosition;
                         List<EnvironmentTile> route = Game.Map.Solve(startPos, tile);
-                        Game.CharacterInst.GoTo(route);
+
+                        if (route != null && route.Count > 0)
+                        {
+                            Game.CharacterInst.GoTo(route);
+                        }
+                        else
+                        {
+                            Game.AudioManager.PlayError();
+                        }
+                    }
+                    else
+                    {
+                        Game.AudioManager.PlayError();
                     }
                 }
             }

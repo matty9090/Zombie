@@ -6,6 +6,7 @@ public class Harvestable : MonoBehaviour, IDestroyable
 {
     public int Amount;
     public EResource Type;
+    public string GatherSound = "GatherStone";
 
     public void DestroyObject()
     {

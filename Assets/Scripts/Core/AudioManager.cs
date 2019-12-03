@@ -32,6 +32,24 @@ public class AudioManager : MonoBehaviour
         }
     }
 
+    public void PlayLayered(string name)
+    {
+        if (Sounds.ContainsKey(name))
+        {
+            Sounds[name].Source.PlayOneShot(Sounds[name].Clip);
+        }
+        else
+        {
+            Debug.LogWarning("Cannot find sound " + name);
+        }
+    }
+
+    public void PlayError()
+    {
+        Sounds["ButtonClick"].Source.Stop();
+        Sounds["Error"].Source.Play();
+    }
+
     public void FadeOutSound(string name, float time)
     {
         if (Sounds.ContainsKey(name))

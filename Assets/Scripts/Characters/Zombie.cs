@@ -9,6 +9,7 @@ public class Zombie : MonoBehaviour
     [SerializeField] private int DamageAmount = 1;
     [SerializeField] private float DamageTime = 0.8f;
     [SerializeField] private float HarvestTime = 1.4f;
+    [SerializeField] private RangeInt SoundTime = new RangeInt(3, 18);
     [SerializeField] public int MaxHealth = 100;
 
     public enum EState { Moving, Attacking, Harvesting };
@@ -21,9 +22,12 @@ public class Zombie : MonoBehaviour
     private float DamageTimeRemaining;
     private float HarvestTimeRemaining;
 
+    private Coroutine GoToCoRoutine;
+
     void Start()
     {
         Health = MaxHealth;
+        StartCoroutine(RandomPlaySound());
     }
 
     private IEnumerator DoGoTo(Character player)
@@ -46,8 +50,11 @@ public class Zombie : MonoBehaviour
     {
         State = EState.Moving;
         AttackTarget = player;
-        StopAllCoroutines();
-        StartCoroutine(DoGoTo(player));
+        
+        if(GoToCoRoutine != null)
+            StopCoroutine(GoToCoRoutine);
+
+        GoToCoRoutine = StartCoroutine(DoGoTo(player));
     }
 
     private IEnumerator EffectDamage()
@@ -70,6 +77,23 @@ public class Zombie : MonoBehaviour
         foreach (var renderer in renderers)
         {
             renderer.material.color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+        }
+    }
+
+    private IEnumerator RandomPlaySound()
+    {
+        while (true)
+        {
+            float timer = Random.Range(SoundTime.start, SoundTime.end);
+
+            while (timer > 0.0f)
+            {
+                timer -= Time.deltaTime;
+                yield return null;
+            }
+
+            int num = Random.Range(1, 3);
+            GameObject.Find("Game").GetComponent<Game>().AudioManager.PlayLayered("ZombieSound" + num);
         }
     }
 
@@ -120,7 +144,9 @@ public class Zombie : MonoBehaviour
 
         if (destroyable != null)
         {
-            StopAllCoroutines();
+            if (GoToCoRoutine != null)
+                StopCoroutine(GoToCoRoutine);
+
             HarvestTarget = destroyable;
             HarvestTimeRemaining = HarvestTime;
             State = EState.Harvesting;
@@ -133,6 +159,8 @@ public class Zombie : MonoBehaviour
 
         StopCoroutine(EffectDamage());
         StartCoroutine(EffectDamage());
+
+        GameObject.Find("Game").GetComponent<Game>().AudioManager.PlayLayered("ZombieHurt");
 
         if (Health <= 0)
         {

@@ -109,6 +109,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Amount: 16
   Type: 0
+  GatherSound: GatherWood
 --- !u!65 &8030707752839988903
 BoxCollider:
   m_ObjectHideFlags: 0

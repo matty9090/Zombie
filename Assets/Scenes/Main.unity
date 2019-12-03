@@ -414,6 +414,7 @@ GameObject:
   - component: {fileID: 250153951}
   - component: {fileID: 250153953}
   - component: {fileID: 250153954}
+  - component: {fileID: 250153955}
   m_Layer: 0
   m_Name: Play
   m_TagString: Untagged
@@ -561,6 +562,18 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &250153955
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 250153949}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b66cff0f001ce4b448a166b6a873c048, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &330436191
 GameObject:
   m_ObjectHideFlags: 0
@@ -574,6 +587,7 @@ GameObject:
   - component: {fileID: 330436193}
   - component: {fileID: 330436195}
   - component: {fileID: 330436196}
+  - component: {fileID: 330436197}
   m_Layer: 0
   m_Name: Exit
   m_TagString: Untagged
@@ -710,6 +724,18 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &330436197
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 330436191}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b66cff0f001ce4b448a166b6a873c048, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &349689129
 GameObject:
   m_ObjectHideFlags: 0
@@ -1369,7 +1395,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HealthBar: {fileID: 103700472}
-  BuildingTime: 20
+  BuildingTime: 1
   Menu: {fileID: 2099476870}
   Hud: {fileID: 1579498796}
   MainCamera: {fileID: 963194227}
@@ -1422,8 +1448,78 @@ MonoBehaviour:
     Source: {fileID: 0}
     Volume: 1
     Pitch: 1
+  - Name: Walk
+    Clip: {fileID: 8300000, guid: 18f1ff003e8fbdb44aba8266f6e1d168, type: 3}
+    Source: {fileID: 0}
+    Volume: 1
+    Pitch: 1
+  - Name: GatherWood
+    Clip: {fileID: 8300000, guid: 833ec52120ca6fb4994334042d999359, type: 3}
+    Source: {fileID: 0}
+    Volume: 1
+    Pitch: 1
+  - Name: GatherStone
+    Clip: {fileID: 8300000, guid: 085add544ee8e924f883c17dcae0cda6, type: 3}
+    Source: {fileID: 0}
+    Volume: 1
+    Pitch: 1
+  - Name: PlaceObject
+    Clip: {fileID: 8300000, guid: 58c73da5ead0927429da761f43ef9bd7, type: 3}
+    Source: {fileID: 0}
+    Volume: 1
+    Pitch: 1
+  - Name: ButtonHover
+    Clip: {fileID: 8300000, guid: 5ed9970e17bfee943a6dff056dc3a9d0, type: 3}
+    Source: {fileID: 0}
+    Volume: 1
+    Pitch: 1
+  - Name: ButtonClick
+    Clip: {fileID: 8300000, guid: 0e6d4d48fef8bd34f9a18cc6b7ed156c, type: 3}
+    Source: {fileID: 0}
+    Volume: 1
+    Pitch: 1
+  - Name: Error
+    Clip: {fileID: 8300000, guid: 5414929d2ae6ad441abffb4625e4bc1f, type: 3}
+    Source: {fileID: 0}
+    Volume: 1
+    Pitch: 1
+  - Name: RotateBuilding
+    Clip: {fileID: 8300000, guid: 70e02441ad3cd8f488092b6a4933e446, type: 3}
+    Source: {fileID: 0}
+    Volume: 1
+    Pitch: 1
+  - Name: ZombieSound1
+    Clip: {fileID: 8300000, guid: e960cce389cc49644b835ad21e0cccfe, type: 3}
+    Source: {fileID: 0}
+    Volume: 1
+    Pitch: 1
+  - Name: ZombieSound2
+    Clip: {fileID: 8300000, guid: cafd224459a1d804385f62f6a5d9c5ac, type: 3}
+    Source: {fileID: 0}
+    Volume: 1
+    Pitch: 1
   - Name: ZombieBite
     Clip: {fileID: 8300000, guid: 612e96222cb673f4b949409c0e5d90d3, type: 3}
+    Source: {fileID: 0}
+    Volume: 1
+    Pitch: 1
+  - Name: Punch
+    Clip: {fileID: 8300000, guid: 14254cc0001469f47b055c410848443d, type: 3}
+    Source: {fileID: 0}
+    Volume: 1
+    Pitch: 1
+  - Name: ZombieSound3
+    Clip: {fileID: 8300000, guid: 690301ab15bafe34a98dc27779891a9a, type: 3}
+    Source: {fileID: 0}
+    Volume: 1
+    Pitch: 1
+  - Name: ZombieHurt
+    Clip: {fileID: 8300000, guid: 039a1ac7e1a6a7c48807817d4c1ee71a, type: 3}
+    Source: {fileID: 0}
+    Volume: 1
+    Pitch: 1
+  - Name: Torch
+    Clip: {fileID: 8300000, guid: 10730168ceb65624c82b1ffc7efa6a5d, type: 3}
     Source: {fileID: 0}
     Volume: 1
     Pitch: 1
@@ -2637,7 +2733,6 @@ GameObject:
   - component: {fileID: 2099476869}
   - component: {fileID: 2099476868}
   - component: {fileID: 2099476871}
-  - component: {fileID: 2099476872}
   m_Layer: 0
   m_Name: Menu
   m_TagString: Untagged
@@ -2751,102 +2846,6 @@ MonoBehaviour:
   m_ChildControlHeight: 0
   m_ChildScaleWidth: 1
   m_ChildScaleHeight: 0
---- !u!82 &2099476872
-AudioSource:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2099476866}
-  m_Enabled: 1
-  serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 6ed1304ef1b1c644dac956881da6736f, type: 3}
-  m_PlayOnAwake: 1
-  m_Volume: 1
-  m_Pitch: 1
-  Loop: 1
-  Mute: 0
-  Spatialize: 0
-  SpatializePostEffects: 0
-  Priority: 128
-  DopplerLevel: 1
-  MinDistance: 1
-  MaxDistance: 500
-  Pan2D: 0
-  rolloffMode: 0
-  BypassEffects: 0
-  BypassListenerEffects: 0
-  BypassReverbZones: 0
-  rolloffCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  panLevelCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  spreadCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  reverbZoneMixCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
 --- !u!1001 &2132622554
 PrefabInstance:
   m_ObjectHideFlags: 0

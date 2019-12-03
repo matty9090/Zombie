@@ -66,7 +66,8 @@ public class StateBuilding : IState
 
                 if (Input.GetMouseButtonDown(0) && mControllerState == EControllerState.Idle && !EventSystem.current.IsPointerOverGameObject())
                 {
-                    if (harvestable != null)
+                    // Harvest
+                    if (harvestable != null && mControllerState == EControllerState.Idle)
                     {
                         List<EnvironmentTile> bestRoute = null;
                         float minDist = float.MaxValue;
@@ -86,7 +87,7 @@ public class StateBuilding : IState
                         }
 
                         // Found path
-                        if (bestRoute != null)
+                        if (bestRoute != null && bestRoute.Count > 0)
                         {
                             MoveTask task = new MoveTask();
                             task.Type = EMoveTask.Harvest;
@@ -95,12 +96,29 @@ public class StateBuilding : IState
                             Game.CharacterInst.Task = task;
                             Game.CharacterInst.GoTo(bestRoute);
                         }
+                        else
+                        {
+                            Game.AudioManager.PlayError();
+                        }
                     }
+                    // Walk to a tile
                     else if (tile.IsAccessible)
                     {
                         var startPos = Game.CharacterInst.NextTile != null ? Game.CharacterInst.NextTile : Game.CharacterInst.CurrentPosition;
                         List<EnvironmentTile> route = Game.Map.Solve(startPos, tile);
-                        Game.CharacterInst.GoTo(route);
+
+                        if (route != null && route.Count > 0)
+                        {
+                            Game.CharacterInst.GoTo(route);
+                        }
+                        else
+                        {
+                            Game.AudioManager.PlayError();
+                        }
+                    }
+                    else
+                    {
+                        Game.AudioManager.PlayError();
                     }
                 }
             }
@@ -146,6 +164,7 @@ public class StateBuilding : IState
         else if (Input.GetKeyUp(KeyCode.R))
         {
             mSelectedBuilding.transform.Rotate(new Vector3(0.0f, 90.0f, 0.0f));
+            Game.AudioManager.Play("RotateBuilding");
         }
         else if (Input.GetMouseButtonUp(0) && isEnabled && !EventSystem.current.IsPointerOverGameObject())
         {
@@ -159,6 +178,7 @@ public class StateBuilding : IState
                 mSelectedBuilding = null;
                 tile.IsAccessible = false;
                 mControllerState = EControllerState.Idle;
+                Game.AudioManager.Play("PlaceObject");
             }
         }
     }
@@ -170,6 +190,10 @@ public class StateBuilding : IState
             mControllerState = EControllerState.PlacingBuilding;
             mSelectedBuilding = Game.Instantiate(element.Object);
             mSelectedBuildingUI = element;
+        }
+        else
+        {
+            Game.AudioManager.PlayError();
         }
     }
 }

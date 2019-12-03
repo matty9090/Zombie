@@ -91,6 +91,7 @@ GameObject:
   - component: {fileID: 5961371321445541061}
   - component: {fileID: 5961371321445541066}
   - component: {fileID: 5961371321445541067}
+  - component: {fileID: -4048193965914431475}
   m_Layer: 5
   m_Name: Building
   m_TagString: Untagged
@@ -232,3 +233,15 @@ MonoBehaviour:
   Wood: 2
   Stone: 0
   Object: {fileID: 9143145368171789864, guid: ad8d22b6152be2f43be09ba7e285f338, type: 3}
+--- !u!114 &-4048193965914431475
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5961371321445541065}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b66cff0f001ce4b448a166b6a873c048, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
