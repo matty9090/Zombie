@@ -5,6 +5,7 @@ using UnityEngine;
 public class StateMenu : IState
 {
     private Game Game = null;
+    private float FadeOutMusicTime = 1.6f;
 
     public StateMenu()
     {
@@ -35,6 +36,7 @@ public class StateMenu : IState
 
             if (show)
             {
+                Game.AudioManager.Play("MenuMusic");
                 Game.MainCamera.GetComponent<ICamera>().SetEnabled(false);
                 Game.CharacterInst.transform.position = Game.CharacterStart.position;
                 Game.CharacterInst.transform.rotation = Game.CharacterStart.rotation;
@@ -42,6 +44,7 @@ public class StateMenu : IState
             }
             else
             {
+                Game.AudioManager.FadeOutSound("MenuMusic", FadeOutMusicTime);
                 Game.MainCamera.GetComponent<ICamera>().SetEnabled(true);
                 Game.CharacterInst.transform.position = Game.Map.Start.Position;
                 Game.CharacterInst.transform.rotation = Quaternion.identity;

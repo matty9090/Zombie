@@ -7,24 +7,25 @@ public class Game : MonoBehaviour
     [SerializeField] private HealthBar HealthBar = null;
     [SerializeField] private int BuildingTime = 90;
 
-    [SerializeField] public Canvas Menu = null;
-    [SerializeField] public Canvas Hud = null;
-    [SerializeField] public Camera MainCamera = null;
-    [SerializeField] public Character Character = null;
-    [SerializeField] public Zombie Zombie = null;
-    [SerializeField] public GameObject HoverTile = null;
-    [SerializeField] public Transform CharacterStart = null;
-    [SerializeField] public Material HoverMaterialG = null;
-    [SerializeField] public Material HoverMaterialR = null;
-    [SerializeField] public Texture2D CursorNormal = null;
-    [SerializeField] public Texture2D CursorBuild = null;
-    [SerializeField] public Texture2D CursorFight = null;
-    [SerializeField] public Color DayColour;
-    [SerializeField] public Color NightColour;
+    public Canvas Menu = null;
+    public Canvas Hud = null;
+    public Camera MainCamera = null;
+    public Character Character = null;
+    public Zombie Zombie = null;
+    public GameObject HoverTile = null;
+    public Transform CharacterStart = null;
+    public Material HoverMaterialG = null;
+    public Material HoverMaterialR = null;
+    public Texture2D CursorNormal = null;
+    public Texture2D CursorBuild = null;
+    public Texture2D CursorFight = null;
+    public Color DayColour;
+    public Color NightColour;
 
     public Character CharacterInst { get; private set;  }
     public Resources Resources { get; set; }
     public Environment Map { get; private set; }
+    public AudioManager AudioManager { get; private set; }
 
     private enum EGameState { Menu, Building, Wave, GameOver };
     private EGameState mGameState = EGameState.Menu;
@@ -40,6 +41,7 @@ public class Game : MonoBehaviour
         BuildingTimer = (float)BuildingTime;
         HealthBar.ProvideCharacter(CharacterInst);
         MainCamera.GetComponent<ICamera>().SetCharacter(CharacterInst);
+        AudioManager = GetComponent<AudioManager>();
 
         Cursor.SetCursor(CursorNormal, Vector2.zero, CursorMode.ForceSoftware);
 
