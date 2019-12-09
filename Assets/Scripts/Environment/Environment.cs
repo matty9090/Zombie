@@ -415,6 +415,7 @@ public class Environment : MonoBehaviour
 
         var poof = Instantiate(EffectPoof);
         poof.transform.position = tile.transform.position + new Vector3(5.0f, 5.0f, 5.0f);
+        Destroy(poof, poof.GetComponent<ParticleSystem>().main.duration);
 
         var envTile = tile.GetComponent<EnvironmentTile>();
         envTile.IsAccessible = true;

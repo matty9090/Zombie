@@ -8,6 +8,7 @@ public class Blocker : MonoBehaviour, IDestroyable
     {
         if (gameObject)
         {
+            transform.parent.GetComponent<EnvironmentTile>().IsAccessible = true;
             Destroy(gameObject);
         }
     }

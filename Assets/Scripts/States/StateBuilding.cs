@@ -175,6 +175,7 @@ public class StateBuilding : IState
             {
                 Resources.Wood -= mSelectedBuildingUI.Wood;
                 Resources.Stone -= mSelectedBuildingUI.Stone;
+                mSelectedBuilding.transform.parent = tile.transform;
                 mSelectedBuilding = null;
                 tile.IsAccessible = false;
                 mControllerState = EControllerState.Idle;
