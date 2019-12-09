@@ -34,7 +34,7 @@ public class Zombie : MonoBehaviour
     {
         if (player != null)
         {
-            while (Vector3.Distance(transform.position, player.transform.position) > DistanceThreshold)
+            while (player != null && Vector3.Distance(transform.position, player.transform.position) > DistanceThreshold)
             {
                 var delta = player.transform.position - transform.position;
                 transform.rotation = Quaternion.LookRotation(delta, Vector3.up);
@@ -104,20 +104,23 @@ public class Zombie : MonoBehaviour
 
         if (State == EState.Attacking)
         {
-            var dist = Vector3.Distance(AttackTarget.transform.position, transform.position);
-
-            if (dist > DistanceThreshold)
+            if(AttackTarget != null)
             {
-                GoTo(AttackTarget);
-            }
-            else
-            {
-                DamageTimeRemaining -= Time.deltaTime;
+                var dist = Vector3.Distance(AttackTarget.transform.position, transform.position);
 
-                if (DamageTimeRemaining <= 0)
+                if (dist > DistanceThreshold)
                 {
-                    DamageTimeRemaining = DamageTime;
-                    AttackTarget.Damage(DamageAmount);
+                    GoTo(AttackTarget);
+                }
+                else
+                {
+                    DamageTimeRemaining -= Time.deltaTime;
+
+                    if (DamageTimeRemaining <= 0)
+                    {
+                        DamageTimeRemaining = DamageTime;
+                        AttackTarget.Damage(DamageAmount);
+                    }
                 }
             }
         }

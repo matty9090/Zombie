@@ -19,6 +19,9 @@ public class FollowCamera : MonoBehaviour, ICamera
 
     void Update()
     {
-        transform.position = mCharacter.transform.position + Offset;
+        if(mCharacter)
+        {
+            transform.position = mCharacter.transform.position + Offset;
+        }
     }
 }

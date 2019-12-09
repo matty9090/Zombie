@@ -13,6 +13,7 @@ public class StateGameOver : IState
 
     public void OnEnter()
     {
+        Object.Destroy(mGame.CharacterInst);
         mAnim = mGame.GameOver.GetComponentInChildren<Animator>();
         mGame.GameOver.SetActive(true);
 
