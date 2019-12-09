@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Game : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class Game : MonoBehaviour
     public Character Character = null;
     public Zombie Zombie = null;
     public GameObject HoverTile = null;
+    public GameObject GameOver = null;
     public Transform CharacterStart = null;
     public Material HoverMaterialG = null;
     public Material HoverMaterialR = null;
@@ -51,7 +53,8 @@ public class Game : MonoBehaviour
         {
             [EGameState.Menu]     = new StateMenu(),
             [EGameState.Building] = new StateBuilding(),
-            [EGameState.Wave]     = new StateWave()
+            [EGameState.Wave]     = new StateWave(),
+            [EGameState.GameOver] = new StateGameOver()
         };
 
         mStates[mGameState].OnEnter();
@@ -81,7 +84,7 @@ public class Game : MonoBehaviour
 
     private void CharacterHealthChanged()
     {
-        if (CharacterInst.Health <= 0)
+        if (CharacterInst.Health <= 0 && mGameState == EGameState.Wave)
         {
             SwitchState(EGameState.GameOver);
         }
@@ -90,6 +93,11 @@ public class Game : MonoBehaviour
     public void ShowMenu(bool show)
     {
         SwitchState(show ? EGameState.Menu : EGameState.Building);
+    }
+
+    public void BackToMainMenu()
+    {
+        SceneManager.LoadScene("Main");
     }
 
     public void UIBuildingClicked(UIBuilding element)

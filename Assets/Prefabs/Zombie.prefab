@@ -48,7 +48,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DistanceThreshold: 12
   ZombieMoveSpeed: 10
-  DamageAmount: 1
+  DamageAmount: 20
   DamageTime: 0.8
   HarvestTime: 1.4
   MaxHealth: 100
@@ -88,36 +88,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8797215474748535101}
     m_Modifications:
-    - target: {fileID: -927199367670048503, guid: f3833abcc6634724da24ecd028074675,
-        type: 3}
-      propertyPath: m_Name
-      value: Character
-      objectReference: {fileID: 0}
-    - target: {fileID: -7743942891889749601, guid: f3833abcc6634724da24ecd028074675,
-        type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: eafe135c9c8dc5b45bc413cdc179f046, type: 2}
-    - target: {fileID: -7658727718963361987, guid: f3833abcc6634724da24ecd028074675,
-        type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: eafe135c9c8dc5b45bc413cdc179f046, type: 2}
-    - target: {fileID: -6057140222963153312, guid: f3833abcc6634724da24ecd028074675,
-        type: 3}
-      propertyPath: m_Avatar
-      value: 
-      objectReference: {fileID: 9000000, guid: fe6adb7607c101c4ebaa891b64c9babd, type: 3}
-    - target: {fileID: -6057140222963153312, guid: f3833abcc6634724da24ecd028074675,
-        type: 3}
-      propertyPath: m_Controller
-      value: 
-      objectReference: {fileID: 9100000, guid: c82710a9837b7724892b57aace8f7d6b, type: 2}
-    - target: {fileID: -6057140222963153312, guid: f3833abcc6634724da24ecd028074675,
-        type: 3}
-      propertyPath: m_ApplyRootMotion
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: f3833abcc6634724da24ecd028074675,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -172,6 +142,36 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: f3833abcc6634724da24ecd028074675,
+        type: 3}
+      propertyPath: m_Name
+      value: Character
+      objectReference: {fileID: 0}
+    - target: {fileID: -7743942891889749601, guid: f3833abcc6634724da24ecd028074675,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: eafe135c9c8dc5b45bc413cdc179f046, type: 2}
+    - target: {fileID: -7658727718963361987, guid: f3833abcc6634724da24ecd028074675,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: eafe135c9c8dc5b45bc413cdc179f046, type: 2}
+    - target: {fileID: -6057140222963153312, guid: f3833abcc6634724da24ecd028074675,
+        type: 3}
+      propertyPath: m_Avatar
+      value: 
+      objectReference: {fileID: 9000000, guid: fe6adb7607c101c4ebaa891b64c9babd, type: 3}
+    - target: {fileID: -6057140222963153312, guid: f3833abcc6634724da24ecd028074675,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: c82710a9837b7724892b57aace8f7d6b, type: 2}
+    - target: {fileID: -6057140222963153312, guid: f3833abcc6634724da24ecd028074675,
+        type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -139352455604996665, guid: f3833abcc6634724da24ecd028074675,
         type: 3}
