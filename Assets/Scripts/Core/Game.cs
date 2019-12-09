@@ -43,6 +43,8 @@ public class Game : MonoBehaviour
         MainCamera.GetComponent<ICamera>().SetCharacter(CharacterInst);
         AudioManager = GetComponent<AudioManager>();
 
+        CharacterInst.HealthChangedEvent.AddListener(CharacterHealthChanged);
+
         Cursor.SetCursor(CursorNormal, Vector2.zero, CursorMode.ForceSoftware);
 
         mStates = new Dictionary<EGameState, IState>
@@ -75,14 +77,13 @@ public class Game : MonoBehaviour
         }
 
         mStates[mGameState].Update();
+    }
 
-        // Transition conditions
-        if(mGameState == EGameState.Wave)
+    private void CharacterHealthChanged()
+    {
+        if (CharacterInst.Health <= 0)
         {
-            if(CharacterInst.Health <= 0)
-            {
-                // Game over
-            }
+            SwitchState(EGameState.GameOver);
         }
     }
 
