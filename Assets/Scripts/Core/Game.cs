@@ -35,7 +35,7 @@ public class Game : MonoBehaviour
 
     private Dictionary<EGameState, IState> mStates;
 
-    void Awake()
+    void Start()
     {
         Resources = new Resources();
         Map = GetComponentInChildren<Environment>();
