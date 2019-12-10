@@ -11,6 +11,7 @@ public class StateWave : IState
     private float AttackSpeed = 0.32f;
     private float AttackTimer = 0.0f;
     private float ZombieTimer = 6.4f;
+    private float MoveSpeed = 16.6f;
 
     public StateWave()
     {
@@ -25,12 +26,27 @@ public class StateWave : IState
         Game.StartCoroutine(SpawnEnemies());
         Game.StartCoroutine(SmoothCentreCamera());
 
+        HoverTile.GetComponent<MeshRenderer>().enabled = false;
         Cursor.SetCursor(Game.CursorNormal, Vector2.zero, CursorMode.ForceSoftware);
+
+        foreach (var tile in Object.FindObjectsOfType<EnvironmentTile>())
+        {
+            var collider = tile.GetComponent<BoxCollider>();
+
+            if (collider != null)
+                collider.isTrigger = false;
+        }
     }
 
     public void OnExit()
     {
+        foreach (var tile in Object.FindObjectsOfType<EnvironmentTile>())
+        {
+            var collider = tile.GetComponent<BoxCollider>();
 
+            if (collider != null)
+                collider.isTrigger = true;
+        }
     }
 
     private IEnumerator TimerHelper(float timer, System.Action<float> func = null)
@@ -115,49 +131,21 @@ public class StateWave : IState
 
     public void Update()
     {
-        HoverTile.GetComponent<MeshRenderer>().enabled = false;
-
-        Ray screenClick = Game.MainCamera.ScreenPointToRay(Input.mousePosition);
-        RaycastHit HitTerrainInfo;
-
-        if (Physics.Raycast(screenClick, out HitTerrainInfo, 1000.0f, LayerMask.GetMask("Default")))
-        {
-            Transform objTransform = HitTerrainInfo.transform;
-            EnvironmentTile tile = objTransform.GetComponent<EnvironmentTile>();
-
-            if (tile != null)
-            {
-                // We hovered over a tile which can be clicked on so set the hover tile position and make it visible
-                HoverTile.transform.position = tile.Position;
-                HoverTile.GetComponent<MeshRenderer>().enabled = true;
-
-                if (Input.GetMouseButtonDown(0))
-                {
-                    if (tile.IsAccessible)
-                    {
-                        var startPos = Game.CharacterInst.NextTile != null ? Game.CharacterInst.NextTile : Game.CharacterInst.CurrentPosition;
-                        List<EnvironmentTile> route = Game.Map.Solve(startPos, tile);
-
-                        if (route != null && route.Count > 0)
-                        {
-                            Game.CharacterInst.GoTo(route);
-                        }
-                        else
-                        {
-                            Game.AudioManager.PlayError();
-                        }
-                    }
-                    else
-                    {
-                        Game.AudioManager.PlayError();
-                    }
-                }
-            }
-        }
-
         AttackTimer -= Time.deltaTime;
 
-        if(Input.GetMouseButtonDown(1) && AttackTimer < 0.0f)
+        if (Input.GetKey(KeyCode.W))
+            Game.CharacterInst.Move(new Vector3(0.0f, 0.0f, MoveSpeed * Time.deltaTime));
+
+        if (Input.GetKey(KeyCode.A))
+            Game.CharacterInst.Move(new Vector3(-MoveSpeed * Time.deltaTime, 0.0f, 0.0f));
+
+        if (Input.GetKey(KeyCode.S))
+            Game.CharacterInst.Move(new Vector3(0.0f, 0.0f, -MoveSpeed * Time.deltaTime));
+
+        if (Input.GetKey(KeyCode.D))
+            Game.CharacterInst.Move(new Vector3(MoveSpeed * Time.deltaTime, 0.0f, 0.0f));
+
+        if (Input.GetMouseButtonDown(1) && AttackTimer < 0.0f)
         {
             AttackTimer = AttackSpeed;
             Game.CharacterInst.GetComponentInChildren<Animator>().SetTrigger("Attack");
@@ -165,6 +153,9 @@ public class StateWave : IState
         }
 
         // Face direction of cursor
+        Ray screenClick = Game.MainCamera.ScreenPointToRay(Input.mousePosition);
+        RaycastHit HitTerrainInfo;
+        Physics.Raycast(screenClick, out HitTerrainInfo, 1000.0f, LayerMask.GetMask("Default"));
         Vector3 cursorDir = HitTerrainInfo.point - Game.CharacterInst.transform.position;
         cursorDir.y = 0.0f;
         Game.CharacterInst.transform.rotation = Quaternion.LookRotation(cursorDir, Vector3.up);

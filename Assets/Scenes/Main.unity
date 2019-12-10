@@ -1530,7 +1530,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HealthBar: {fileID: 103700472}
-  BuildingTime: 2
+  BuildingTime: 0
   Menu: {fileID: 2099476870}
   Hud: {fileID: 1579498796}
   MainCamera: {fileID: 963194227}
@@ -1828,7 +1828,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d4bc84224dfeee45bdbf469d45a0512, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Offset: {x: 0, y: 160, z: -240}
+  Offset: {x: 0, y: 100, z: -158}
 --- !u!114 &963194231
 MonoBehaviour:
   m_ObjectHideFlags: 0

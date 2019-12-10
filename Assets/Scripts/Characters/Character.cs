@@ -128,7 +128,6 @@ public class Character : MonoBehaviour
 
     private void Update()
     {
-        GetComponentInChildren<Animator>().SetFloat("Speed", State == EState.Moving ? 1.0f : 0.0f);
         GetComponentInChildren<Animator>().SetBool("IsHarvesting", State == EState.Harvesting || State == EState.Attacking);
 
         switch (State)
@@ -145,6 +144,17 @@ public class Character : MonoBehaviour
                 StateMoving();
                 break;
         }
+    }
+
+    private void LateUpdate()
+    {
+        GetComponentInChildren<Animator>().SetFloat("Speed", 0.0f);
+    }
+
+    public void Move(Vector3 v)
+    {
+        transform.position += v;
+        GetComponentInChildren<Animator>().SetFloat("Speed", 1.0f);
     }
 
     private void StateHarvesting()
@@ -182,6 +192,8 @@ public class Character : MonoBehaviour
 
     private void StateMoving()
     {
+        GetComponentInChildren<Animator>().SetFloat("Speed", 1.0f);
+
         FootstepTimeRemaining -= Time.deltaTime;
 
         if (FootstepTimeRemaining < 0.0f)
