@@ -40,6 +40,8 @@ public class StateWave : IState
 
     public void OnExit()
     {
+        GameObject.Find("WaveUI").GetComponent<Animator>().Play("FadeOut");
+
         foreach (var tile in Object.FindObjectsOfType<EnvironmentTile>())
         {
             var collider = tile.GetComponent<BoxCollider>();
@@ -101,6 +103,7 @@ public class StateWave : IState
         yield return TimerHelper(0.6f);
 
         Game.AudioManager.Play("Torch");
+        GameObject.Find("WaveUI").GetComponent<Animator>().Play("Fade");
 
         var charLight = Game.CharacterInst.GetComponentInChildren<Light>();
         var maxIntensity = charLight.intensity;

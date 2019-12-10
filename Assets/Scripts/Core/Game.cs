@@ -29,7 +29,7 @@ public class Game : MonoBehaviour
     public Environment Map { get; private set; }
     public AudioManager AudioManager { get; private set; }
 
-    private enum EGameState { Menu, Building, Wave, GameOver };
+    private enum EGameState { Menu, Building, Wave, FinishedWave, GameOver };
     private EGameState mGameState = EGameState.Menu;
     private float BuildingTimer = 0.0f;
 
@@ -51,10 +51,11 @@ public class Game : MonoBehaviour
 
         mStates = new Dictionary<EGameState, IState>
         {
-            [EGameState.Menu]     = new StateMenu(),
-            [EGameState.Building] = new StateBuilding(),
-            [EGameState.Wave]     = new StateWave(),
-            [EGameState.GameOver] = new StateGameOver()
+            [EGameState.Menu]         = new StateMenu(),
+            [EGameState.Building]     = new StateBuilding(),
+            [EGameState.Wave]         = new StateWave(),
+            [EGameState.FinishedWave] = new StateFinishedWave(),
+            [EGameState.GameOver]     = new StateGameOver()
         };
 
         mStates[mGameState].OnEnter();
