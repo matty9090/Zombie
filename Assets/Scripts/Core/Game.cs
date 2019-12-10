@@ -1,11 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
 public class Game : MonoBehaviour
 {
     [SerializeField] private HealthBar HealthBar = null;
+    [SerializeField] private Text UIWaveText = null;
     [SerializeField] private int BuildingTime = 90;
 
     public Canvas Menu = null;
@@ -15,6 +18,7 @@ public class Game : MonoBehaviour
     public Zombie Zombie = null;
     public GameObject HoverTile = null;
     public GameObject GameOver = null;
+    public GameObject FinishedWave = null;
     public Transform CharacterStart = null;
     public Material HoverMaterialG = null;
     public Material HoverMaterialR = null;
@@ -28,9 +32,11 @@ public class Game : MonoBehaviour
     public Resources Resources { get; set; }
     public Environment Map { get; private set; }
     public AudioManager AudioManager { get; private set; }
+    public UnityEvent ZombieKilled { get; private set; }
 
     private enum EGameState { Menu, Building, Wave, FinishedWave, GameOver };
     private EGameState mGameState = EGameState.Menu;
+    private int CurrentWave = 0;
     private float BuildingTimer = 0.0f;
 
     private Dictionary<EGameState, IState> mStates;
@@ -45,6 +51,8 @@ public class Game : MonoBehaviour
         MainCamera.GetComponent<ICamera>().SetCharacter(CharacterInst);
         AudioManager = GetComponent<AudioManager>();
 
+        ZombieKilled = new UnityEvent();
+        ZombieKilled.AddListener(ZombieKilledEvent);
         CharacterInst.HealthChangedEvent.AddListener(CharacterHealthChanged);
 
         Cursor.SetCursor(CursorNormal, Vector2.zero, CursorMode.ForceSoftware);
@@ -76,6 +84,9 @@ public class Game : MonoBehaviour
 
             if (BuildingTimer <= 0.0f)
             {
+                BuildingTimer = BuildingTime;
+                ++CurrentWave;
+                UIWaveText.text = "Wave " + CurrentWave;
                 SwitchState(EGameState.Wave);
             }
         }
@@ -89,6 +100,36 @@ public class Game : MonoBehaviour
         {
             SwitchState(EGameState.GameOver);
         }
+    }
+
+    private void ZombieKilledEvent()
+    {
+        foreach (var z in FindObjectsOfType<Zombie>())
+        {
+            if (z != null && z.Health > 0)
+            {
+                return;
+            }
+        }
+
+        if (mGameState == EGameState.Wave && CharacterInst.Health > 0)
+        {
+            SwitchState(EGameState.FinishedWave);
+            StartCoroutine(FinishedWaveTimer());
+        }
+    }
+
+    private IEnumerator FinishedWaveTimer()
+    {
+        float timer = 4.0f;
+
+        while (timer >= 0.0f)
+        {
+            timer -= Time.deltaTime;
+            yield return null;
+        }
+
+        SwitchState(EGameState.Building);
     }
 
     public void ShowMenu(bool show)

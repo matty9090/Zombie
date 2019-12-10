@@ -7,7 +7,7 @@ public class StateWave : IState
     private Game Game = null;
     private GameObject HoverTile = null;
     private List<Zombie> Enemies;
-    private int NumEnemies = 10;
+    private int NumEnemies = 1;
     private float AttackSpeed = 0.32f;
     private float AttackTimer = 0.0f;
     private float ZombieTimer = 6.4f;

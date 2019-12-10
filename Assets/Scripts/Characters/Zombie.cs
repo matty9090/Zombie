@@ -163,11 +163,13 @@ public class Zombie : MonoBehaviour
         StopCoroutine(EffectDamage());
         StartCoroutine(EffectDamage());
 
-        GameObject.Find("Game").GetComponent<Game>().AudioManager.PlayLayered("ZombieHurt");
+        var game = GameObject.Find("Game").GetComponent<Game>();
+        game.AudioManager.PlayLayered("ZombieHurt");
 
         if (Health <= 0)
         {
             Destroy(gameObject);
+            game.ZombieKilled.Invoke();
         }
     }
 
