@@ -23,6 +23,7 @@ public class Character : MonoBehaviour
     [SerializeField] public float FootstepTime = 0.28f;
 
     public int Health { get; private set; }
+    public bool Frozen { get; set; }
     public MoveTask Task { get; set; }
     public EnvironmentTile CurrentPosition { get; set; }
     public UnityEvent HealthChangedEvent;
@@ -64,7 +65,7 @@ public class Character : MonoBehaviour
             transform.rotation = Quaternion.LookRotation(destination - position, Vector3.up);
             float t = overrideT;
 
-            while (t < SingleNodeMoveTime)
+            while (t < SingleNodeMoveTime && !Frozen)
             {
                 t += Time.deltaTime;
                 mLastMove.t = t;
@@ -159,6 +160,9 @@ public class Character : MonoBehaviour
 
     public void Move(Vector3 v)
     {
+        if (Frozen)
+            return;
+
         transform.position += v;
         GetComponentInChildren<Animator>().SetFloat("Speed", 1.0f);
     }

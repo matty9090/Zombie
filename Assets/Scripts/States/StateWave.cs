@@ -27,6 +27,8 @@ public class StateWave : IState
         Game.StartCoroutine(SpawnEnemies());
         Game.StartCoroutine(SmoothCentreCamera());
 
+        Game.CharacterInst.Frozen = true;
+
         HoverTile.GetComponent<MeshRenderer>().enabled = false;
         Cursor.SetCursor(Game.CursorNormal, Vector2.zero, CursorMode.ForceSoftware);
 
@@ -111,6 +113,8 @@ public class StateWave : IState
         charLight.enabled = true;
 
         yield return TimerHelper(0.3f, (float t) => charLight.intensity = Mathf.SmoothStep(0.0f, maxIntensity, 1.0f - t));
+
+        Game.CharacterInst.Frozen = false;
     }
 
     private IEnumerator SpawnEnemies()
