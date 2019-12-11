@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2606859799507761263}
   - component: {fileID: 8579889755560084630}
   m_Layer: 0
-  m_Name: ground_dirtRiverBanks
+  m_Name: Water2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

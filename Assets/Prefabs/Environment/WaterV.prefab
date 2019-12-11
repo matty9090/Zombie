@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 718019156499594146}
   - component: {fileID: 6542151312927000411}
   - component: {fileID: 7094092448311845886}
+  - component: {fileID: 5986616163549468921}
   m_Layer: 0
   m_Name: WaterV
   m_TagString: Untagged
@@ -93,3 +94,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b81c1a74f97fbca4a81350fa9f3bdddb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!65 &5986616163549468921
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4825244134582039431}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 10, y: 7.5204287, z: 10}
+  m_Center: {x: 5, y: 3.7602143, z: 5}

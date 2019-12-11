@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8840073482726762732}
   - component: {fileID: 2995657455948305429}
   - component: {fileID: -1506256111480181184}
+  - component: {fileID: 7475029889515613388}
   m_Layer: 0
   m_Name: WaterLeft
   m_TagString: Untagged
@@ -93,3 +94,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b81c1a74f97fbca4a81350fa9f3bdddb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!65 &7475029889515613388
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3579904964440269001}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 10, y: 6.510229, z: 10}
+  m_Center: {x: 5, y: 3.2551146, z: 5}
