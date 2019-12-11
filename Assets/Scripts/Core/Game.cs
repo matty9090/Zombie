@@ -9,6 +9,7 @@ public class Game : MonoBehaviour
 {
     [SerializeField] private HealthBar HealthBar = null;
     [SerializeField] private Text UIWaveText = null;
+    [SerializeField] private Text UICountdownText = null;
     [SerializeField] private int BuildingTime = 90;
 
     public Canvas Menu = null;
@@ -81,17 +82,35 @@ public class Game : MonoBehaviour
         if (mGameState == EGameState.Building)
         {
             BuildingTimer -= Time.deltaTime;
+            UICountdownText.text = FormatTime(BuildingTimer);
+
+            if (BuildingTimer < 10.0f)
+                UICountdownText.GetComponent<Animator>().Play("FlashText");
 
             if (BuildingTimer <= 0.0f)
             {
                 BuildingTimer = BuildingTime;
                 ++CurrentWave;
                 UIWaveText.text = "Wave " + CurrentWave;
+                UICountdownText.GetComponent<Animator>().Play("Countdown");
                 SwitchState(EGameState.Wave);
             }
         }
 
         mStates[mGameState].Update();
+    }
+
+    private string FormatTime(float time)
+    {
+        int t = Mathf.CeilToInt(time);
+        int mins = t / 60;
+        t -= mins * 60;
+
+        string res = (mins < 10) ? "0" : "";
+        res += mins + ":";
+        res += (t < 10) ? "0" : "";
+
+        return res + t;
     }
 
     private void CharacterHealthChanged()
