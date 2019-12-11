@@ -5,6 +5,7 @@ using UnityEngine;
 public class FreeRoamCamera : MonoBehaviour, ICamera
 {
     [SerializeField] private float Speed = 50.0f;
+    [SerializeField] private Vector3 Offset = new Vector3(0.0f, 160.0f, -180.0f);
 
     public void SetCharacter(Character c)
     {
@@ -14,6 +15,12 @@ public class FreeRoamCamera : MonoBehaviour, ICamera
     public void SetEnabled(bool e)
     {
         enabled = e;
+
+        if (enabled)
+        {
+            Game g = GameObject.Find("Game").GetComponent<Game>();
+            transform.position = g.CharacterInst.transform.position + Offset;
+        }
     }
 
     void Update()

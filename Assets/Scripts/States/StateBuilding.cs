@@ -36,10 +36,11 @@ public class StateBuilding : IState
         charLight.enabled = false;
         charLight.intensity = 8.0f;
 
+        mControllerState = EControllerState.Idle;
         Game.CharacterInst.ResetHealth();
 
-        Game.MainCamera.GetComponent<FollowCamera>().enabled = false;
-        Game.MainCamera.GetComponent<FreeRoamCamera>().enabled = true;
+        Game.MainCamera.GetComponent<FollowCamera>().SetEnabled(false);
+        Game.MainCamera.GetComponent<FreeRoamCamera>().SetEnabled(true);
     }
 
     public void OnExit()
@@ -49,7 +50,7 @@ public class StateBuilding : IState
 
         HoverTile.GetComponent<MeshRenderer>().material = Game.HoverMaterialG;
 
-        GameObject.Find("BuildUI")?.GetComponent<Animator>().SetTrigger("Hide");
+        GameObject.Find("BuildUI").GetComponent<Animator>().SetTrigger("Hide");
     }
 
     public void Update()
@@ -66,6 +67,12 @@ public class StateBuilding : IState
 
             EnvironmentTile tile = objTransform.GetComponent<EnvironmentTile>();
             Harvestable harvestable = objTransform.GetComponent<Harvestable>();
+
+            if (tile == null)
+            {
+                tile = objTransform.GetComponentInParent<EnvironmentTile>();
+                harvestable = objTransform.GetComponentInParent<Harvestable>();
+            }
 
             if (tile != null)
             {
