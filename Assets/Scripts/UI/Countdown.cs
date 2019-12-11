@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Countdown : MonoBehaviour
 {
-    [SerializeField] private Game Game;
+    [SerializeField] private Game Game = null;
 
     void PlayTick()
     {

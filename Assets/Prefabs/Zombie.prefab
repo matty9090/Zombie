@@ -48,7 +48,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DistanceThreshold: 12
   ZombieMoveSpeed: 10
-  DamageAmount: 4
+  DamageAmount: 10
   DamageTime: 0.8
   HarvestTime: 1.4
   MaxHealth: 100

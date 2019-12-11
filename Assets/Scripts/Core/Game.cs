@@ -29,7 +29,7 @@ public class Game : MonoBehaviour
     public Color DayColour;
     public Color NightColour;
 
-    public Character CharacterInst { get; private set;  }
+    public Character CharacterInst { get; private set; }
     public Resources Resources { get; set; }
     public Environment Map { get; private set; }
     public AudioManager AudioManager { get; private set; }
@@ -60,11 +60,11 @@ public class Game : MonoBehaviour
 
         mStates = new Dictionary<EGameState, IState>
         {
-            [EGameState.Menu]         = new StateMenu(),
-            [EGameState.Building]     = new StateBuilding(),
-            [EGameState.Wave]         = new StateWave(),
+            [EGameState.Menu] = new StateMenu(),
+            [EGameState.Building] = new StateBuilding(),
+            [EGameState.Wave] = new StateWave(),
             [EGameState.FinishedWave] = new StateFinishedWave(),
-            [EGameState.GameOver]     = new StateGameOver()
+            [EGameState.GameOver] = new StateGameOver()
         };
 
         mStates[mGameState].OnEnter();
@@ -91,8 +91,12 @@ public class Game : MonoBehaviour
             {
                 BuildingTimer = BuildingTime;
                 ++CurrentWave;
+                
                 UIWaveText.text = "Wave " + CurrentWave;
                 UICountdownText.GetComponent<Animator>().Play("Countdown");
+
+                GameObject.Find("StartWave").GetComponent<Button>().enabled = false;
+
                 SwitchState(EGameState.Wave);
             }
         }
@@ -117,6 +121,7 @@ public class Game : MonoBehaviour
     {
         if (CharacterInst.Health <= 0 && mGameState == EGameState.Wave)
         {
+            GameOver.transform.Find("Result").GetComponent<Text>().text = "You made it to wave " + CurrentWave;
             SwitchState(EGameState.GameOver);
         }
     }
@@ -148,7 +153,15 @@ public class Game : MonoBehaviour
             yield return null;
         }
 
+        GameObject.Find("StartWave").GetComponent<Button>().enabled = true;
+
         SwitchState(EGameState.Building);
+    }
+
+    public void StartWave()
+    {
+        GameObject.Find("StartWave").GetComponent<Button>().enabled = false;
+        SwitchState(EGameState.Wave);
     }
 
     public void ShowMenu(bool show)
