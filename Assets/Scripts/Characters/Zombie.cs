@@ -141,9 +141,9 @@ public class Zombie : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision collision)
     {
-        var destroyable = other.GetComponent<IDestroyable>();
+        var destroyable = collision.transform.GetComponentInParent<IDestroyable>();
 
         if (destroyable != null)
         {

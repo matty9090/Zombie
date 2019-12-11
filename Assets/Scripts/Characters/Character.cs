@@ -50,6 +50,12 @@ public class Character : MonoBehaviour
         Task = null;
     }
 
+    public void ResetHealth()
+    {
+        Health = MaxHealth;
+        HealthChangedEvent.Invoke();
+    }
+
     private IEnumerator DoMove(Vector3 position, Vector3 destination, bool accessible, float overrideT = 0.0f)
     {
         // Move between the two specified positions over the specified amount of time

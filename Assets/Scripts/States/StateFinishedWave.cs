@@ -15,6 +15,13 @@ public class StateFinishedWave : IState
 
     public void OnExit()
     {
+        mGame.Map.CleanUpWorld();
+        mGame.Map.GenerateWorld();
+
+        mGame.CharacterInst.transform.position = mGame.Map.Start.Position;
+        mGame.CharacterInst.transform.rotation = Quaternion.identity;
+        mGame.CharacterInst.CurrentPosition = mGame.Map.Start;
+
         mGame.FinishedWave.GetComponent<Animator>().Play("FadeOut");
     }
 

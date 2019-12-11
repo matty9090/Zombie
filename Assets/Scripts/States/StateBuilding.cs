@@ -28,7 +28,16 @@ public class StateBuilding : IState
 
     public void OnEnter()
     {
-        GameObject.Find("BuildUI")?.GetComponent<Animator>().SetTrigger("Show");
+        GameObject.Find("BuildUI").GetComponent<Animator>().SetTrigger("Show");
+        GameObject.Find("Directional Light").GetComponent<Light>().color = Game.DayColour;
+        RenderSettings.ambientLight = Game.DayColour / 1.2f;
+
+        var charLight = Game.CharacterInst.GetComponentInChildren<Light>();
+        charLight.enabled = false;
+        charLight.intensity = 8.0f;
+
+        Game.CharacterInst.ResetHealth();
+
         Game.MainCamera.GetComponent<FollowCamera>().enabled = false;
         Game.MainCamera.GetComponent<FreeRoamCamera>().enabled = true;
     }

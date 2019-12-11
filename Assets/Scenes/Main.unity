@@ -20,7 +20,7 @@ RenderSettings:
   m_FogDensity: 0.01
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0.6901961, g: 0.6862745, b: 0.44705883, a: 1}
+  m_AmbientSkyColor: {r: 0.5849056, g: 0.5849056, b: 0.38901743, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
@@ -1153,6 +1153,7 @@ GameObject:
   - component: {fileID: 599615563}
   - component: {fileID: 599615562}
   - component: {fileID: 599615561}
+  - component: {fileID: 599615565}
   m_Layer: 5
   m_Name: FinishedWave
   m_TagString: Untagged
@@ -1260,6 +1261,19 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!114 &599615565
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 599615559}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b38701fb552b3d4fb889e741211cab4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Game: {fileID: 896303071}
 --- !u!1 &600142107
 GameObject:
   m_ObjectHideFlags: 0
@@ -1737,7 +1751,7 @@ MonoBehaviour:
   CursorNormal: {fileID: 2800000, guid: 9833d2c34c61b0b4c956250cb98f4a34, type: 3}
   CursorBuild: {fileID: 2800000, guid: 461723160fc88fc408f5b0642b4314f6, type: 3}
   CursorFight: {fileID: 2800000, guid: b2e271e57bc857b45833ac6f82fe875d, type: 3}
-  DayColour: {r: 1, g: 0.95686275, b: 0.8392157, a: 0}
+  DayColour: {r: 0.9622642, g: 0.9123354, b: 0.7761659, a: 0}
   NightColour: {r: 0, g: 0, b: 0, a: 0}
 --- !u!4 &896303072
 Transform:

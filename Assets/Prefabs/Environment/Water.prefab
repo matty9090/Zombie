@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 378965532757091680}
   - component: {fileID: 6232650173870348697}
   - component: {fileID: 3497857427692381023}
+  - component: {fileID: 7526111023615057537}
   m_Layer: 0
   m_Name: Water
   m_TagString: Untagged
@@ -92,3 +93,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b81c1a74f97fbca4a81350fa9f3bdddb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!65 &7526111023615057537
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5639074369553804613}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 10, y: 5.7549553, z: 10}
+  m_Center: {x: 5, y: 2.8774776, z: 5}
