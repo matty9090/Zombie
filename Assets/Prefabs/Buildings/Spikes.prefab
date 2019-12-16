@@ -9,11 +9,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8445720731342486628}
-  - component: {fileID: 607490065271948882}
-  - component: {fileID: 6580521659878800043}
-  - component: {fileID: 1999379982866354462}
   - component: {fileID: -5233419166199299148}
   - component: {fileID: 1565211630006398252}
+  - component: {fileID: 8497566287969301675}
+  - component: {fileID: 6734639678844164179}
   m_Layer: 2
   m_Name: Spikes
   m_TagString: Untagged
@@ -35,7 +34,35 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &607490065271948882
+--- !u!114 &-5233419166199299148
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4858930557033434743}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 186d59329a245d84189ea30f7337fee3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DamageTime: 0.6
+  DamageTimer: 0
+  DamageAmount: 30
+--- !u!65 &1565211630006398252
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4858930557033434743}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 4.410525, y: 4.7044005, z: 6.117682}
+  m_Center: {x: 0.0023465157, y: 0.061027057, z: 3.053075}
+--- !u!33 &8497566287969301675
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -43,7 +70,7 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4858930557033434743}
   m_Mesh: {fileID: -1291710161511281072, guid: ad782a304937f51478d8eb28832c2219, type: 3}
---- !u!23 &6580521659878800043
+--- !u!23 &6734639678844164179
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -81,50 +108,3 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!95 &1999379982866354462
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4858930557033434743}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: ad782a304937f51478d8eb28832c2219, type: 3}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &-5233419166199299148
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4858930557033434743}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 186d59329a245d84189ea30f7337fee3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  DamageTime: 0.6
-  DamageTimer: 0
-  DamageAmount: 30
---- !u!65 &1565211630006398252
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4858930557033434743}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 4.410525, y: 4.7044005, z: 6.117682}
-  m_Center: {x: 0.0023465157, y: 0.061027057, z: 3.053075}
