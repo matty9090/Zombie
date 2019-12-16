@@ -7,7 +7,7 @@ AvatarMask:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: AttackMask
-  m_Mask: 00000000010000000100000000000000000000000100000001000000010000000100000000000000000000000100000001000000
+  m_Mask: 00000000010000000100000000000000000000000100000001000000000000000000000000000000000000000000000000000000
   m_Elements:
   - m_Path: 
     m_Weight: 1
@@ -36,7 +36,7 @@ AvatarMask:
   - m_Path: Armature/Rig1/Spine1/Spine2
     m_Weight: 0
   - m_Path: Armature/Rig1/Spine1/Spine2/ArmL1
-    m_Weight: 1
+    m_Weight: 0
   - m_Path: Armature/Rig1/Spine1/Spine2/ArmL1/ArmL2
     m_Weight: 0
   - m_Path: Armature/Rig1/Spine1/Spine2/ArmL1/ArmL2/FingerL1

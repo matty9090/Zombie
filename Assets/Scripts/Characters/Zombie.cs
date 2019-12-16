@@ -62,7 +62,7 @@ public class Zombie : MonoBehaviour
         var renderers = GetComponentsInChildren<SkinnedMeshRenderer>();
         float red = 0.0f;
 
-        while(red < 1.0f)
+        while (red < 1.0f)
         {
             foreach (var renderer in renderers)
             {
@@ -100,7 +100,6 @@ public class Zombie : MonoBehaviour
     void Update()
     {
         GetComponentInChildren<Animator>().SetFloat("Speed", State == EState.Moving ? 1.0f : 0.0f);
-        GetComponentInChildren<Animator>().SetBool("IsHarvesting", State == EState.Harvesting || State == EState.Attacking);
 
         if (State == EState.Attacking)
         {
@@ -137,6 +136,8 @@ public class Zombie : MonoBehaviour
 
                 HarvestTarget = null;
                 GoTo(AttackTarget);
+
+                GetComponentInChildren<Animator>().SetBool("IsHarvesting", false);
             }
         }
     }
@@ -153,6 +154,8 @@ public class Zombie : MonoBehaviour
             HarvestTarget = destroyable;
             HarvestTimeRemaining = HarvestTime;
             State = EState.Harvesting;
+
+            GetComponentInChildren<Animator>().SetBool("IsHarvesting", true);
         }
     }
 

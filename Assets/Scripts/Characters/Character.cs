@@ -78,6 +78,8 @@ public class Character : MonoBehaviour
 
     private IEnumerator DoGoTo(List<EnvironmentTile> route, bool finishLastMove)
     {
+        GetComponentInChildren<Animator>().SetBool("IsHarvesting", false);
+
         if (finishLastMove)
         {
             yield return DoMove(mLastMove.start, mLastMove.destination.Position, true, mLastMove.t);
@@ -112,6 +114,8 @@ public class Character : MonoBehaviour
                         Vector3 target = HarvestTarget.GetComponent<EnvironmentTile>().Position;
                         transform.LookAt(new Vector3(target.x, position.y, target.z));
 
+                        GetComponentInChildren<Animator>().SetBool("IsHarvesting", true);
+
                         break;
                 }
 
@@ -135,8 +139,6 @@ public class Character : MonoBehaviour
 
     private void Update()
     {
-        GetComponentInChildren<Animator>().SetBool("IsHarvesting", State == EState.Harvesting || State == EState.Attacking);
-
         switch (State)
         {
             case EState.Harvesting:
@@ -191,6 +193,7 @@ public class Character : MonoBehaviour
 
             environment.Harvest(HarvestTarget);
 
+            GetComponentInChildren<Animator>().SetBool("IsHarvesting", false);
             State = EState.Idle;
         }
     }
