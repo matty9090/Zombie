@@ -89,15 +89,7 @@ public class Game : MonoBehaviour
 
             if (BuildingTimer <= 0.0f)
             {
-                BuildingTimer = BuildingTime;
-                ++CurrentWave;
-                
-                UIWaveText.text = "Wave " + CurrentWave;
-                UICountdownText.GetComponent<Animator>().Play("Countdown");
-
-                GameObject.Find("StartWave").GetComponent<Button>().enabled = false;
-
-                SwitchState(EGameState.Wave);
+                StartWave();
             }
         }
 
@@ -160,6 +152,12 @@ public class Game : MonoBehaviour
 
     public void StartWave()
     {
+		BuildingTimer = BuildingTime;
+        ++CurrentWave;
+        
+        UIWaveText.text = "Wave " + CurrentWave;
+        UICountdownText.GetComponent<Animator>().Play("Countdown");
+
         GameObject.Find("StartWave").GetComponent<Button>().enabled = false;
         SwitchState(EGameState.Wave);
     }
