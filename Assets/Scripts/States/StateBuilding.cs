@@ -204,6 +204,9 @@ public class StateBuilding : IState
     {
         if (Resources.Wood >= element.Wood && Resources.Stone >= element.Stone)
         {
+			if (mSelectedBuilding != null)
+				Game.Destroy(mSelectedBuilding);	
+  
             mControllerState = EControllerState.PlacingBuilding;
             mSelectedBuilding = Game.Instantiate(element.Object);
             mSelectedBuildingUI = element;
