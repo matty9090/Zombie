@@ -108,11 +108,16 @@ public class StateWave : IState
         Game.AudioManager.Play("Torch");
         GameObject.Find("WaveUI").GetComponent<Animator>().Play("Fade");
 
-        var charLight = Game.CharacterInst.GetComponentInChildren<Light>();
-        var maxIntensity = charLight.intensity;
-        charLight.enabled = true;
+        var charLights = Game.CharacterInst.GetComponentsInChildren<Light>();
+        var maxIntensity = charLights[0].intensity;
 
-        yield return TimerHelper(0.3f, (float t) => charLight.intensity = Mathf.SmoothStep(0.0f, maxIntensity, 1.0f - t));
+        yield return TimerHelper(0.3f, (float t) => {
+            foreach (var l in charLights)
+            {
+                l.enabled = true;
+                l.intensity = Mathf.SmoothStep(0.0f, maxIntensity, 1.0f - t);
+            }
+        });
 
         Game.CharacterInst.Frozen = false;
     }
