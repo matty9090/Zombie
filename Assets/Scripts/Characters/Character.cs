@@ -17,10 +17,12 @@ public class Character : MonoBehaviour
     [SerializeField] private int DamageAmount = 40;
     [SerializeField] private float SingleNodeMoveTime = 0.5f;
     [SerializeField] private PlayerAttack AttackCollision = null;
-    [SerializeField] public int MaxHealth = 100;
-    [SerializeField] public float HarvestTime = 1.8f;
-    [SerializeField] public float HarvestSoundTime = 0.5f;
-    [SerializeField] public float FootstepTime = 0.28f;
+    [SerializeField] public  int MaxHealth = 100;
+    [SerializeField] private float HarvestTime = 1.8f;
+    [SerializeField] private float HarvestSoundTime = 0.5f;
+    [SerializeField] private float FootstepTime = 0.28f;
+    [SerializeField] private Transform HitPoint = null;
+    [SerializeField] private GameObject AttackEffect = null;
 
     public int Health { get; private set; }
     public bool Frozen { get; set; }
@@ -218,15 +220,25 @@ public class Character : MonoBehaviour
 
     public void Attack()
     {
+        bool didHit = false;
+
         foreach (var obj in AttackCollision.Colliders)
         {
             if(obj && obj.transform.GetComponent<Zombie>())
             {
+                didHit = true;
                 obj.transform.GetComponent<Zombie>().Damage(DamageAmount);
             }
         }
 
         GameObject.Find("Game").GetComponent<Game>().AudioManager.Play("Punch");
+
+        if (didHit)
+        {
+            var effect = Instantiate(AttackEffect);
+            effect.transform.position = HitPoint.position;
+            Destroy(effect, effect.GetComponent<ParticleSystem>().main.duration);
+        }
     }
 
     public void Damage(int Amount)
