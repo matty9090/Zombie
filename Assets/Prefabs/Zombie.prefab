@@ -177,32 +177,32 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: eafe135c9c8dc5b45bc413cdc179f046, type: 2}
+      objectReference: {fileID: 2100000, guid: 31f3cb487e4558941afbe2a35c789454, type: 2}
     - target: {fileID: -139352455604996665, guid: f3833abcc6634724da24ecd028074675,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: eafe135c9c8dc5b45bc413cdc179f046, type: 2}
+      objectReference: {fileID: 2100000, guid: 31f3cb487e4558941afbe2a35c789454, type: 2}
     - target: {fileID: -7658727718963361987, guid: f3833abcc6634724da24ecd028074675,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: eafe135c9c8dc5b45bc413cdc179f046, type: 2}
+      objectReference: {fileID: 2100000, guid: 31f3cb487e4558941afbe2a35c789454, type: 2}
     - target: {fileID: -7743942891889749601, guid: f3833abcc6634724da24ecd028074675,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: eafe135c9c8dc5b45bc413cdc179f046, type: 2}
+      objectReference: {fileID: 2100000, guid: 31f3cb487e4558941afbe2a35c789454, type: 2}
     - target: {fileID: 1384069400911154763, guid: f3833abcc6634724da24ecd028074675,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: eafe135c9c8dc5b45bc413cdc179f046, type: 2}
+      objectReference: {fileID: 2100000, guid: 31f3cb487e4558941afbe2a35c789454, type: 2}
     - target: {fileID: 2809394909721335791, guid: f3833abcc6634724da24ecd028074675,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: eafe135c9c8dc5b45bc413cdc179f046, type: 2}
+      objectReference: {fileID: 2100000, guid: 31f3cb487e4558941afbe2a35c789454, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f3833abcc6634724da24ecd028074675, type: 3}
 --- !u!4 &9196731072557477294 stripped
