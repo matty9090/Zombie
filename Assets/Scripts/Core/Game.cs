@@ -26,14 +26,16 @@ public class Game : MonoBehaviour
     public Texture2D CursorNormal = null;
     public Texture2D CursorBuild = null;
     public Texture2D CursorFight = null;
-    public Color DayColour;
     public Color NightColour;
+    public Gradient DayNightGradient;
 
     public Character CharacterInst { get; private set; }
     public Resources Resources { get; set; }
     public Environment Map { get; private set; }
     public AudioManager AudioManager { get; private set; }
     public UnityEvent ZombieKilled { get; private set; }
+    public float BuildingTimeProgress { get { return BuildingTimer / BuildingTime; } }
+    public Color DayColour { get { return DayNightGradient.Evaluate(0.5f); } }
 
     private enum EGameState { Menu, Building, Wave, FinishedWave, GameOver };
     private EGameState mGameState = EGameState.Menu;
@@ -75,6 +77,7 @@ public class Game : MonoBehaviour
         mStates[mGameState].OnExit();
         mGameState = state;
         mStates[mGameState].OnEnter();
+        Debug.Log("Switched to state " + state.ToString());
     }
 
     void Update()
@@ -152,7 +155,7 @@ public class Game : MonoBehaviour
 
     public void StartWave()
     {
-		BuildingTimer = BuildingTime;
+        BuildingTimer = BuildingTime;
         ++CurrentWave;
         
         UIWaveText.text = "Wave " + CurrentWave;

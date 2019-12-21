@@ -17,6 +17,7 @@ public class StateBuilding : IState
     private UIBuilding mSelectedBuildingUI = null;
 
     private readonly int NumberOfRaycastHits = 1;
+    private Coroutine DayNightCoroutine = null;
 
     public StateBuilding()
     {
@@ -41,6 +42,8 @@ public class StateBuilding : IState
 
         Game.MainCamera.GetComponent<FollowCamera>().SetEnabled(false);
         Game.MainCamera.GetComponent<FreeRoamCamera>().SetEnabled(true);
+
+        DayNightCoroutine = Game.StartCoroutine(DayNightCycle());
     }
 
     public void OnExit()
@@ -49,8 +52,9 @@ public class StateBuilding : IState
             Game.Destroy(mSelectedBuilding);
 
         HoverTile.GetComponent<MeshRenderer>().material = Game.HoverMaterialG;
-
         GameObject.Find("BuildUI").GetComponent<Animator>().SetTrigger("Hide");
+
+        Game.StopCoroutine(DayNightCoroutine);
     }
 
     public void Update()
@@ -214,6 +218,19 @@ public class StateBuilding : IState
         else
         {
             Game.AudioManager.PlayError();
+        }
+    }
+
+    private IEnumerator DayNightCycle()
+    {
+        var dirLight = GameObject.Find("Directional Light").GetComponent<Light>();
+
+        while (Game.BuildingTimeProgress > 0.0f)
+        {
+            Color col = Game.DayNightGradient.Evaluate(Game.BuildingTimeProgress);
+            RenderSettings.ambientLight = col;
+            dirLight.color = col;
+            yield return null;
         }
     }
 }

@@ -2092,8 +2092,36 @@ MonoBehaviour:
   CursorNormal: {fileID: 2800000, guid: 9833d2c34c61b0b4c956250cb98f4a34, type: 3}
   CursorBuild: {fileID: 2800000, guid: 461723160fc88fc408f5b0642b4314f6, type: 3}
   CursorFight: {fileID: 2800000, guid: b2e271e57bc857b45833ac6f82fe875d, type: 3}
-  DayColour: {r: 0.9622642, g: 0.9123354, b: 0.7761659, a: 0}
   NightColour: {r: 0, g: 0, b: 0, a: 0}
+  DayNightGradient:
+    serializedVersion: 2
+    key0: {r: 0.90588236, g: 0.2901961, b: 0.22745098, a: 1}
+    key1: {r: 0.9607843, g: 0.9137255, b: 0.7764706, a: 1}
+    key2: {r: 0.90588236, g: 0.2901961, b: 0.22745098, a: 1}
+    key3: {r: 0, g: 0, b: 0, a: 1}
+    key4: {r: 0, g: 0, b: 0, a: 0}
+    key5: {r: 0, g: 0, b: 0, a: 0}
+    key6: {r: 0, g: 0, b: 0, a: 0}
+    key7: {r: 0, g: 0, b: 0, a: 0}
+    ctime0: 0
+    ctime1: 32189
+    ctime2: 65535
+    ctime3: 0
+    ctime4: 0
+    ctime5: 0
+    ctime6: 0
+    ctime7: 0
+    atime0: 0
+    atime1: 65535
+    atime2: 65535
+    atime3: 65535
+    atime4: 0
+    atime5: 0
+    atime6: 0
+    atime7: 0
+    m_Mode: 0
+    m_NumColorKeys: 3
+    m_NumAlphaKeys: 2
 --- !u!4 &896303072
 Transform:
   m_ObjectHideFlags: 0
