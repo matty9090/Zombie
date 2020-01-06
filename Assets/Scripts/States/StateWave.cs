@@ -120,6 +120,7 @@ public class StateWave : IState
         });
 
         Game.CharacterInst.Frozen = false;
+        Game.MatchStarted.Invoke();
     }
 
     private IEnumerator SpawnEnemies()

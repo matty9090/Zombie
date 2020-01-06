@@ -199,7 +199,9 @@ public class StateBuilding : IState
                 Resources.Stone -= mSelectedBuildingUI.Stone;
                 mSelectedBuilding.transform.parent = tile.transform;
                 Game.AudioManager.Play("PlaceObject");
+
                 tile.IsAccessible = false;
+                mSelectedBuilding.GetComponent<Building>().Place();
 
                 if (Input.GetKey(KeyCode.LeftShift) &&
                     Resources.Wood >= mSelectedBuildingUI.Wood &&
@@ -207,6 +209,7 @@ public class StateBuilding : IState
                 {
                     mControllerState = EControllerState.PlacingBuilding;
                     mSelectedBuilding = Game.Instantiate(mSelectedBuilding);
+                    mSelectedBuilding.transform.position = HoverTile.transform.position;
                 }
                 else
                 {

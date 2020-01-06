@@ -33,9 +33,12 @@ public class Game : MonoBehaviour
     public Resources Resources { get; set; }
     public Environment Map { get; private set; }
     public AudioManager AudioManager { get; private set; }
-    public UnityEvent ZombieKilled { get; private set; }
     public float BuildingTimeProgress { get { return BuildingTimer / BuildingTime; } }
     public Color DayColour { get { return DayNightGradient.Evaluate(0.5f); } }
+    
+    public UnityEvent ZombieKilled { get; private set; }
+    public UnityEvent MatchStarted { get; private set; }
+    public UnityEvent MatchEnded { get; private set; }
 
     private enum EGameState { Menu, Building, Wave, FinishedWave, GameOver };
     private EGameState mGameState = EGameState.Menu;
@@ -57,6 +60,9 @@ public class Game : MonoBehaviour
         ZombieKilled = new UnityEvent();
         ZombieKilled.AddListener(ZombieKilledEvent);
         CharacterInst.HealthChangedEvent.AddListener(CharacterHealthChanged);
+
+        MatchStarted = new UnityEvent();
+        MatchEnded = new UnityEvent();
 
         Cursor.SetCursor(CursorNormal, Vector2.zero, CursorMode.ForceSoftware);
 
@@ -133,6 +139,7 @@ public class Game : MonoBehaviour
 
         if (mGameState == EGameState.Wave && CharacterInst.Health > 0)
         {
+            MatchEnded.Invoke();
             SwitchState(EGameState.FinishedWave);
             StartCoroutine(FinishedWaveTimer());
         }
