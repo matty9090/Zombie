@@ -198,10 +198,21 @@ public class StateBuilding : IState
                 Resources.Wood -= mSelectedBuildingUI.Wood;
                 Resources.Stone -= mSelectedBuildingUI.Stone;
                 mSelectedBuilding.transform.parent = tile.transform;
-                mSelectedBuilding = null;
-                tile.IsAccessible = false;
-                mControllerState = EControllerState.Idle;
                 Game.AudioManager.Play("PlaceObject");
+                tile.IsAccessible = false;
+
+                if (Input.GetKey(KeyCode.LeftShift) &&
+                    Resources.Wood >= mSelectedBuildingUI.Wood &&
+                    Resources.Stone >= mSelectedBuildingUI.Stone)
+                {
+                    mControllerState = EControllerState.PlacingBuilding;
+                    mSelectedBuilding = Game.Instantiate(mSelectedBuilding);
+                }
+                else
+                {
+                    mControllerState = EControllerState.Idle;
+                    mSelectedBuilding = null;
+                }
             }
         }
     }
