@@ -93,22 +93,34 @@ public class StateBuilding : IState
                     {
                         List<EnvironmentTile> bestRoute = null;
                         float minDist = float.MaxValue;
+                        int manhattan = Game.Map.ManhattanDistance(Game.CharacterInst.CurrentPosition, tile);
                         
-                        // Harvestable tiles do not have a direct path to them so find the path to the closest walkable tile
-                        foreach (EnvironmentTile t in tile.Connections)
+                        if (manhattan > 10)
                         {
-                            float dist = (int)Vector3.Distance(t.Position, Game.CharacterInst.CurrentPosition.Position);
-                            var startPos = Game.CharacterInst.NextTile != null ? Game.CharacterInst.NextTile : Game.CharacterInst.CurrentPosition;
-                            var route = Game.Map.Solve(startPos, t);
-
-                            if (route != null && dist < minDist)
+                            // Harvestable tiles do not have a direct path to them so find the path to the closest walkable tile
+                            foreach (EnvironmentTile t in tile.Connections)
                             {
-                                bestRoute = route;
-                                minDist = dist;
+                                float dist = (int)Vector3.Distance(t.Position, Game.CharacterInst.CurrentPosition.Position);
+                                var startPos = Game.CharacterInst.NextTile != null ? Game.CharacterInst.NextTile : Game.CharacterInst.CurrentPosition;
+                                var route = Game.Map.Solve(startPos, t);
+
+                                if (route != null && dist < minDist)
+                                {
+                                    bestRoute = route;
+                                    minDist = dist;
+                                }
                             }
                         }
+                        else
+                        {
+                            MoveTask task = new MoveTask();
+                            task.Type = EMoveTask.Harvest;
+                            task.HarvestTarget = harvestable;
 
-                        // Found path
+                            Game.CharacterInst.Task = task;
+                            Game.CharacterInst.ExecuteHarvestTask(Game.CharacterInst.CurrentPosition.Position);
+                        }
+
                         if (bestRoute != null && bestRoute.Count > 0)
                         {
                             MoveTask task = new MoveTask();

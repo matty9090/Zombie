@@ -108,17 +108,7 @@ public class Character : MonoBehaviour
             {
                 switch (Task.Type)
                 {
-                    case EMoveTask.Harvest:
-                        State = EState.Harvesting;
-                        HarvestTarget = Task.HarvestTarget;
-                        HarvestTimeRemaining = HarvestTime;
-
-                        Vector3 target = HarvestTarget.GetComponent<EnvironmentTile>().Position;
-                        transform.LookAt(new Vector3(target.x, position.y, target.z));
-
-                        GetComponentInChildren<Animator>().SetBool("IsHarvesting", true);
-
-                        break;
+                    case EMoveTask.Harvest: ExecuteHarvestTask(position); break;
                 }
 
                 Task = null;
@@ -128,6 +118,18 @@ public class Character : MonoBehaviour
                 State = EState.Idle;
             }
         }
+    }
+
+    public void ExecuteHarvestTask(Vector3 position)
+    {
+        State = EState.Harvesting;
+        HarvestTarget = Task.HarvestTarget;
+        HarvestTimeRemaining = HarvestTime;
+
+        Vector3 target = HarvestTarget.GetComponent<EnvironmentTile>().Position;
+        transform.LookAt(new Vector3(target.x, position.y, target.z));
+
+        GetComponentInChildren<Animator>().SetBool("IsHarvesting", true);
     }
 
     public void GoTo(List<EnvironmentTile> route)

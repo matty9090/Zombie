@@ -285,7 +285,7 @@ public class Environment : MonoBehaviour
         if (begin != null && destination != null)
         {
             // Nothing to solve if there is a direct connection between these two locations
-            EnvironmentTile directConnection = begin.Connections.Find(c => c == destination);
+            EnvironmentTile directConnection = begin.Connections.Find(c => c == destination && c.IsAccessible);
             
             if (directConnection == null)
             {
@@ -428,5 +428,10 @@ public class Environment : MonoBehaviour
 
         // Destroy the harvestable component
         Destroy(tile);
+    }
+
+    public int ManhattanDistance(EnvironmentTile t1, EnvironmentTile t2)
+    {
+        return (int)(Mathf.Abs(t1.Position.x - t2.Position.x) + Mathf.Abs(Mathf.Abs(t1.Position.z - t2.Position.z)));
     }
 }
