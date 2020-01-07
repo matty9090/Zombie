@@ -6,6 +6,8 @@ using UnityEngine.Events;
 
 public class UIBuilding : MonoBehaviour
 {
+    [SerializeField] private UIBuildingTooltip Tooltip = null;
+
     public string Name;
     public int Wood = 0;
     public int Stone = 0;
@@ -28,6 +30,9 @@ public class UIBuilding : MonoBehaviour
         {
             btn.onClick.AddListener(delegate { mGame.UIBuildingClicked(this); });
         }
+
+        Tooltip.Wood = Wood;
+        Tooltip.Stone = Stone;
     }
 
     private void Update()
@@ -37,5 +42,8 @@ public class UIBuilding : MonoBehaviour
             mGame.UIBuildingClicked(this);
             GetComponent<Animator>().SetTrigger("Selected");
         }
+
+        Tooltip.WoodAvailable = mGame.Resources.Wood >= Wood;
+        Tooltip.StoneAvailable = mGame.Resources.Stone >= Stone;
     }
 }
