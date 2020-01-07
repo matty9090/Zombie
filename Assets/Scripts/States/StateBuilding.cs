@@ -33,12 +33,6 @@ public class StateBuilding : IState
         GameObject.Find("Directional Light").GetComponent<Light>().color = Game.DayColour;
         RenderSettings.ambientLight = Game.DayColour / 1.2f;
 
-        var charLights = Game.CharacterInst.GetComponentsInChildren<Light>();
-        charLights[0].enabled = false;
-        charLights[0].intensity = 8.0f;
-        charLights[1].enabled = false;
-        charLights[1].intensity = 0.34f;
-
         mControllerState = EControllerState.Idle;
         Game.CharacterInst.ResetHealth();
 

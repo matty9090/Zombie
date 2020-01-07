@@ -11,6 +11,11 @@ public class FollowOutsideBoxCamera : MonoBehaviour, ICamera
 
     private Character mCharacter = null;
 
+    public bool IsEnabled()
+    {
+        return enabled;
+    }
+
     public void SetCharacter(Character c)
     {
         mCharacter = c;

@@ -6,6 +6,7 @@ public class StateMenu : IState
 {
     private Game Game = null;
     private float FadeOutMusicTime = 1.6f;
+    private ICamera CachedCamera = null;
 
     public StateMenu()
     {
@@ -36,19 +37,32 @@ public class StateMenu : IState
 
             if (show)
             {
+                foreach (ICamera cam in Game.MainCamera.GetComponents<ICamera>())
+                {
+                    if (cam.IsEnabled())
+                    {
+                        CachedCamera = cam;
+                        break;
+                    }
+                }
+
                 Game.AudioManager.Play("MenuMusic");
-                Game.MainCamera.GetComponent<ICamera>().SetEnabled(false);
+                CachedCamera.SetEnabled(false);
                 Game.CharacterInst.transform.position = Game.CharacterStart.position;
                 Game.CharacterInst.transform.rotation = Game.CharacterStart.rotation;
-                Game.Map.CleanUpWorld();
+                Game.MainCamera.transform.position = Game.InitialCamPosition;
+                Game.MainCamera.transform.rotation = Game.InitialCamRotation;
+                Game.Restart();
+                Game.HoverTile.SetActive(false);
             }
             else
             {
                 Game.AudioManager.FadeOutSound("MenuMusic", FadeOutMusicTime);
-                Game.MainCamera.GetComponent<ICamera>().SetEnabled(true);
+                CachedCamera.SetEnabled(true);
                 Game.CharacterInst.transform.position = Game.Map.Start.Position;
                 Game.CharacterInst.transform.rotation = Quaternion.identity;
                 Game.CharacterInst.CurrentPosition = Game.Map.Start;
+                Game.HoverTile.SetActive(true);
             }
         }
     }

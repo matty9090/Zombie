@@ -43,6 +43,7 @@ public class StateWave : IState
 
     public void OnExit()
     {
+        Game.StopAllCoroutines();
         GameObject.Find("WaveUI").GetComponent<Animator>().Play("FadeOut");
 
         foreach (var tile in Object.FindObjectsOfType<EnvironmentTile>())
@@ -52,6 +53,15 @@ public class StateWave : IState
             if (collider != null)
                 collider.isTrigger = true;
         }
+
+        foreach (var enemy in Enemies)
+            Object.Destroy(enemy.gameObject);
+
+        var charLights = Game.CharacterInst.GetComponentsInChildren<Light>();
+        charLights[0].enabled = false;
+        charLights[0].intensity = 8.0f;
+        charLights[1].enabled = false;
+        charLights[1].intensity = 0.34f;
     }
 
     private IEnumerator TimerHelper(float timer, System.Action<float> func = null)

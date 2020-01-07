@@ -35,6 +35,8 @@ public class Game : MonoBehaviour
     public AudioManager AudioManager { get; private set; }
     public float BuildingTimeProgress { get { return BuildingTimer / BuildingTime; } }
     public Color DayColour { get { return DayNightGradient.Evaluate(0.5f); } }
+    public Vector3 InitialCamPosition;
+    public Quaternion InitialCamRotation;
     
     public UnityEvent ZombieKilled { get; private set; }
     public UnityEvent MatchStarted { get; private set; }
@@ -56,6 +58,8 @@ public class Game : MonoBehaviour
         HealthBar.ProvideCharacter(CharacterInst);
         MainCamera.GetComponent<ICamera>().SetCharacter(CharacterInst);
         AudioManager = GetComponent<AudioManager>();
+        InitialCamPosition = MainCamera.transform.position;
+        InitialCamRotation = MainCamera.transform.rotation;
 
         ZombieKilled = new UnityEvent();
         ZombieKilled.AddListener(ZombieKilledEvent);
@@ -191,6 +195,20 @@ public class Game : MonoBehaviour
     public void Generate()
     {
         Map.GenerateWorld();
+    }
+
+    public void Restart()
+    {
+        Map.CleanUpWorld();
+        BuildingTimer = (float)BuildingTime;
+
+        Resources.Wood = 0;
+        Resources.Stone = 0;
+        CurrentWave = 0;
+
+        RenderSettings.ambientLight = DayColour;
+        GameObject.Find("Directional Light").GetComponent<Light>().color = DayColour;
+        GameObject.Find("StartWave").GetComponent<Button>().enabled = true;
     }
 
     public void Exit()

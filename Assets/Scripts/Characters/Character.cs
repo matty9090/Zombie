@@ -122,14 +122,20 @@ public class Character : MonoBehaviour
 
     public void ExecuteHarvestTask(Vector3 position)
     {
-        State = EState.Harvesting;
         HarvestTarget = Task.HarvestTarget;
-        HarvestTimeRemaining = HarvestTime;
 
-        Vector3 target = HarvestTarget.GetComponent<EnvironmentTile>().Position;
-        transform.LookAt(new Vector3(target.x, position.y, target.z));
+        if (HarvestTarget != null && !HarvestTarget.Equals(null))
+        {
+            State = EState.Harvesting;
+            HarvestTimeRemaining = HarvestTime;
 
-        GetComponentInChildren<Animator>().SetBool("IsHarvesting", true);
+            Vector3 target = HarvestTarget.GetComponent<EnvironmentTile>().Position;
+            transform.LookAt(new Vector3(target.x, position.y, target.z));
+
+            GetComponentInChildren<Animator>().SetBool("IsHarvesting", true);
+        }
+        else
+            HarvestTarget = null;
     }
 
     public void GoTo(List<EnvironmentTile> route)
@@ -196,6 +202,7 @@ public class Character : MonoBehaviour
                 res.Stone += HarvestTarget.Amount;
 
             environment.Harvest(HarvestTarget);
+            HarvestTarget = null;
 
             GetComponentInChildren<Animator>().SetBool("IsHarvesting", false);
             State = EState.Idle;

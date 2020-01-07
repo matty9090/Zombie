@@ -6,4 +6,5 @@ interface ICamera
 {
     void SetCharacter(Character c);
     void SetEnabled(bool enabled);
+    bool IsEnabled();
 }

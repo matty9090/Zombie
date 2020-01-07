@@ -7,6 +7,11 @@ public class FreeRoamCamera : MonoBehaviour, ICamera
     [SerializeField] private float Speed = 50.0f;
     [SerializeField] private Vector3 Offset = new Vector3(0.0f, 160.0f, -180.0f);
 
+    public bool IsEnabled()
+    {
+        return enabled;
+    }
+
     public void SetCharacter(Character c)
     {
 
@@ -25,6 +30,9 @@ public class FreeRoamCamera : MonoBehaviour, ICamera
 
     void Update()
     {
+        if (!enabled)
+            return;
+
         if (Input.GetKey(KeyCode.W)) transform.position += new Vector3(0.0f, 0.0f, Speed * Time.deltaTime);
         if (Input.GetKey(KeyCode.S)) transform.position -= new Vector3(0.0f, 0.0f, Speed * Time.deltaTime);
         if (Input.GetKey(KeyCode.A)) transform.position -= new Vector3(Speed * Time.deltaTime, 0.0f, 0.0f);

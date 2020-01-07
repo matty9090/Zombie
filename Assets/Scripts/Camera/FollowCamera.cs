@@ -24,4 +24,9 @@ public class FollowCamera : MonoBehaviour, ICamera
             transform.position = mCharacter.transform.position + Offset;
         }
     }
+
+    public bool IsEnabled()
+    {
+        return enabled;
+    }
 }
