@@ -155,8 +155,13 @@ public class Zombie : MonoBehaviour
                 yield return null;
             }
 
-            if (HarvestTarget != null)
+            if (HarvestTarget != null && !HarvestTarget.Equals(null))
                 destroyed = HarvestTarget.DamageObject();
+            else
+            {
+                destroyed = true;
+                HarvestTarget = null;
+            }
         }
 
         HarvestTarget = null;
