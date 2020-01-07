@@ -33,6 +33,7 @@ public class UIBuilding : MonoBehaviour
 
         Tooltip.Wood = Wood;
         Tooltip.Stone = Stone;
+        Tooltip.BuildingName = Name;
     }
 
     private void Update()

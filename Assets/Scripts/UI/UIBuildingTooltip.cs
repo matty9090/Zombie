@@ -7,6 +7,7 @@ public class UIBuildingTooltip : MonoBehaviour
 {
     [SerializeField] private Text WoodTxt = null;
     [SerializeField] private Text StoneTxt = null;
+    [SerializeField] private Text BuildingTxt = null;
 
     [SerializeField] private Color Available = Color.green;
     [SerializeField] private Color Unavailable = Color.red;
@@ -25,5 +26,9 @@ public class UIBuildingTooltip : MonoBehaviour
 
     public bool StoneAvailable {
         set { StoneTxt.color = value ? Available : Unavailable; }
+    }
+
+    public string BuildingName {
+        set { BuildingTxt.text = value; }
     }
 }
