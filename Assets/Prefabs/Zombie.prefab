@@ -50,7 +50,7 @@ MonoBehaviour:
   ZombieMoveSpeed: 10
   DamageAmount: 10
   DamageTime: 0.8
-  HarvestTime: 1.4
+  HarvestTime: 0.5
   MaxHealth: 100
 --- !u!65 &1780832535452075850
 BoxCollider:

@@ -8,7 +8,7 @@ public class Zombie : MonoBehaviour
     [SerializeField] private float ZombieMoveSpeed = 10.0f;
     [SerializeField] private int DamageAmount = 1;
     [SerializeField] private float DamageTime = 0.8f;
-    [SerializeField] private float HarvestTime = 1.4f;
+    [SerializeField] private float HarvestTime = 0.4f;
     [SerializeField] private RangeInt SoundTime = new RangeInt(3, 18);
     [SerializeField] public int MaxHealth = 100;
 
@@ -20,7 +20,6 @@ public class Zombie : MonoBehaviour
 
     public int Health { get; private set; }
     private float DamageTimeRemaining;
-    private float HarvestTimeRemaining;
 
     private Coroutine GoToCoRoutine;
 
@@ -123,23 +122,6 @@ public class Zombie : MonoBehaviour
                 }
             }
         }
-        else if (State == EState.Harvesting)
-        {
-            HarvestTimeRemaining -= Time.deltaTime;
-
-            if (HarvestTimeRemaining < 0)
-            {
-                if (HarvestTarget != null && !HarvestTarget.Equals(null))
-                {
-                    HarvestTarget.DestroyObject();
-                }
-
-                HarvestTarget = null;
-                GoTo(AttackTarget);
-
-                GetComponentInChildren<Animator>().SetBool("IsHarvesting", false);
-            }
-        }
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -152,11 +134,34 @@ public class Zombie : MonoBehaviour
                 StopCoroutine(GoToCoRoutine);
 
             HarvestTarget = destroyable;
-            HarvestTimeRemaining = HarvestTime;
             State = EState.Harvesting;
 
             GetComponentInChildren<Animator>().SetBool("IsHarvesting", true);
+            StartCoroutine(DamageObstacle(HarvestTime));
         }
+    }
+
+    private IEnumerator DamageObstacle(float harvestTime)
+    {
+        bool destroyed = false;
+
+        while (!destroyed)
+        {
+            float t = harvestTime;
+
+            while (t > 0.0f)
+            {
+                t -= Time.deltaTime;
+                yield return null;
+            }
+
+            if (HarvestTarget != null)
+                destroyed = HarvestTarget.DamageObject();
+        }
+
+        HarvestTarget = null;
+        GoTo(AttackTarget);
+        GetComponentInChildren<Animator>().SetBool("IsHarvesting", false);
     }
 
     public void Damage(int amount)

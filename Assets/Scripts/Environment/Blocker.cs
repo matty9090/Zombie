@@ -4,12 +4,23 @@ using UnityEngine;
 
 public class Blocker : MonoBehaviour, IDestroyable
 {
-    public void DestroyObject()
+    [SerializeField] private int DamageAmount = 20;
+
+    public bool DamageObject()
     {
-        if (gameObject)
+        var building = GetComponent<Building>();
+
+        if (building != null)
         {
-            transform.parent.GetComponent<EnvironmentTile>().IsAccessible = true;
-            Destroy(gameObject);
+            building.Health -= DamageAmount;
+
+            if (building.Health <= 0)
+            {
+                transform.parent.GetComponent<EnvironmentTile>().IsAccessible = true;
+                return true;
+            }
         }
+
+        return false;
     }
 }
