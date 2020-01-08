@@ -8,6 +8,7 @@ using UnityEngine.SceneManagement;
 public class Game : MonoBehaviour
 {
     [SerializeField] private HealthBar HealthBar = null;
+    [SerializeField] private XPBar XPBar = null;
     [SerializeField] private Text UIWaveText = null;
     [SerializeField] private Text UICountdownText = null;
     [SerializeField] private int BuildingTime = 90;
@@ -37,15 +38,34 @@ public class Game : MonoBehaviour
     public Color DayColour { get { return DayNightGradient.Evaluate(0.5f); } }
     public Vector3 InitialCamPosition;
     public Quaternion InitialCamRotation;
-    
+    public int NumBuildingsUnlocked = 2;
+
     public UnityEvent ZombieKilled { get; private set; }
     public UnityEvent MatchStarted { get; private set; }
     public UnityEvent MatchEnded { get; private set; }
+    public UnityEvent XPChanged { get; private set; }
 
     private enum EGameState { Menu, Building, Wave, FinishedWave, GameOver };
     private EGameState mGameState = EGameState.Menu;
     private int CurrentWave = 0;
     private float BuildingTimer = 0.0f;
+    private bool IsPaused = false;
+
+    private int mXP;
+    public int XPLevel = 0;
+    public int CurrentXPCap = 100;
+
+    public int XP {
+        get { return mXP; }
+        set {
+            mXP = value;
+
+            if (mXP > CurrentXPCap)
+                LevelUp();
+
+            XPChanged.Invoke();
+        }
+    }
 
     private Dictionary<EGameState, IState> mStates;
 
@@ -55,7 +75,6 @@ public class Game : MonoBehaviour
         Map = GetComponentInChildren<Environment>();
         CharacterInst = Instantiate(Character, transform);
         BuildingTimer = (float)BuildingTime;
-        HealthBar.ProvideCharacter(CharacterInst);
         MainCamera.GetComponent<ICamera>().SetCharacter(CharacterInst);
         AudioManager = GetComponent<AudioManager>();
         InitialCamPosition = MainCamera.transform.position;
@@ -67,6 +86,10 @@ public class Game : MonoBehaviour
 
         MatchStarted = new UnityEvent();
         MatchEnded = new UnityEvent();
+        XPChanged = new UnityEvent();
+
+        HealthBar.ProvideCharacter(CharacterInst);
+        XPBar.ProvideGame(this);
 
         Cursor.SetCursor(CursorNormal, Vector2.zero, CursorMode.ForceSoftware);
 
@@ -120,6 +143,16 @@ public class Game : MonoBehaviour
         res += (t < 10) ? "0" : "";
 
         return res + t;
+    }
+
+    private void LevelUp()
+    {
+        mXP = 0;
+        ++XPLevel;
+        ++NumBuildingsUnlocked;
+
+        Hud.GetComponent<HUD>().UnlockBuilding();
+        AudioManager.Play("Unlock");
     }
 
     private void CharacterHealthChanged()
@@ -186,6 +219,12 @@ public class Game : MonoBehaviour
         SceneManager.LoadScene("Main");
     }
 
+    public void PauseGame()
+    {
+        IsPaused = !IsPaused;
+        Time.timeScale = IsPaused ? 0.0f : 1.0f;
+    }
+
     public void UIBuildingClicked(UIBuilding element)
     {
         var BuildingState = mStates[EGameState.Building];
@@ -205,6 +244,7 @@ public class Game : MonoBehaviour
         Resources.Wood = 0;
         Resources.Stone = 0;
         CurrentWave = 0;
+        XP = 0;
 
         RenderSettings.ambientLight = DayColour;
         GameObject.Find("Directional Light").GetComponent<Light>().color = DayColour;

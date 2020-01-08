@@ -205,6 +205,7 @@ public class StateBuilding : IState
                 Resources.Stone -= mSelectedBuildingUI.Stone;
                 mSelectedBuilding.transform.parent = tile.transform;
                 Game.AudioManager.Play("PlaceObject");
+                Game.XP += 8;
 
                 tile.IsAccessible = false;
                 mSelectedBuilding.GetComponent<Building>().Place();

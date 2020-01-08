@@ -55,7 +55,10 @@ public class StateWave : IState
         }
 
         foreach (var enemy in Enemies)
-            Object.Destroy(enemy.gameObject);
+        {
+            if (enemy != null)
+                Object.Destroy(enemy.gameObject);
+        }
 
         var charLights = Game.CharacterInst.GetComponentsInChildren<Light>();
         charLights[0].enabled = false;
