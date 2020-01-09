@@ -2692,6 +2692,11 @@ MonoBehaviour:
     Source: {fileID: 0}
     Volume: 1
     Pitch: 1
+  - Name: Rubble
+    Clip: {fileID: 8300000, guid: 2282b87452ee5964a9b3e8f3ddf737e4, type: 3}
+    Source: {fileID: 0}
+    Volume: 1
+    Pitch: 1
 --- !u!1 &960069889
 GameObject:
   m_ObjectHideFlags: 0

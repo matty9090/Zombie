@@ -35,6 +35,7 @@ public class Building : MonoBehaviour
         {
             game.GetComponent<Game>().MatchStarted.RemoveListener(OnMatchStarted);
             game.GetComponent<Game>().MatchEnded.RemoveListener(OnMatchEnded);
+            game.GetComponent<Game>().AudioManager.Play("Rubble");
         }
     }
 

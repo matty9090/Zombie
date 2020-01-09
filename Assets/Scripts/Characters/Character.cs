@@ -37,6 +37,7 @@ public class Character : MonoBehaviour
     private float HarvestTimeRemaining;
     private float HarvestSoundTimeRemaining = 0.0f;
     private float FootstepTimeRemaining = 0.0f;
+    private Animator mAnimator;
 
     struct LastMove
     {
@@ -51,6 +52,7 @@ public class Character : MonoBehaviour
     {
         Health = MaxHealth;
         Task = null;
+        mAnimator = GetComponentInChildren<Animator>();
     }
 
     public void ResetHealth()
@@ -80,7 +82,7 @@ public class Character : MonoBehaviour
 
     private IEnumerator DoGoTo(List<EnvironmentTile> route, bool finishLastMove)
     {
-        GetComponentInChildren<Animator>().SetBool("IsHarvesting", false);
+        mAnimator.SetBool("IsHarvesting", false);
 
         if (finishLastMove)
         {
@@ -132,7 +134,7 @@ public class Character : MonoBehaviour
             Vector3 target = HarvestTarget.GetComponent<EnvironmentTile>().Position;
             transform.LookAt(new Vector3(target.x, position.y, target.z));
 
-            GetComponentInChildren<Animator>().SetBool("IsHarvesting", true);
+            mAnimator.SetBool("IsHarvesting", true);
         }
         else
             HarvestTarget = null;
@@ -163,11 +165,22 @@ public class Character : MonoBehaviour
                 StateMoving();
                 break;
         }
+
+        if (mAnimator.GetFloat("Speed") > 0.5f)
+        {
+            FootstepTimeRemaining -= Time.deltaTime;
+
+            if (FootstepTimeRemaining < 0.0f)
+            {
+                FootstepTimeRemaining = FootstepTime;
+                GameObject.Find("Game").GetComponent<Game>().AudioManager.Play("Walk");
+            }
+        }
     }
 
     private void LateUpdate()
     {
-        GetComponentInChildren<Animator>().SetFloat("Speed", 0.0f);
+        mAnimator.SetFloat("Speed", 0.0f);
     }
 
     public void Move(Vector3 v)
@@ -176,7 +189,7 @@ public class Character : MonoBehaviour
             return;
 
         transform.position += v;
-        GetComponentInChildren<Animator>().SetFloat("Speed", 1.0f);
+        mAnimator.SetFloat("Speed", 1.0f);
     }
 
     private void StateHarvesting()
@@ -193,7 +206,8 @@ public class Character : MonoBehaviour
 
         if (HarvestTimeRemaining <= 0.0f)
         {
-            var res = GameObject.Find("Game").GetComponent<Game>().Resources;
+            var game = GameObject.Find("Game").GetComponent<Game>();
+            var res = game.GetComponent<Game>().Resources;
             var environment = GameObject.Find("Environment").GetComponent<Environment>();
 
             if (HarvestTarget.Type == EResource.Wood)
@@ -204,7 +218,9 @@ public class Character : MonoBehaviour
             environment.Harvest(HarvestTarget);
             HarvestTarget = null;
 
-            GetComponentInChildren<Animator>().SetBool("IsHarvesting", false);
+            game.AudioManager.Play("Rubble");
+
+            mAnimator.SetBool("IsHarvesting", false);
             State = EState.Idle;
         }
     }
@@ -216,15 +232,7 @@ public class Character : MonoBehaviour
 
     private void StateMoving()
     {
-        GetComponentInChildren<Animator>().SetFloat("Speed", 1.0f);
-
-        FootstepTimeRemaining -= Time.deltaTime;
-
-        if (FootstepTimeRemaining < 0.0f)
-        {
-            FootstepTimeRemaining = FootstepTime;
-            GameObject.Find("Game").GetComponent<Game>().AudioManager.Play("Walk");
-        }
+        mAnimator.SetFloat("Speed", 1.0f);
     }
 
     public void Attack()

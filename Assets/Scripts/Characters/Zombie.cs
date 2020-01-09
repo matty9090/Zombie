@@ -156,7 +156,12 @@ public class Zombie : MonoBehaviour
             }
 
             if (HarvestTarget != null && !HarvestTarget.Equals(null))
+            {
                 destroyed = HarvestTarget.DamageObject();
+                
+                if (destroyed)
+                    GameObject.Find("Game").GetComponent<Game>().AudioManager.Play("Rubble");
+            }
             else
             {
                 destroyed = true;
