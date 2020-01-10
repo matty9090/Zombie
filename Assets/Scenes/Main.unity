@@ -519,7 +519,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 180, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 400}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &222308838
@@ -2319,7 +2319,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 423, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 400}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &796286095
@@ -2787,7 +2787,7 @@ MonoBehaviour:
   UIWaveText: {fileID: 1701020817}
   UICountdownText: {fileID: 645703232}
   BuildingTime: 120
-  LevelUps: 0100000000000000
+  LevelUps: 0200000000000000
   Menu: {fileID: 2099476870}
   Hud: {fileID: 1579498796}
   MainCamera: {fileID: 963194227}
@@ -2847,7 +2847,7 @@ MonoBehaviour:
   InitialCamRotation: {x: 0, y: 0, z: 0, w: 0}
   NumBuildingsUnlocked: 2
   NumToolsUnlocked: 1
-  NumWeaponsUnlocked: 2
+  NumWeaponsUnlocked: 1
   XPLevel: 0
   CurrentXPCap: 80
   CurrentHarvestTool: 0
@@ -3014,7 +3014,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 285, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &960069891
@@ -3577,7 +3577,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 133, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 212}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1358289156
@@ -4474,8 +4474,9 @@ MonoBehaviour:
   - {fileID: 2064681082}
   - {fileID: 1358289157}
   Game: {fileID: 896303071}
-  BuildingsLayout: {fileID: 1740940028}
   Popup: {fileID: 1918824089}
+  BuildingsLayout: {fileID: 1740940028}
+  WeaponsLayout: {fileID: 466851582}
 --- !u!1 &1587192470
 GameObject:
   m_ObjectHideFlags: 0
@@ -5599,7 +5600,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 133, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 212}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2064681081

@@ -7,8 +7,9 @@ public class HUD : MonoBehaviour
 {
     [SerializeField] private List<Text> ResourceTexts = null;
     [SerializeField] private Game Game = null;
-    [SerializeField] private Transform BuildingsLayout = null;
     [SerializeField] private UnlockPopup Popup = null;
+    [SerializeField] private Transform BuildingsLayout = null;
+    [SerializeField] private Transform WeaponsLayout = null;
 
     private Resources Resources;
 
@@ -22,9 +23,10 @@ public class HUD : MonoBehaviour
         Resources.ResourcesChangedEvent.AddListener(ResourcesChanged);
 
         for (int i = Game.NumBuildingsUnlocked; i < BuildingsLayout.childCount; ++i)
-        {
             BuildingsLayout.GetChild(i).gameObject.SetActive(false);
-        }
+
+        for (int i = Game.NumWeaponsUnlocked; i < WeaponsLayout.childCount; ++i)
+            WeaponsLayout.GetChild(i).gameObject.SetActive(false);
     }
 
     void ResourcesChanged()
@@ -52,19 +54,25 @@ public class HUD : MonoBehaviour
         }
     }
 
+    public void UnlockWeapon()
+    {
+        if (WeaponsLayout.childCount >= Game.NumWeaponsUnlocked)
+        {
+            var weaponLayout = WeaponsLayout.GetChild(Game.NumWeaponsUnlocked - 1);
+            weaponLayout.gameObject.SetActive(true);
+
+            var weapon = Game.AttackTools[Game.NumWeaponsUnlocked - 1].GetComponent<Weapon>();
+            Popup.Name = weapon.ToolName;
+            Popup.Desc = weapon.ToolDesc;
+            Popup.GetComponent<Animator>().SetTrigger("Open");
+        }
+    }
+
     public void UnlockHarvestTool()
     {
         var tool = Game.HarvestTools[Game.NumToolsUnlocked - 1].GetComponent<HarvestTool>();
         Popup.Name = tool.ToolName;
         Popup.Desc = tool.ToolDesc;
-        Popup.GetComponent<Animator>().SetTrigger("Open");
-    }
-
-    public void UnlockWeapon()
-    {
-        var weapon = Game.AttackTools[Game.NumWeaponsUnlocked - 1].GetComponent<Weapon>();
-        Popup.Name = weapon.ToolName;
-        Popup.Desc = weapon.ToolDesc;
         Popup.GetComponent<Animator>().SetTrigger("Open");
     }
 }
