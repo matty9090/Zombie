@@ -93,3 +93,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ToolName: Baseball Bat
   ToolDesc: Simple but effective.
+  AttackStrength: 40

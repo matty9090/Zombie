@@ -14,7 +14,6 @@ public class MoveTask
 
 public class Character : MonoBehaviour
 {
-    [SerializeField] private int DamageAmount = 40;
     [SerializeField] private float SingleNodeMoveTime = 0.5f;
     [SerializeField] private PlayerAttack AttackCollision = null;
     [SerializeField] public  int MaxHealth = 100;
@@ -33,6 +32,7 @@ public class Character : MonoBehaviour
     public EnvironmentTile NextTile = null;
     public enum EState { Idle, Moving, Harvesting, Attacking };
     public HarvestTool CurrentTool = null;
+    public Weapon CurrentWeapon = null;
 
     private EState State = EState.Idle;
     private Harvestable HarvestTarget = null;
@@ -256,7 +256,7 @@ public class Character : MonoBehaviour
             if(obj && obj.transform.GetComponent<Zombie>())
             {
                 didHit = true;
-                obj.transform.GetComponent<Zombie>().Damage(DamageAmount);
+                obj.transform.GetComponent<Zombie>().Damage(CurrentWeapon.AttackStrength);
             }
         }
 

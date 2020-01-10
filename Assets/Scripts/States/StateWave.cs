@@ -46,6 +46,7 @@ public class StateWave : IState
         Tool.transform.SetParent(Game.CharacterInst.ToolSocket.transform, false);
         Tool.transform.localPosition = Vector3.zero;
         Tool.transform.localScale = scale;
+        Game.CharacterInst.CurrentWeapon = Tool.GetComponent<Weapon>();
     }
 
     public void OnExit()
@@ -206,5 +207,6 @@ public class StateWave : IState
         Tool.transform.SetParent(Game.CharacterInst.ToolSocket.transform, false);
         Tool.transform.localPosition = Vector3.zero;
         Tool.transform.localScale = scale;
+        Game.CharacterInst.CurrentWeapon = Tool.GetComponent<Weapon>();
     }
 }

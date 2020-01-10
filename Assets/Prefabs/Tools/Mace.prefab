@@ -93,3 +93,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ToolName: Mace
   ToolDesc: Do more damage with this spikey thing.
+  AttackStrength: 70
