@@ -113,7 +113,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DamageTime: 0.6
   DamageTimer: 0
-  DamageAmount: 6
+  DamageAmount: 14
 --- !u!114 &4459502363954364214
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -151,5 +151,5 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.19498561, y: 2.0000007, z: 2.9983065}
-  m_Center: {x: 0, y: 0.9970257, z: 0.06285806}
+  m_Size: {x: 1.283838, y: 2.0000007, z: 2.998307}
+  m_Center: {x: 0.0017290513, y: 0.99702585, z: 0.062858105}
