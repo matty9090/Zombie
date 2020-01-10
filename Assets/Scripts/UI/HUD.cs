@@ -8,12 +8,15 @@ public class HUD : MonoBehaviour
     [SerializeField] private List<Text> ResourceTexts = null;
     [SerializeField] private Game Game = null;
     [SerializeField] private Transform BuildingsLayout = null;
+    [SerializeField] private UnlockPopup Popup = null;
 
     private Resources Resources;
 
     void Start()
     {
         Game.BuildingUnlocked.AddListener(UnlockBuilding);
+        Game.ToolUnlocked.AddListener(UnlockHarvestTool);
+        Game.WeaponUnlocked.AddListener(UnlockWeapon);
 
         Resources = Game.Resources;
         Resources.ResourcesChangedEvent.AddListener(ResourcesChanged);
@@ -34,13 +37,34 @@ public class HUD : MonoBehaviour
     {
         if (BuildingsLayout.childCount >= Game.NumBuildingsUnlocked)
         {
-            var building = BuildingsLayout.GetChild(Game.NumBuildingsUnlocked - 1);
-            building.gameObject.SetActive(true);
-            building.GetComponent<Animator>().SetTrigger("Unlocked");
+            var buildingLayout = BuildingsLayout.GetChild(Game.NumBuildingsUnlocked - 1);
+            buildingLayout.gameObject.SetActive(true);
+            buildingLayout.GetComponent<Animator>().SetTrigger("Unlocked");
 
-            var fireworks = building.Find("Fireworks").gameObject;
+            var fireworks = buildingLayout.Find("Fireworks").gameObject;
             fireworks.SetActive(true);
             Destroy(fireworks, 5.0f);
+
+            var building = Game.Buildings[Game.NumBuildingsUnlocked - 1].GetComponent<Building>();
+            Popup.Name = building.BuildingName;
+            Popup.Desc = building.BuildingDesc;
+            Popup.GetComponent<Animator>().SetTrigger("Open");
         }
+    }
+
+    public void UnlockHarvestTool()
+    {
+        var tool = Game.HarvestTools[Game.NumToolsUnlocked - 1].GetComponent<HarvestTool>();
+        Popup.Name = tool.ToolName;
+        Popup.Desc = tool.ToolDesc;
+        Popup.GetComponent<Animator>().SetTrigger("Open");
+    }
+
+    public void UnlockWeapon()
+    {
+        var weapon = Game.AttackTools[Game.NumWeaponsUnlocked - 1].GetComponent<Weapon>();
+        Popup.Name = weapon.ToolName;
+        Popup.Desc = weapon.ToolDesc;
+        Popup.GetComponent<Animator>().SetTrigger("Open");
     }
 }

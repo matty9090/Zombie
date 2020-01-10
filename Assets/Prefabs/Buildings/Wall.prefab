@@ -57,6 +57,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HealthBar: {fileID: 1595294597557923797, guid: 5ecbe5a1319ad9b4bbc64a0d3704d202,
     type: 3}
+  BuildingName: Wall
+  BuildingDesc: Weak wall capable of holding off zombies for a small time.
+  MaxHealth: 100
 --- !u!23 &2619427201830590037
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -120,3 +123,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e89445436ae303d48ba49a166b73c7fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  DamageAmount: 20

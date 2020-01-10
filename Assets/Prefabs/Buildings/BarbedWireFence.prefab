@@ -98,6 +98,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HealthBar: {fileID: 1595294597557923797, guid: 5ecbe5a1319ad9b4bbc64a0d3704d202,
     type: 3}
+  BuildingName: Barbed Wire Fence
+  BuildingDesc: Effective at damaging zombies whilst they try to break though.
   MaxHealth: 100
 --- !u!114 &15546507808425436
 MonoBehaviour:

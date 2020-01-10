@@ -137,8 +137,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95657519ac260044d973350454c840d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ToolName: Hammer
+  ToolDesc: Simple tool to harvest one object at a time.
   HarvestRadius: 1
-  HarvestSpeed: 1.8
+  HarvestTime: 1.8
 --- !u!1 &6281972117444195025
 GameObject:
   m_ObjectHideFlags: 0

@@ -7,6 +7,9 @@ public class Building : MonoBehaviour
 {
     [SerializeField] private GameObject HealthBar = null;
 
+    public string BuildingName;
+    public string BuildingDesc;
+
     public int MaxHealth = 100;
     private int mHealth = 100;
 

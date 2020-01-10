@@ -32,6 +32,7 @@ public class Game : MonoBehaviour
     public Gradient DayNightGradient;
     public List<GameObject> HarvestTools = null;
     public List<GameObject> AttackTools = null;
+    public List<GameObject> Buildings = null;
 
     public Character CharacterInst { get; private set; }
     public Resources Resources { get; set; }
@@ -175,17 +176,17 @@ public class Game : MonoBehaviour
                     break;
 
                 case ELevelUp.Tool:
-                    ++NumToolsUnlocked;
+                    NumToolsUnlocked = Mathf.Clamp(0, HarvestTools.Count, NumToolsUnlocked + 1);
                     ToolUnlocked.Invoke();
                     break;
 
                 case ELevelUp.Weapon:
-                    ++NumWeaponsUnlocked;
+                    NumWeaponsUnlocked = Mathf.Clamp(0, AttackTools.Count, NumWeaponsUnlocked + 1);
                     WeaponUnlocked.Invoke();
                     break;
             }
         }
-        
+
         ++XPLevel;
         AudioManager.Play("Unlock");
     }

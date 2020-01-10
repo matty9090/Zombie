@@ -8,7 +8,6 @@ public class UIBuilding : MonoBehaviour
 {
     [SerializeField] private UIBuildingTooltip Tooltip = null;
 
-    public string Name;
     public int Wood = 0;
     public int Stone = 0;
     public int Shortcut = 1;
@@ -20,7 +19,9 @@ public class UIBuilding : MonoBehaviour
 
     private void Start()
     {
-        GetComponentInChildren<Text>().text = Name;
+        var buildingName = Object.GetComponent<Building>().BuildingName;
+
+        GetComponentInChildren<Text>().text = buildingName;
         ShortcutText.text = "" + Shortcut;
 
         mGame = GameObject.Find("Game").GetComponent<Game>();
@@ -33,7 +34,7 @@ public class UIBuilding : MonoBehaviour
 
         Tooltip.Wood = Wood;
         Tooltip.Stone = Stone;
-        Tooltip.BuildingName = Name;
+        Tooltip.BuildingName = buildingName;
     }
 
     private void Update()

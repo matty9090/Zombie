@@ -91,5 +91,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95657519ac260044d973350454c840d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ToolName: Hoe
+  ToolDesc: Harvest objects in a radius of 2 tiles more quickly.
   HarvestRadius: 2
   HarvestTime: 1
