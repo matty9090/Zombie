@@ -65,7 +65,6 @@ public class Game : MonoBehaviour
     public int XPLevel = 0;
     public int CurrentXPCap = 100;
     public int CurrentHarvestTool = 0;
-    public int CurrentAttackTool = 0;
 
     public int XP {
         get { return mXP; }
@@ -263,8 +262,18 @@ public class Game : MonoBehaviour
 
     public void UIBuildingClicked(UIBuilding element)
     {
-        var BuildingState = mStates[EGameState.Building];
-        ((StateBuilding)BuildingState).UIBuildingClicked(element);
+        var buildingState = mStates[EGameState.Building];
+        
+        if (mGameState == EGameState.Building)
+            ((StateBuilding)buildingState).UIBuildingClicked(element);
+    }
+
+    public void UIWeaponClicked(UIWeapon element)
+    {
+        var waveState = mStates[EGameState.Wave];
+
+        if (mGameState == EGameState.Wave)
+            ((StateWave)waveState).UIWeaponClicked(element);
     }
 
     public void Generate()

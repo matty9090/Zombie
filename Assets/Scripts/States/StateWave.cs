@@ -41,7 +41,7 @@ public class StateWave : IState
                 collider.isTrigger = false;
         }
 
-        Tool = Object.Instantiate(Game.AttackTools[Game.CurrentAttackTool]);
+        Tool = Object.Instantiate(Game.AttackTools[Game.NumWeaponsUnlocked - 1]);
         var scale = Tool.transform.localScale;
         Tool.transform.SetParent(Game.CharacterInst.ToolSocket.transform, false);
         Tool.transform.localPosition = Vector3.zero;
@@ -195,5 +195,16 @@ public class StateWave : IState
         Vector3 cursorDir = HitTerrainInfo.point - Game.CharacterInst.transform.position;
         cursorDir.y = 0.0f;
         Game.CharacterInst.transform.rotation = Quaternion.LookRotation(cursorDir, Vector3.up);
+    }
+
+    public void UIWeaponClicked(UIWeapon element)
+    {
+        Object.Destroy(Tool);
+
+        Tool = Object.Instantiate(element.WeaponObject);
+        var scale = Tool.transform.localScale;
+        Tool.transform.SetParent(Game.CharacterInst.ToolSocket.transform, false);
+        Tool.transform.localPosition = Vector3.zero;
+        Tool.transform.localScale = scale;
     }
 }
