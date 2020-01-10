@@ -6,6 +6,7 @@ public class StateWave : IState
 {
     private Game Game = null;
     private GameObject HoverTile = null;
+    private GameObject Tool = null;
     private List<Zombie> Enemies;
     private int NumEnemies = 6;
     private float AttackSpeed = 0.32f;
@@ -39,6 +40,12 @@ public class StateWave : IState
             if (collider != null)
                 collider.isTrigger = false;
         }
+
+        Tool = Object.Instantiate(Game.AttackTools[Game.CurrentAttackTool]);
+        var scale = Tool.transform.localScale;
+        Tool.transform.SetParent(Game.CharacterInst.ToolSocket.transform, false);
+        Tool.transform.localPosition = Vector3.zero;
+        Tool.transform.localScale = scale;
     }
 
     public void OnExit()
@@ -65,6 +72,8 @@ public class StateWave : IState
         charLights[0].intensity = 8.0f;
         charLights[1].enabled = false;
         charLights[1].intensity = 0.34f;
+
+        Object.Destroy(Tool);
     }
 
     private IEnumerator TimerHelper(float timer, System.Action<float> func = null)

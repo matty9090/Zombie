@@ -2563,11 +2563,17 @@ MonoBehaviour:
     m_Mode: 0
     m_NumColorKeys: 3
     m_NumAlphaKeys: 2
+  HarvestTools:
+  - {fileID: 6050273711995649058, guid: ceca0e915216439469163474ec4c4de1, type: 3}
+  AttackTools:
+  - {fileID: 1742099086806806164, guid: 6b0de93fafc00724495bc09fc64731d0, type: 3}
   InitialCamPosition: {x: 0, y: 0, z: 0}
   InitialCamRotation: {x: 0, y: 0, z: 0, w: 0}
   NumBuildingsUnlocked: 2
   XPLevel: 0
   CurrentXPCap: 100
+  CurrentHarvestTool: 0
+  CurrentAttackTool: 0
 --- !u!4 &896303072
 Transform:
   m_ObjectHideFlags: 0

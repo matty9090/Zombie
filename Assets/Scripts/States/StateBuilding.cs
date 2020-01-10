@@ -11,6 +11,7 @@ public class StateBuilding : IState
     private Game Game = null;
     private Resources Resources = null;
     private GameObject HoverTile = null;
+    private GameObject Tool = null;
 
     private RaycastHit[] mRaycastHits;
     private GameObject mSelectedBuilding = null;
@@ -40,6 +41,12 @@ public class StateBuilding : IState
         Game.MainCamera.GetComponent<FreeRoamCamera>().SetEnabled(true);
 
         DayNightCoroutine = Game.StartCoroutine(DayNightCycle());
+
+        Tool = Object.Instantiate(Game.HarvestTools[Game.CurrentHarvestTool]);
+        var scale = Tool.transform.localScale;
+        Tool.transform.SetParent(Game.CharacterInst.ToolSocket.transform, false);
+        Tool.transform.localPosition = Vector3.zero;
+        Tool.transform.localScale = scale;
     }
 
     public void OnExit()
@@ -51,6 +58,7 @@ public class StateBuilding : IState
         GameObject.Find("BuildUI").GetComponent<Animator>().SetTrigger("Hide");
 
         Game.StopCoroutine(DayNightCoroutine);
+        Object.Destroy(Tool);
     }
 
     public void Update()

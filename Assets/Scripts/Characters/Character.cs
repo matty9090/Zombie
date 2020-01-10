@@ -23,6 +23,7 @@ public class Character : MonoBehaviour
     [SerializeField] private float FootstepTime = 0.28f;
     [SerializeField] private Transform HitPoint = null;
     [SerializeField] private GameObject AttackEffect = null;
+    [SerializeField] public GameObject ToolSocket = null;
 
     public int Health { get; private set; }
     public bool Frozen { get; set; }

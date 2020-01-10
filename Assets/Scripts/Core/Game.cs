@@ -29,6 +29,8 @@ public class Game : MonoBehaviour
     public Texture2D CursorFight = null;
     public Color NightColour;
     public Gradient DayNightGradient;
+    public List<GameObject> HarvestTools = null;
+    public List<GameObject> AttackTools = null;
 
     public Character CharacterInst { get; private set; }
     public Resources Resources { get; set; }
@@ -54,6 +56,8 @@ public class Game : MonoBehaviour
     private int mXP;
     public int XPLevel = 0;
     public int CurrentXPCap = 100;
+    public int CurrentHarvestTool = 0;
+    public int CurrentAttackTool = 0;
 
     public int XP {
         get { return mXP; }
