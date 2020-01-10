@@ -12,6 +12,7 @@ public class Game : MonoBehaviour
     [SerializeField] private Text UIWaveText = null;
     [SerializeField] private Text UICountdownText = null;
     [SerializeField] private int BuildingTime = 90;
+    [SerializeField] private List<ELevelUp> LevelUps = null;
 
     public Canvas Menu = null;
     public Canvas Hud = null;
@@ -41,13 +42,19 @@ public class Game : MonoBehaviour
     public Vector3 InitialCamPosition;
     public Quaternion InitialCamRotation;
     public int NumBuildingsUnlocked = 2;
+    public int NumToolsUnlocked = 1;
+    public int NumWeaponsUnlocked = 1;
 
     public UnityEvent ZombieKilled { get; private set; }
     public UnityEvent MatchStarted { get; private set; }
     public UnityEvent MatchEnded { get; private set; }
     public UnityEvent XPChanged { get; private set; }
+    public UnityEvent BuildingUnlocked { get; private set; }
+    public UnityEvent WeaponUnlocked { get; private set; }
+    public UnityEvent ToolUnlocked { get; private set; }
 
     private enum EGameState { Menu, Building, Wave, FinishedWave, GameOver };
+    private enum ELevelUp { Building, Tool, Weapon };
     private EGameState mGameState = EGameState.Menu;
     private int CurrentWave = 0;
     private float BuildingTimer = 0.0f;
@@ -91,6 +98,9 @@ public class Game : MonoBehaviour
         MatchStarted = new UnityEvent();
         MatchEnded = new UnityEvent();
         XPChanged = new UnityEvent();
+        BuildingUnlocked = new UnityEvent();
+        WeaponUnlocked = new UnityEvent();
+        ToolUnlocked = new UnityEvent();
 
         HealthBar.ProvideCharacter(CharacterInst);
         XPBar.ProvideGame(this);
@@ -152,10 +162,31 @@ public class Game : MonoBehaviour
     private void LevelUp()
     {
         mXP = 0;
-        ++XPLevel;
-        ++NumBuildingsUnlocked;
 
-        Hud.GetComponent<HUD>().UnlockBuilding();
+        if (LevelUps.Count > XPLevel)
+        {
+            var type = LevelUps[XPLevel];
+
+            switch (type)
+            {
+                case ELevelUp.Building:
+                    ++NumBuildingsUnlocked;
+                    BuildingUnlocked.Invoke();
+                    break;
+
+                case ELevelUp.Tool:
+                    ++NumToolsUnlocked;
+                    ToolUnlocked.Invoke();
+                    break;
+
+                case ELevelUp.Weapon:
+                    ++NumWeaponsUnlocked;
+                    WeaponUnlocked.Invoke();
+                    break;
+            }
+        }
+        
+        ++XPLevel;
         AudioManager.Play("Unlock");
     }
 

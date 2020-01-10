@@ -26,6 +26,8 @@ public class StateBuilding : IState
         Game = GameObject.Find("Game").GetComponent<Game>();
         Resources = Game.Resources;
         HoverTile = Game.HoverTile;
+
+        Game.ToolUnlocked.AddListener(UnlockTool);
     }
 
     public void OnEnter()
@@ -42,11 +44,7 @@ public class StateBuilding : IState
 
         DayNightCoroutine = Game.StartCoroutine(DayNightCycle());
 
-        Tool = Object.Instantiate(Game.HarvestTools[Game.CurrentHarvestTool]);
-        var scale = Tool.transform.localScale;
-        Tool.transform.SetParent(Game.CharacterInst.ToolSocket.transform, false);
-        Tool.transform.localPosition = Vector3.zero;
-        Tool.transform.localScale = scale;
+        InitTool();
     }
 
     public void OnExit()
@@ -263,5 +261,24 @@ public class StateBuilding : IState
             dirLight.color = col;
             yield return null;
         }
+    }
+
+    private void InitTool()
+    {
+        Tool = Object.Instantiate(Game.HarvestTools[Game.CurrentHarvestTool]);
+        var scale = Tool.transform.localScale;
+        Tool.transform.SetParent(Game.CharacterInst.ToolSocket.transform, false);
+        Tool.transform.localPosition = Vector3.zero;
+        Tool.transform.localScale = scale;
+        Game.CharacterInst.CurrentTool = Tool.GetComponent<HarvestTool>();
+    }
+
+    private void UnlockTool()
+    {
+        Game.CurrentHarvestTool = Game.NumToolsUnlocked - 1;
+        Object.Destroy(Tool);
+        InitTool();
+
+        Game.CharacterInst.DisplayUnlockToolParticleEffect();
     }
 }

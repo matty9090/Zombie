@@ -13,6 +13,8 @@ public class HUD : MonoBehaviour
 
     void Start()
     {
+        Game.BuildingUnlocked.AddListener(UnlockBuilding);
+
         Resources = Game.Resources;
         Resources.ResourcesChangedEvent.AddListener(ResourcesChanged);
 
@@ -35,7 +37,10 @@ public class HUD : MonoBehaviour
             var building = BuildingsLayout.GetChild(Game.NumBuildingsUnlocked - 1);
             building.gameObject.SetActive(true);
             building.GetComponent<Animator>().SetTrigger("Unlocked");
-            building.Find("Fireworks").gameObject.SetActive(true);
+
+            var fireworks = building.Find("Fireworks").gameObject;
+            fireworks.SetActive(true);
+            Destroy(fireworks, 5.0f);
         }
     }
 }

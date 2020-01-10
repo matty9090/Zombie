@@ -430,6 +430,35 @@ public class Environment : MonoBehaviour
         Destroy(tile);
     }
 
+    public List<Harvestable> GetHarvestableTilesInRadius(EnvironmentTile tile, int radius)
+    {
+        var tiles = new List<Harvestable>();
+        var toExplore = new List<EnvironmentTile>();
+
+        tiles.Add(tile.GetComponent<Harvestable>());
+        toExplore.Add(tile);
+
+        for (int i = 1; i < radius; ++i)
+        {
+            var temp = new List<EnvironmentTile>(toExplore);
+
+            foreach (EnvironmentTile envTile in temp)
+            {
+                toExplore.Remove(envTile);
+
+                foreach (EnvironmentTile con in envTile.Connections)
+                {
+                    var h = con.GetComponent<Harvestable>();
+
+                    if (!toExplore.Contains(con)) toExplore.Add(con);
+                    if (h != null && !tiles.Contains(h)) tiles.Add(h);
+                }
+            }
+        }
+
+        return tiles;
+    }
+
     public int ManhattanDistance(EnvironmentTile t1, EnvironmentTile t2)
     {
         return (int)(Mathf.Abs(t1.Position.x - t2.Position.x) + Mathf.Abs(Mathf.Abs(t1.Position.z - t2.Position.z)));

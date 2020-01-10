@@ -18,12 +18,12 @@ public class Character : MonoBehaviour
     [SerializeField] private float SingleNodeMoveTime = 0.5f;
     [SerializeField] private PlayerAttack AttackCollision = null;
     [SerializeField] public  int MaxHealth = 100;
-    [SerializeField] private float HarvestTime = 1.8f;
     [SerializeField] private float HarvestSoundTime = 0.5f;
     [SerializeField] private float FootstepTime = 0.28f;
     [SerializeField] private Transform HitPoint = null;
     [SerializeField] private GameObject AttackEffect = null;
     [SerializeField] public GameObject ToolSocket = null;
+    [SerializeField] private GameObject UnlockParticleEffect = null;
 
     public int Health { get; private set; }
     public bool Frozen { get; set; }
@@ -32,6 +32,7 @@ public class Character : MonoBehaviour
     public UnityEvent HealthChangedEvent;
     public EnvironmentTile NextTile = null;
     public enum EState { Idle, Moving, Harvesting, Attacking };
+    public HarvestTool CurrentTool = null;
 
     private EState State = EState.Idle;
     private Harvestable HarvestTarget = null;
@@ -130,7 +131,7 @@ public class Character : MonoBehaviour
         if (HarvestTarget != null && !HarvestTarget.Equals(null))
         {
             State = EState.Harvesting;
-            HarvestTimeRemaining = HarvestTime;
+            HarvestTimeRemaining = CurrentTool.HarvestTime;
 
             Vector3 target = HarvestTarget.GetComponent<EnvironmentTile>().Position;
             transform.LookAt(new Vector3(target.x, position.y, target.z));
@@ -210,11 +211,21 @@ public class Character : MonoBehaviour
             var game = GameObject.Find("Game").GetComponent<Game>();
             var res = game.GetComponent<Game>().Resources;
             var environment = GameObject.Find("Environment").GetComponent<Environment>();
+            var tiles = environment.GetHarvestableTilesInRadius(HarvestTarget.GetComponent<EnvironmentTile>(), CurrentTool.HarvestRadius);
+            int totalWood = 0, totalStone = 0;
 
-            if (HarvestTarget.Type == EResource.Wood)
-                res.Wood += HarvestTarget.Amount;
-            else if (HarvestTarget.Type == EResource.Stone)
-                res.Stone += HarvestTarget.Amount;
+            foreach (var t in tiles)
+            {
+                if (t.Type == EResource.Wood)
+                    totalWood += t.Amount;
+                else if(t.Type == EResource.Stone)
+                    totalStone += t.Amount;
+
+                environment.Harvest(t);
+            }
+
+            res.Wood += totalWood;
+            res.Stone += totalStone;
 
             environment.Harvest(HarvestTarget);
             HarvestTarget = null;
@@ -266,5 +277,12 @@ public class Character : MonoBehaviour
         HealthChangedEvent.Invoke();
 
         GameObject.Find("Game").GetComponent<Game>().AudioManager.PlayLayered("ZombieBite");
+    }
+
+    public void DisplayUnlockToolParticleEffect()
+    {
+        var effect = Instantiate(UnlockParticleEffect);
+        effect.transform.position = ToolSocket.transform.position;
+        Destroy(effect, 5.0f);
     }
 }

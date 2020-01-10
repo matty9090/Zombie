@@ -330,6 +330,7 @@ MonoBehaviour:
   AttackEffect: {fileID: 5533024768869695289, guid: 38451fd4835ef98049375538ede32f6a,
     type: 3}
   ToolSocket: {fileID: 9044321376062855644}
+  UnlockParticleEffect: {fileID: 168542, guid: 5702e2a6fea804b45b49b70d8feaf7ae, type: 3}
   HealthChangedEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -401,21 +402,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8797215474748535101}
     m_Modifications:
-    - target: {fileID: -927199367670048503, guid: f3833abcc6634724da24ecd028074675,
-        type: 3}
-      propertyPath: m_Name
-      value: Character
-      objectReference: {fileID: 0}
-    - target: {fileID: 4224801822505238522, guid: f3833abcc6634724da24ecd028074675,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8274873701517981592, guid: f3833abcc6634724da24ecd028074675,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: f3833abcc6634724da24ecd028074675,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -469,6 +455,21 @@ PrefabInstance:
     - target: {fileID: -4216859302048453862, guid: f3833abcc6634724da24ecd028074675,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: f3833abcc6634724da24ecd028074675,
+        type: 3}
+      propertyPath: m_Name
+      value: Character
+      objectReference: {fileID: 0}
+    - target: {fileID: 4224801822505238522, guid: f3833abcc6634724da24ecd028074675,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8274873701517981592, guid: f3833abcc6634724da24ecd028074675,
+        type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -6057140222963153312, guid: f3833abcc6634724da24ecd028074675,
