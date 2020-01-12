@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 4459502363954364214}
   - component: {fileID: 6223192705787101699}
   - component: {fileID: 5849654321789043482}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: BarbedWireFence
   m_TagString: Untagged
   m_Icon: {fileID: 0}

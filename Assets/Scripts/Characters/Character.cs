@@ -30,7 +30,7 @@ public class Character : MonoBehaviour
     public EnvironmentTile CurrentPosition { get; set; }
     public UnityEvent HealthChangedEvent;
     public EnvironmentTile NextTile = null;
-    public enum EState { Idle, Moving, Harvesting, Attacking };
+    public enum EState { Idle, Moving, Harvesting };
     public HarvestTool CurrentTool = null;
     public Weapon CurrentWeapon = null;
 
@@ -159,10 +159,6 @@ public class Character : MonoBehaviour
                 StateHarvesting();
                 break;
 
-            case EState.Attacking:
-                StateAttacking();
-                break;
-
             case EState.Moving:
                 StateMoving();
                 break;
@@ -235,11 +231,6 @@ public class Character : MonoBehaviour
             mAnimator.SetBool("IsHarvesting", false);
             State = EState.Idle;
         }
-    }
-
-    private void StateAttacking()
-    {
-        
     }
 
     private void StateMoving()
