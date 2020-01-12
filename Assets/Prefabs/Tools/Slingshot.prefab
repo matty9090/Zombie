@@ -220,8 +220,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c59c4637b3adba446937160a79c9fe60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ToolName: 
-  ToolDesc: 
+  ToolName: Slingshot
+  ToolDesc: Shoot rocks
   AttackStrength: 20
   WeaponType: 1
   Projectile: {fileID: 2804187255087964343, guid: 6f797cd51aae9ee43b1c1ab9af8edaba,

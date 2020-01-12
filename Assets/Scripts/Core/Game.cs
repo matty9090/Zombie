@@ -138,9 +138,7 @@ public class Game : MonoBehaviour
                 UICountdownText.GetComponent<Animator>().Play("FlashText");
 
             if (BuildingTimer <= 0.0f)
-            {
                 StartWave();
-            }
         }
 
         mStates[mGameState].Update();
@@ -170,17 +168,17 @@ public class Game : MonoBehaviour
             switch (type)
             {
                 case ELevelUp.Building:
-                    ++NumBuildingsUnlocked;
+                    NumBuildingsUnlocked = Mathf.Min(Buildings.Count, NumBuildingsUnlocked + 1);
                     BuildingUnlocked.Invoke();
                     break;
 
                 case ELevelUp.Tool:
-                    NumToolsUnlocked = Mathf.Clamp(0, HarvestTools.Count, NumToolsUnlocked + 1);
+                    NumToolsUnlocked = Mathf.Min(HarvestTools.Count, NumToolsUnlocked + 1);
                     ToolUnlocked.Invoke();
                     break;
 
                 case ELevelUp.Weapon:
-                    NumWeaponsUnlocked = Mathf.Clamp(0, AttackTools.Count, NumWeaponsUnlocked + 1);
+                    NumWeaponsUnlocked = Mathf.Min(AttackTools.Count, NumWeaponsUnlocked + 1);
                     WeaponUnlocked.Invoke();
                     break;
             }

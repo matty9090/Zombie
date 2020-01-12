@@ -52,7 +52,7 @@ MonoBehaviour:
     type: 3}
   BuildingName: Spikes
   BuildingDesc: Like stepping on lego.
-  MaxHealth: 100
+  MaxHealth: 30
 --- !u!114 &-5233419166199299148
 MonoBehaviour:
   m_ObjectHideFlags: 0
