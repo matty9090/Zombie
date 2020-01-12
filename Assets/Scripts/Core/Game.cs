@@ -42,6 +42,7 @@ public class Game : MonoBehaviour
     public Color DayColour { get { return DayNightGradient.Evaluate(0.5f); } }
     public Vector3 InitialCamPosition;
     public Quaternion InitialCamRotation;
+    public int XPGainOnBuildingPlace = 8;
     public int NumBuildingsUnlocked = 2;
     public int NumToolsUnlocked = 1;
     public int NumWeaponsUnlocked = 1;

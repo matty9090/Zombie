@@ -91,12 +91,13 @@ public class StateBuilding : IState
                     // Harvest
                     if (harvestable != null && mControllerState == EControllerState.Idle)
                     {
-                        List<EnvironmentTile> bestRoute = null;
-                        float minDist = float.MaxValue;
                         int manhattan = Game.Map.ManhattanDistance(Game.CharacterInst.CurrentPosition, tile);
                         
                         if (manhattan > 10)
                         {
+                            List<EnvironmentTile> bestRoute = null;
+                            float minDist = float.MaxValue;
+
                             // Harvestable tiles do not have a direct path to them so find the path to the closest walkable tile
                             foreach (EnvironmentTile t in tile.Connections)
                             {
@@ -110,6 +111,20 @@ public class StateBuilding : IState
                                     minDist = dist;
                                 }
                             }
+
+                            if (bestRoute != null && bestRoute.Count > 0)
+                            {
+                                MoveTask task = new MoveTask();
+                                task.Type = EMoveTask.Harvest;
+                                task.HarvestTarget = harvestable;
+
+                                Game.CharacterInst.Task = task;
+                                Game.CharacterInst.GoTo(bestRoute);
+                            }
+                            else
+                            {
+                                Game.AudioManager.PlayError();
+                            }
                         }
                         else
                         {
@@ -119,20 +134,6 @@ public class StateBuilding : IState
 
                             Game.CharacterInst.Task = task;
                             Game.CharacterInst.ExecuteHarvestTask(Game.CharacterInst.CurrentPosition.Position);
-                        }
-
-                        if (bestRoute != null && bestRoute.Count > 0)
-                        {
-                            MoveTask task = new MoveTask();
-                            task.Type = EMoveTask.Harvest;
-                            task.HarvestTarget = harvestable;
-
-                            Game.CharacterInst.Task = task;
-                            Game.CharacterInst.GoTo(bestRoute);
-                        }
-                        else
-                        {
-                            Game.AudioManager.PlayError();
                         }
                     }
                     // Walk to a tile
@@ -211,7 +212,7 @@ public class StateBuilding : IState
                 Resources.Stone -= mSelectedBuildingUI.Stone;
                 mSelectedBuilding.transform.parent = tile.transform;
                 Game.AudioManager.Play("PlaceObject");
-                Game.XP += 8;
+                Game.XP += Game.XPGainOnBuildingPlace;
 
                 tile.IsAccessible = false;
                 mSelectedBuilding.GetComponent<Building>().Place();
