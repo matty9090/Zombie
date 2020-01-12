@@ -33,9 +33,9 @@ public class Character : MonoBehaviour
     public enum EState { Idle, Moving, Harvesting };
     public HarvestTool CurrentTool = null;
     public Weapon CurrentWeapon = null;
+    public Harvestable HarvestTarget = null;
 
     private EState State = EState.Idle;
-    private Harvestable HarvestTarget = null;
     private float HarvestTimeRemaining;
     private float HarvestSoundTimeRemaining = 0.0f;
     private float FootstepTimeRemaining = 0.0f;

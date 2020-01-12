@@ -91,6 +91,9 @@ public class StateBuilding : IState
                     // Harvest
                     if (harvestable != null && mControllerState == EControllerState.Idle)
                     {
+                        if (harvestable == Game.CharacterInst.HarvestTarget)
+                            return;
+
                         int manhattan = Game.Map.ManhattanDistance(Game.CharacterInst.CurrentPosition, tile);
                         
                         if (manhattan > 10)
@@ -143,13 +146,9 @@ public class StateBuilding : IState
                         List<EnvironmentTile> route = Game.Map.Solve(startPos, tile);
 
                         if (route != null && route.Count > 0)
-                        {
                             Game.CharacterInst.GoTo(route);
-                        }
                         else
-                        {
                             Game.AudioManager.PlayError();
-                        }
                     }
                     else
                     {
@@ -206,7 +205,7 @@ public class StateBuilding : IState
             Ray screenClick = Game.MainCamera.ScreenPointToRay(Input.mousePosition);
             int num = Physics.RaycastNonAlloc(screenClick, mRaycastHits);
 
-            if (num > 0 && tile != null && tile.IsAccessible)
+            if (num > 0 && tile != null && tile.IsAccessible && Game.CharacterInst.CurrentPosition != tile)
             {
                 Resources.Wood -= mSelectedBuildingUI.Wood;
                 Resources.Stone -= mSelectedBuildingUI.Stone;
@@ -231,6 +230,8 @@ public class StateBuilding : IState
                     mSelectedBuilding = null;
                 }
             }
+            else
+                Game.AudioManager.PlayError();
         }
     }
 
@@ -242,7 +243,8 @@ public class StateBuilding : IState
 				Game.Destroy(mSelectedBuilding);	
   
             mControllerState = EControllerState.PlacingBuilding;
-            mSelectedBuilding = Game.Instantiate(element.Object);
+            mSelectedBuilding = Object.Instantiate(element.Object);
+            mSelectedBuilding.transform.position = HoverTile.transform.position;
             mSelectedBuildingUI = element;
         }
         else

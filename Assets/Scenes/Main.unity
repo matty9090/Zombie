@@ -3024,6 +3024,7 @@ MonoBehaviour:
   - {fileID: 4965725574484082832, guid: 289c38516c58783479183f593daf00f0, type: 3}
   InitialCamPosition: {x: 0, y: 0, z: 0}
   InitialCamRotation: {x: 0, y: 0, z: 0, w: 0}
+  XPGainOnBuildingPlace: 8
   NumBuildingsUnlocked: 2
   NumToolsUnlocked: 1
   NumWeaponsUnlocked: 1
