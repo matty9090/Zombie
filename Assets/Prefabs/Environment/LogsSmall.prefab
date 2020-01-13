@@ -120,7 +120,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bde70f25107590438c44fdfa828b81b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Amount: 16
+  Health: 100
+  DamageAmount: 20
+  Amount: 24
   Type: 0
   GatherSound: GatherWood
 --- !u!65 &8030707752839988903

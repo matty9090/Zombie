@@ -2966,7 +2966,7 @@ MonoBehaviour:
   UIWaveText: {fileID: 1701020817}
   UICountdownText: {fileID: 645703232}
   BuildingTime: 120
-  LevelUps: 010000000200000000000000020000000000000002000000
+  LevelUps: 01000000020000000000000001000000020000000000000002000000
   Menu: {fileID: 2099476870}
   Hud: {fileID: 1579498796}
   MainCamera: {fileID: 963194227}
@@ -3015,6 +3015,7 @@ MonoBehaviour:
   HarvestTools:
   - {fileID: 6050273711995649058, guid: ceca0e915216439469163474ec4c4de1, type: 3}
   - {fileID: 7433997573184664487, guid: b7cb933bbf94cf649af3cdd1e1d135ab, type: 3}
+  - {fileID: 473627776629196954, guid: 02a6827b683ffca49b4ea260e1dc1ccd, type: 3}
   AttackTools:
   - {fileID: 1742099086806806164, guid: 6b0de93fafc00724495bc09fc64731d0, type: 3}
   - {fileID: 5471678477597829607, guid: a067982e3393e49469eec063acdeb631, type: 3}
@@ -3032,7 +3033,7 @@ MonoBehaviour:
   NumToolsUnlocked: 1
   NumWeaponsUnlocked: 1
   XPLevel: 0
-  CurrentXPCap: 10
+  CurrentXPCap: 100
   CurrentHarvestTool: 0
 --- !u!4 &896303072
 Transform:
