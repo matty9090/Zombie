@@ -18,11 +18,6 @@ public class UnlockPopup : MonoBehaviour
         }
     }
 
-    private void Update()
-    {
-
-    }
-
     public void Close()
     {
         GetComponent<Animator>().SetTrigger("Close");

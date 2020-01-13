@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2835574887000487004}
   - component: {fileID: 2835574887000487007}
   - component: {fileID: -8657341421139396204}
+  - component: {fileID: 2985122887740419431}
   m_Layer: 5
   m_Name: UIBuildingTooltip
   m_TagString: Untagged
@@ -93,6 +94,18 @@ MonoBehaviour:
   BuildingTxt: {fileID: 8871812886627365846}
   Available: {r: 0, g: 0.7924528, b: 0.140438, a: 1}
   Unavailable: {r: 1, g: 0.25, b: 0.25, a: 1}
+--- !u!225 &2985122887740419431
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2835574887000487001}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
 --- !u!1 &2943662402122276838
 GameObject:
   m_ObjectHideFlags: 0
