@@ -47,6 +47,9 @@ public class StateWave : IState
         Tool.transform.localPosition = Vector3.zero;
         Tool.transform.localScale = scale;
         Game.CharacterInst.CurrentWeapon = Tool.GetComponent<Weapon>();
+
+        var hud = Game.Hud.GetComponent<HUD>();
+        hud.WaveUI.SetActive(true);
     }
 
     public void OnExit()
@@ -75,6 +78,9 @@ public class StateWave : IState
         charLights[1].intensity = 0.34f;
 
         Object.Destroy(Tool);
+
+        var hud = Game.Hud.GetComponent<HUD>();
+        hud.BuildUI.SetActive(true);
     }
 
     private IEnumerator TimerHelper(float timer, System.Action<float> func = null)
@@ -129,7 +135,10 @@ public class StateWave : IState
         yield return TimerHelper(0.6f);
 
         Game.AudioManager.Play("Torch");
-        GameObject.Find("WaveUI").GetComponent<Animator>().Play("Fade");
+        
+        var hud = Game.Hud.GetComponent<HUD>();
+        hud.BuildUI.SetActive(false);
+        hud.WaveUI.GetComponent<Animator>().Play("Fade");
 
         var charLights = Game.CharacterInst.GetComponentsInChildren<Light>();
         var maxIntensity = charLights[0].intensity;

@@ -10,6 +10,9 @@ public class HUD : MonoBehaviour
     [SerializeField] private UnlockPopup Popup = null;
     [SerializeField] private Transform BuildingsLayout = null;
     [SerializeField] private Transform WeaponsLayout = null;
+    
+    public GameObject BuildUI = null;
+    public GameObject WaveUI = null;
 
     private Resources Resources;
 

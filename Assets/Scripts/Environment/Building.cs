@@ -71,6 +71,7 @@ public class Building : MonoBehaviour
 
         if (frac <= 0.0f)
         {
+            Destroy(HealthBarInst);
             Destroy(gameObject);
         }
         else if (frac < 1.0f)

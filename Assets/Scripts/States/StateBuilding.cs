@@ -32,7 +32,10 @@ public class StateBuilding : IState
 
     public void OnEnter()
     {
-        GameObject.Find("BuildUI").GetComponent<Animator>().SetTrigger("Show");
+        var hud = Game.Hud.GetComponent<HUD>();
+        hud.WaveUI.SetActive(false);
+        hud.BuildUI.GetComponent<Animator>().SetTrigger("Show");
+
         GameObject.Find("Directional Light").GetComponent<Light>().color = Game.DayColour;
         RenderSettings.ambientLight = Game.DayColour / 1.2f;
 
@@ -50,10 +53,12 @@ public class StateBuilding : IState
     public void OnExit()
     {
         if (mSelectedBuilding != null)
-            Game.Destroy(mSelectedBuilding);
+            Object.Destroy(mSelectedBuilding);
 
         HoverTile.GetComponent<MeshRenderer>().material = Game.HoverMaterialG;
-        GameObject.Find("BuildUI").GetComponent<Animator>().SetTrigger("Hide");
+        
+        var hud = Game.Hud.GetComponent<HUD>();
+        hud.BuildUI.GetComponent<Animator>().SetTrigger("Hide");
 
         Game.StopCoroutine(DayNightCoroutine);
         Object.Destroy(Tool);
@@ -117,9 +122,11 @@ public class StateBuilding : IState
 
                             if (bestRoute != null && bestRoute.Count > 0)
                             {
-                                MoveTask task = new MoveTask();
-                                task.Type = EMoveTask.Harvest;
-                                task.HarvestTarget = harvestable;
+                                MoveTask task = new MoveTask
+                                {
+                                    Type = EMoveTask.Harvest,
+                                    HarvestTarget = harvestable
+                                };
 
                                 Game.CharacterInst.Task = task;
                                 Game.CharacterInst.GoTo(bestRoute);
@@ -131,9 +138,11 @@ public class StateBuilding : IState
                         }
                         else
                         {
-                            MoveTask task = new MoveTask();
-                            task.Type = EMoveTask.Harvest;
-                            task.HarvestTarget = harvestable;
+                            MoveTask task = new MoveTask
+                            {
+                                Type = EMoveTask.Harvest,
+                                HarvestTarget = harvestable
+                            };
 
                             Game.CharacterInst.Task = task;
                             Game.CharacterInst.ExecuteHarvestTask(Game.CharacterInst.CurrentPosition.Position);
@@ -186,7 +195,10 @@ public class StateBuilding : IState
         }
 
         bool isEnabled = HoverTile.GetComponent<MeshRenderer>().enabled;
-        mSelectedBuilding.GetComponent<MeshRenderer>().enabled = isEnabled;
+        
+        foreach (var renderer in mSelectedBuilding.GetComponentsInChildren<MeshRenderer>())
+            renderer.enabled = isEnabled;
+
         mSelectedBuilding.transform.position = HoverTile.transform.position;
 
         if (Input.GetMouseButtonUp(1))
@@ -221,7 +233,7 @@ public class StateBuilding : IState
                     Resources.Stone >= mSelectedBuildingUI.Stone)
                 {
                     mControllerState = EControllerState.PlacingBuilding;
-                    mSelectedBuilding = Game.Instantiate(mSelectedBuilding);
+                    mSelectedBuilding = Object.Instantiate(mSelectedBuilding);
                     mSelectedBuilding.transform.position = HoverTile.transform.position;
                 }
                 else
@@ -240,7 +252,7 @@ public class StateBuilding : IState
         if (Resources.Wood >= element.Wood && Resources.Stone >= element.Stone)
         {
 			if (mSelectedBuilding != null)
-				Game.Destroy(mSelectedBuilding);	
+                Object.Destroy(mSelectedBuilding);	
   
             mControllerState = EControllerState.PlacingBuilding;
             mSelectedBuilding = Object.Instantiate(element.Object);
