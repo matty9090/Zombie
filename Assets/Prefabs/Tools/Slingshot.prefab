@@ -164,7 +164,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9057890370595625972}
   - component: {fileID: 1386568329218242190}
-  - component: {fileID: 7471164928398919529}
+  - component: {fileID: 7754888301528776653}
   m_Layer: 0
   m_Name: Slingshot
   m_TagString: Untagged
@@ -208,7 +208,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &7471164928398919529
+--- !u!114 &7754888301528776653
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -217,16 +217,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 5471678477597829607}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c59c4637b3adba446937160a79c9fe60, type: 3}
+  m_Script: {fileID: 11500000, guid: 0e5a6c2bbe7fe2c44b58f7cff6918d51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ToolName: Slingshot
   ToolDesc: Shoot rocks
-  AttackStrength: 20
+  AttackStrength: 25
   WeaponType: 1
   Projectile: {fileID: 2804187255087964343, guid: 6f797cd51aae9ee43b1c1ab9af8edaba,
     type: 3}
-  ProjectileSpeed: 50
+  ProjectileSpeed: 40
   LaunchPosition: {fileID: 1682414206280390188}
 --- !u!1 &5817032466054121629
 GameObject:

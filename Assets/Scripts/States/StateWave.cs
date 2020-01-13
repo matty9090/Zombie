@@ -14,14 +14,6 @@ public class StateWave : IState
     private float ZombieTimer = 6.4f;
     private float MoveSpeed = 16.6f;
 
-    private enum ERangeWeaponState { Aiming, Cooldown, Idle };
-    private ERangeWeaponState RangeWeaponState = ERangeWeaponState.Idle;
-
-    private readonly float AimTime = 0.88f;
-    private readonly float CooldownTime = 0.5f;
-    private float AimTimer = 0.0f;
-    private float CooldownTimer = 0.0f;
-
     public StateWave()
     {
         Game = GameObject.Find("Game").GetComponent<Game>();
@@ -201,50 +193,7 @@ public class StateWave : IState
         }
         else if (Game.CharacterInst.CurrentWeapon.WeaponType == Weapon.EWeaponType.Range)
         {
-            var animator = Game.CharacterInst.CurrentWeapon.GetComponent<Animator>();
-            var playerAnim = Game.CharacterInst.GetComponentInChildren<Animator>();
-
-            if (RangeWeaponState == ERangeWeaponState.Aiming)
-            {
-                AimTimer -= Time.deltaTime;
-
-                if (!Input.GetMouseButton(0))
-                {
-                    RangeWeaponState = ERangeWeaponState.Idle;
-                    animator.SetBool("Aiming", false);
-                    playerAnim.SetBool("Aiming", false);
-                }
-                else if (AimTimer <= 0.0f)
-                {
-                    RangeWeaponState = ERangeWeaponState.Cooldown;
-                    CooldownTimer = CooldownTime;
-                    animator.SetTrigger("Shoot");
-                    playerAnim.SetBool("Aiming", false);
-                    AimTimer = AimTime;
-
-                    var weapon = Game.CharacterInst.CurrentWeapon;
-                    LaunchProjectile(weapon.Projectile, weapon.LaunchPosition, weapon.ProjectileSpeed, weapon.AttackStrength);
-                }
-            }
-            else if (RangeWeaponState == ERangeWeaponState.Idle)
-            {
-                animator.SetBool("Aiming", false);
-
-                if (Input.GetMouseButton(0))
-                {
-                    AimTimer = AimTime;
-                    RangeWeaponState = ERangeWeaponState.Aiming;
-                    animator.SetBool("Aiming", true);
-                    playerAnim.SetBool("Aiming", true);
-                }
-            }
-            else if (RangeWeaponState == ERangeWeaponState.Cooldown)
-            {
-                CooldownTimer -= Time.deltaTime;
-
-                if (CooldownTimer <= 0.0f)
-                    RangeWeaponState = ERangeWeaponState.Idle;
-            }
+            Game.CharacterInst.CurrentWeapon.HandleState(Game.CharacterInst);
         }
 
         // Face direction of cursor
@@ -254,13 +203,6 @@ public class StateWave : IState
         Vector3 cursorDir = HitTerrainInfo.point - Game.CharacterInst.transform.position;
         cursorDir.y = 0.0f;
         Game.CharacterInst.transform.rotation = Quaternion.LookRotation(cursorDir, Vector3.up);
-    }
-
-    private void LaunchProjectile(GameObject obj, Transform launchPoint, float speed, int damage)
-    {
-        var proj = Object.Instantiate(obj, launchPoint.position, launchPoint.rotation);
-        proj.GetComponent<Rigidbody>().velocity = launchPoint.forward * speed;
-        proj.GetComponent<Projectile>().Damage = damage;
     }
 
     public void UIWeaponClicked(UIWeapon element)

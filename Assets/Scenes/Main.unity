@@ -2965,7 +2965,7 @@ MonoBehaviour:
   UIWaveText: {fileID: 1701020817}
   UICountdownText: {fileID: 645703232}
   BuildingTime: 120
-  LevelUps: 01000000020000000000000002000000
+  LevelUps: 0100000002000000000000000200000002000000
   Menu: {fileID: 2099476870}
   Hud: {fileID: 1579498796}
   MainCamera: {fileID: 963194227}
@@ -3018,6 +3018,7 @@ MonoBehaviour:
   - {fileID: 1742099086806806164, guid: 6b0de93fafc00724495bc09fc64731d0, type: 3}
   - {fileID: 5471678477597829607, guid: a067982e3393e49469eec063acdeb631, type: 3}
   - {fileID: 7576513720733875821, guid: d01a8e887e61b1c478be196cfc516487, type: 3}
+  - {fileID: 56542803601024055, guid: 721e27264c051c14998b5ba6946041f5, type: 3}
   Buildings:
   - {fileID: 9143145368171789864, guid: ad8d22b6152be2f43be09ba7e285f338, type: 3}
   - {fileID: 4858930557033434743, guid: 3021704cf87db074182cc3e723bbafca, type: 3}
@@ -3157,6 +3158,26 @@ MonoBehaviour:
     Pitch: 1
   - Name: Rubble
     Clip: {fileID: 8300000, guid: 2282b87452ee5964a9b3e8f3ddf737e4, type: 3}
+    Source: {fileID: 0}
+    Volume: 1
+    Pitch: 1
+  - Name: SlingshotFire
+    Clip: {fileID: 8300000, guid: 9d7bc652cb043894787b26f69db6cbf4, type: 3}
+    Source: {fileID: 0}
+    Volume: 1
+    Pitch: 1
+  - Name: SlingshotLoad
+    Clip: {fileID: 8300000, guid: aa99c8ddcb516334eaa021d4fe5814d3, type: 3}
+    Source: {fileID: 0}
+    Volume: 1
+    Pitch: 1
+  - Name: CrossbowShoot
+    Clip: {fileID: 8300000, guid: 3504b16b093d02a47b083fb49e77b5f2, type: 3}
+    Source: {fileID: 0}
+    Volume: 1
+    Pitch: 1
+  - Name: CrossbowLoad
+    Clip: {fileID: 8300000, guid: 38d84dd3eeecf7847a988a073ee493fe, type: 3}
     Source: {fileID: 0}
     Volume: 1
     Pitch: 1
