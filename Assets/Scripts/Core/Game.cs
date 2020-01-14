@@ -13,6 +13,8 @@ public class Game : MonoBehaviour
     [SerializeField] private Text UICountdownText = null;
     [SerializeField] private int BuildingTime = 90;
     [SerializeField] private List<ELevelUp> LevelUps = null;
+    [SerializeField] private GameObject PausePanel;
+    [SerializeField] private GameObject ConfirmExitBox;
 
     public Canvas Menu = null;
     public Canvas Hud = null;
@@ -253,11 +255,35 @@ public class Game : MonoBehaviour
         SceneManager.LoadScene("Main");
     }
 
-    public void PauseGame(GameObject pausePanel)
+    public void PauseGame()
     {
+        if (ConfirmExitBox.activeInHierarchy)
+            return;
+
         IsPaused = !IsPaused;
-        pausePanel.SetActive(IsPaused);
+        PausePanel.SetActive(IsPaused);
         Time.timeScale = IsPaused ? 0.0f : 1.0f;
+    }
+
+    public void ShowExitMenu()
+    {
+        ConfirmExitBox.SetActive(true);
+        PausePanel.SetActive(true);
+        Time.timeScale = 0.0f;
+    }
+
+    public void ConfirmNoExit()
+    {
+        ConfirmExitBox.SetActive(false);
+        PausePanel.SetActive(false);
+        Time.timeScale = 1.0f;
+    }
+
+    public void ConfirmExit()
+    {
+        ConfirmExitBox.SetActive(false);
+        PausePanel.SetActive(false);
+        BackToMainMenu();
     }
 
     public void UIBuildingClicked(UIBuilding element)
