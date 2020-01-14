@@ -17,6 +17,7 @@ public class StateMenu : IState
         Game.Menu.enabled = true;
         Game.Hud.enabled = false;
 
+        Game.AudioManager.Play("MenuMusic", true);
         Game.CharacterInst.gameObject.SetActive(false);
     }
 

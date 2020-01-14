@@ -20,11 +20,12 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    public void Play(string name)
+    public void Play(string name, bool loop = false)
     {
         if (Sounds.ContainsKey(name))
         {
             Sounds[name].Source.Play();
+            Sounds[name].Source.loop = loop;
         }
         else
         {
