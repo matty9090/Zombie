@@ -22,7 +22,6 @@ public class Game : MonoBehaviour
     public GameObject HoverTile = null;
     public GameObject GameOver = null;
     public GameObject FinishedWave = null;
-    public Transform CharacterStart = null;
     public Material HoverMaterialG = null;
     public Material HoverMaterialR = null;
     public Texture2D CursorNormal = null;
@@ -243,19 +242,21 @@ public class Game : MonoBehaviour
         SwitchState(EGameState.Wave);
     }
 
-    public void ShowMenu(bool show)
+    public void StartGame()
     {
-        SwitchState(show ? EGameState.Menu : EGameState.Building);
+        SwitchState(EGameState.Building);
     }
 
     public void BackToMainMenu()
     {
+        Time.timeScale = 1.0f;
         SceneManager.LoadScene("Main");
     }
 
-    public void PauseGame()
+    public void PauseGame(GameObject pausePanel)
     {
         IsPaused = !IsPaused;
+        pausePanel.SetActive(IsPaused);
         Time.timeScale = IsPaused ? 0.0f : 1.0f;
     }
 
@@ -293,6 +294,8 @@ public class Game : MonoBehaviour
         RenderSettings.ambientLight = DayColour;
         GameObject.Find("Directional Light").GetComponent<Light>().color = DayColour;
         GameObject.Find("StartWave").GetComponent<Button>().enabled = true;
+
+        StopAllCoroutines();
     }
 
     public void Exit()
