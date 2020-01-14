@@ -3846,7 +3846,7 @@ MonoBehaviour:
   NumToolsUnlocked: 1
   NumWeaponsUnlocked: 1
   XPLevel: 0
-  CurrentXPCap: 100
+  CurrentXPCap: 200
   CurrentHarvestTool: 0
 --- !u!4 &896303072
 Transform:
