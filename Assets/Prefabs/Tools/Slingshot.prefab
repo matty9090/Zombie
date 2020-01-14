@@ -221,7 +221,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ToolName: Slingshot
-  ToolDesc: Shoot rocks
+  ToolDesc: Shoot rocks. Hold down left click to shoot.
   AttackStrength: 25
   WeaponType: 1
   Projectile: {fileID: 2804187255087964343, guid: 6f797cd51aae9ee43b1c1ab9af8edaba,

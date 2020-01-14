@@ -70,7 +70,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ToolName: Crossbow
-  ToolDesc: Sacrifices speed for power.
+  ToolDesc: Sacrifices speed for power. Click once to reload and then again to shoot.
   AttackStrength: 120
   WeaponType: 1
   Projectile: {fileID: 1678642208696168711, guid: 5f2e66bfa28d26348aa2972898ab0c73,
