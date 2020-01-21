@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
+/* Game manager class */
 public class Game : MonoBehaviour
 {
     [SerializeField] private HealthBar HealthBar = null;
@@ -39,7 +40,7 @@ public class Game : MonoBehaviour
     public Resources Resources { get; set; }
     public Environment Map { get; private set; }
     public AudioManager AudioManager { get; private set; }
-    public float BuildingTimeProgress { get { return BuildingTimer / BuildingTime; } }
+    public float BuildingTimeProgress { get { return mBuildingTimer / BuildingTime; } }
     public Color DayColour { get { return DayNightGradient.Evaluate(0.5f); } }
     public Vector3 InitialCamPosition;
     public Quaternion InitialCamRotation;
@@ -59,9 +60,9 @@ public class Game : MonoBehaviour
     private enum EGameState { Menu, Building, Wave, FinishedWave, GameOver };
     private enum ELevelUp { Building, Tool, Weapon };
     private EGameState mGameState = EGameState.Menu;
-    private int CurrentWave = 0;
-    private float BuildingTimer = 0.0f;
-    private bool IsPaused = false;
+    private int mCurrentWave = 0;
+    private float mBuildingTimer = 0.0f;
+    private bool mIsPaused = false;
 
     private int mXP;
     public int XPLevel = 0;
@@ -87,15 +88,15 @@ public class Game : MonoBehaviour
         Resources = new Resources();
         Map = GetComponentInChildren<Environment>();
         CharacterInst = Instantiate(Character, transform);
-        BuildingTimer = (float)BuildingTime;
+        mBuildingTimer = (float)BuildingTime;
         MainCamera.GetComponent<ICamera>().SetCharacter(CharacterInst);
         AudioManager = GetComponent<AudioManager>();
         InitialCamPosition = MainCamera.transform.position;
         InitialCamRotation = MainCamera.transform.rotation;
 
         ZombieKilled = new UnityEvent();
-        ZombieKilled.AddListener(ZombieKilledEvent);
-        CharacterInst.HealthChangedEvent.AddListener(CharacterHealthChanged);
+        ZombieKilled.AddListener(OnZombieKilled);
+        CharacterInst.HealthChangedEvent.AddListener(OnCharacterHealthChanged);
 
         MatchStarted = new UnityEvent();
         MatchEnded = new UnityEvent();
@@ -131,21 +132,27 @@ public class Game : MonoBehaviour
 
     void Update()
     {
+        // Update timer for the building state and start the wave if time is up
+        // The building state could have been the one controlling the timer and starting the wave
+        // but I decided to handle all state changes in the game manager class to keep all
+        // state changes together.
         if (mGameState == EGameState.Building)
         {
-            BuildingTimer -= Time.deltaTime;
-            UICountdownText.text = FormatTime(BuildingTimer);
+            mBuildingTimer -= Time.deltaTime;
+            UICountdownText.text = FormatTime(mBuildingTimer);
 
-            if (BuildingTimer < 10.0f)
+            if (mBuildingTimer < 10.0f)
                 UICountdownText.GetComponent<Animator>().Play("FlashText");
 
-            if (BuildingTimer <= 0.0f)
+            if (mBuildingTimer <= 0.0f)
                 StartWave();
         }
 
+        // Update the current game state
         mStates[mGameState].Update();
     }
 
+    /* Helper to format seconds into a time in the format mm:ss */
     private string FormatTime(float time)
     {
         int t = Mathf.CeilToInt(time);
@@ -163,6 +170,7 @@ public class Game : MonoBehaviour
     {
         mXP = 0;
 
+        // Don't invoke an unlock if there isn't anything left to unlock
         if (LevelUps.Count > XPLevel)
         {
             var type = LevelUps[XPLevel];
@@ -190,16 +198,18 @@ public class Game : MonoBehaviour
         AudioManager.Play("Unlock");
     }
 
-    private void CharacterHealthChanged()
+    /* Game over when character died, invoked from a health changed event */
+    private void OnCharacterHealthChanged()
     {
         if (CharacterInst.Health <= 0 && mGameState == EGameState.Wave)
         {
-            GameOver.transform.Find("Result").GetComponent<Text>().text = "You made it to wave " + CurrentWave;
+            GameOver.transform.Find("Result").GetComponent<Text>().text = "You made it to wave " + mCurrentWave;
             SwitchState(EGameState.GameOver);
         }
     }
 
-    private void ZombieKilledEvent()
+    /* When all zombies are killed, the wave has finished */
+    private void OnZombieKilled()
     {
         foreach (var z in FindObjectsOfType<Zombie>())
         {
@@ -217,6 +227,7 @@ public class Game : MonoBehaviour
         }
     }
 
+    /* Intermediate state between wave and building which tells the user they finished the wave */
     private IEnumerator FinishedWaveTimer()
     {
         float timer = 4.0f;
@@ -234,10 +245,10 @@ public class Game : MonoBehaviour
 
     public void StartWave()
     {
-        BuildingTimer = BuildingTime;
-        ++CurrentWave;
+        mBuildingTimer = BuildingTime;
+        ++mCurrentWave;
         
-        UIWaveText.text = "Wave " + CurrentWave;
+        UIWaveText.text = "Wave " + mCurrentWave;
         UICountdownText.GetComponent<Animator>().Play("Countdown");
 
         GameObject.Find("StartWave").GetComponent<Button>().enabled = false;
@@ -251,18 +262,19 @@ public class Game : MonoBehaviour
 
     public void BackToMainMenu()
     {
-        Time.timeScale = 1.0f;
+        Time.timeScale = 1.0f; // Game might be paused so reset the time scale
         SceneManager.LoadScene("Main");
     }
 
     public void PauseGame()
     {
+        // Disallow unpausing of the game if the user is about to exit
         if (ConfirmExitBox.activeInHierarchy)
             return;
 
-        IsPaused = !IsPaused;
-        PausePanel.SetActive(IsPaused);
-        Time.timeScale = IsPaused ? 0.0f : 1.0f;
+        mIsPaused = !mIsPaused;
+        PausePanel.SetActive(mIsPaused);
+        Time.timeScale = mIsPaused ? 0.0f : 1.0f;
     }
 
     public void ShowExitMenu()
@@ -286,6 +298,7 @@ public class Game : MonoBehaviour
         BackToMainMenu();
     }
 
+    /* Route building UI button click to the building state (TODO: replace with event?) */
     public void UIBuildingClicked(UIBuilding element)
     {
         var buildingState = mStates[EGameState.Building];
@@ -294,6 +307,7 @@ public class Game : MonoBehaviour
             ((StateBuilding)buildingState).UIBuildingClicked(element);
     }
 
+    /* Route building UI weapon click to the wave state (TODO: replace with event?) */
     public void UIWeaponClicked(UIWeapon element)
     {
         var waveState = mStates[EGameState.Wave];
@@ -305,23 +319,6 @@ public class Game : MonoBehaviour
     public void Generate()
     {
         Map.GenerateWorld();
-    }
-
-    public void Restart()
-    {
-        Map.CleanUpWorld();
-        BuildingTimer = (float)BuildingTime;
-
-        Resources.Wood = 0;
-        Resources.Stone = 0;
-        CurrentWave = 0;
-        XP = 0;
-
-        RenderSettings.ambientLight = DayColour;
-        GameObject.Find("Directional Light").GetComponent<Light>().color = DayColour;
-        GameObject.Find("StartWave").GetComponent<Button>().enabled = true;
-
-        StopAllCoroutines();
     }
 
     public void Exit()

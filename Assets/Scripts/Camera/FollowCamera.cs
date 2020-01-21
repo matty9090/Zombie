@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/* Camera to follow the player, keeping an offset */
 public class FollowCamera : MonoBehaviour, ICamera
 {
     private Character mCharacter = null;

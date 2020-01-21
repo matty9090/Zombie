@@ -9,6 +9,3 @@ Details
  - Player can fight zombies with a weapon
  - Research system?
  - Use lakes provided in some way?
-
-Bugs
- - Zombies + player can drift off the edge of the map

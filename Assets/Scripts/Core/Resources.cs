@@ -2,6 +2,7 @@
 
 public enum EResource { Wood, Stone };
 
+/* Container for game resources (wood + stone) */
 public class Resources
 {
     public int Wood {

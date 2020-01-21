@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/* Free roam camera controlled by the player with WASD */
 public class FreeRoamCamera : MonoBehaviour, ICamera
 {
     [SerializeField] private float Speed = 50.0f;

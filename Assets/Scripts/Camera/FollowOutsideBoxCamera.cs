@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/* Camera to follow the player only if the player nearly goes off the screen */
 public class FollowOutsideBoxCamera : MonoBehaviour, ICamera
 {
     [SerializeField] private float EdgeTop = 0.2f;

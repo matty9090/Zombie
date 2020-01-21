@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/* Audio manager class
+ * Idea taken from Brackeys on YouTube
+ * https://www.youtube.com/watch?v=6OT43pvUyfY
+ */
 public class AudioManager : MonoBehaviour
 {
     public Sound[] GameSounds;
@@ -33,6 +37,7 @@ public class AudioManager : MonoBehaviour
         }
     }
 
+    /* Allows the same sound to be played ontop of itself */
     public void PlayLayered(string name)
     {
         if (Sounds.ContainsKey(name))
@@ -45,12 +50,14 @@ public class AudioManager : MonoBehaviour
         }
     }
 
+    /* Helper to play an error sound */
     public void PlayError()
     {
         Sounds["ButtonClick"].Source.Stop();
         Sounds["Error"].Source.Play();
     }
 
+    /* Helper to fade out sounds, useful for music */
     public void FadeOutSound(string name, float time)
     {
         if (Sounds.ContainsKey(name))
@@ -63,6 +70,7 @@ public class AudioManager : MonoBehaviour
         }
     }
 
+    /* Coroutine to fade out a sound */
     private IEnumerator FadeOut(Sound s, float time)
     {
         float timer = time;

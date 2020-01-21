@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class Zombie : MonoBehaviour
 {
-    [SerializeField] private float DistanceThreshold = 12.0f;
+    [SerializeField] private float DistanceThreshold = 12.0f; // Max mistance to player it will attack at
     [SerializeField] private float ZombieMoveSpeed = 10.0f;
-    [SerializeField] private int DamageAmount = 1;
-    [SerializeField] private float DamageTime = 0.8f;
-    [SerializeField] private float HarvestTime = 0.4f;
-    [SerializeField] private RangeInt SoundTime = new RangeInt(3, 18);
+    [SerializeField] private int DamageAmount = 1; // How much damage the zombie deals
+    [SerializeField] private float DamageTime = 0.8f; // How often the zombie damages the player
+    [SerializeField] private float HarvestTime = 0.4f; // How long it takes to harvest resources
+    [SerializeField] private RangeInt SoundTime = new RangeInt(3, 18); // Range in seconds that it will play the next random zombie sound
     [SerializeField] public int MaxHealth = 100;
 
     public enum EState { Moving, Attacking, Harvesting };
@@ -33,6 +33,7 @@ public class Zombie : MonoBehaviour
     {
         if (player != null)
         {
+            // Travel towards the player whilst looking at the player
             while (player != null && Vector3.Distance(transform.position, player.transform.position) > DistanceThreshold)
             {
                 var delta = player.transform.position - transform.position;
@@ -56,6 +57,7 @@ public class Zombie : MonoBehaviour
         GoToCoRoutine = StartCoroutine(DoGoTo(player));
     }
 
+    /* Tint the zombie red for a duration */
     private IEnumerator EffectDamage()
     {
         var renderers = GetComponentsInChildren<SkinnedMeshRenderer>();
@@ -79,6 +81,7 @@ public class Zombie : MonoBehaviour
         }
     }
 
+    /* Play a random zombie sound */
     private IEnumerator RandomPlaySound()
     {
         while (true)
@@ -108,10 +111,12 @@ public class Zombie : MonoBehaviour
 
                 if (dist > DistanceThreshold)
                 {
+                    // Keep walking to player
                     GoTo(AttackTarget);
                 }
                 else
                 {
+                    // We're in distance, attack the player if the damage timer is up
                     DamageTimeRemaining -= Time.deltaTime;
 
                     if (DamageTimeRemaining <= 0)
@@ -128,11 +133,14 @@ public class Zombie : MonoBehaviour
     {
         var destroyable = collision.transform.GetComponentInParent<IDestroyable>();
 
+        // Can only harvest something which is destroyable
         if (destroyable != null)
         {
+            // Stop walking when we've collided with something
             if (GoToCoRoutine != null)
                 StopCoroutine(GoToCoRoutine);
 
+            // Start harvesting the object
             HarvestTarget = destroyable;
             State = EState.Harvesting;
 
@@ -141,6 +149,7 @@ public class Zombie : MonoBehaviour
         }
     }
 
+    /* Damage an obstacle every x seconds */
     private IEnumerator DamageObstacle(float harvestTime)
     {
         bool destroyed = false;
@@ -157,6 +166,7 @@ public class Zombie : MonoBehaviour
 
             if (HarvestTarget != null && !HarvestTarget.Equals(null))
             {
+                // Damage the object
                 destroyed = HarvestTarget.DamageObject();
                 
                 if (destroyed)
@@ -164,16 +174,19 @@ public class Zombie : MonoBehaviour
             }
             else
             {
+                // Zombie destroyed the object
                 destroyed = true;
                 HarvestTarget = null;
             }
         }
 
+        // Finished harvest, walk to player
         HarvestTarget = null;
         GoTo(AttackTarget);
         GetComponentInChildren<Animator>().SetBool("IsHarvesting", false);
     }
 
+    /* Damage the zombie */
     public void Damage(int amount)
     {
         Health -= amount;
@@ -187,10 +200,11 @@ public class Zombie : MonoBehaviour
         if (Health <= 0)
         {
             Destroy(gameObject);
-            game.ZombieKilled.Invoke();
+            game.ZombieKilled.Invoke(); // Used in the Game class to track how many zombies are left
         }
     }
 
+    /* Hurt the zombie if it steps on something which is damageable (e.g spikes) */
     private void OnTriggerStay(Collider other)
     {
         var damagable = other.GetComponent<Damagable>();

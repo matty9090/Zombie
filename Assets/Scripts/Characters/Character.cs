@@ -3,29 +3,30 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
+/* Move task, currently only harvesting */
 public enum EMoveTask { Harvest };
 
 public class MoveTask
 {
     public EMoveTask Type { get; set; }
-    public Character AttackTarget { get; set; }
     public Harvestable HarvestTarget { get; set; }
 }
 
+/* Character class, controlled by the player */
 public class Character : MonoBehaviour
 {
     [SerializeField] private float SingleNodeMoveTime = 0.5f;
-    [SerializeField] private PlayerAttack AttackCollision = null;
-    [SerializeField] public  int MaxHealth = 100;
+    [SerializeField] private PlayerAttack AttackCollision = null; // Helper class to track zombies in range
+    [SerializeField] public int MaxHealth = 100;
     [SerializeField] private float HarvestSoundTime = 0.5f;
     [SerializeField] private float FootstepTime = 0.28f;
-    [SerializeField] private Transform HitPoint = null;
+    [SerializeField] private Transform HitPoint = null; // Where to spawn the attack particle effect
     [SerializeField] private GameObject AttackEffect = null;
-    [SerializeField] public GameObject ToolSocket = null;
+    [SerializeField] public GameObject ToolSocket = null; // Where to attach the tool to
     [SerializeField] private GameObject UnlockParticleEffect = null;
 
     public int Health { get; private set; }
-    public bool Frozen { get; set; }
+    public bool Frozen { get; set; } // Used to freeze the characters movement when switching to wave state
     public MoveTask Task { get; set; }
     public EnvironmentTile CurrentPosition { get; set; }
     public UnityEvent HealthChangedEvent;
@@ -86,6 +87,7 @@ public class Character : MonoBehaviour
     {
         mAnimator.SetBool("IsHarvesting", false);
 
+        // If the player switches the tile to move to, finish the last move off first
         if (finishLastMove)
         {
             yield return DoMove(mLastMove.start, mLastMove.destination.Position, true, mLastMove.t);
@@ -134,8 +136,7 @@ public class Character : MonoBehaviour
             HarvestTimeRemaining = CurrentTool.HarvestTime;
 
             Vector3 target = HarvestTarget.GetComponent<EnvironmentTile>().Position;
-            transform.LookAt(new Vector3(target.x, position.y, target.z));
-
+            transform.LookAt(new Vector3(target.x, position.y, target.z)); // Look at the tile we are harvesting
             mAnimator.SetBool("IsHarvesting", true);
         }
         else
@@ -164,6 +165,7 @@ public class Character : MonoBehaviour
                 break;
         }
 
+        // Play footsteps every x seconds when moving
         if (mAnimator.GetFloat("Speed") > 0.5f)
         {
             FootstepTimeRemaining -= Time.deltaTime;
@@ -192,6 +194,7 @@ public class Character : MonoBehaviour
 
     private void StateHarvesting()
     {
+        // Play harvest sounds every x seconds
         HarvestSoundTimeRemaining -= Time.deltaTime;
 
         if (HarvestSoundTimeRemaining < 0.0f)
@@ -204,6 +207,7 @@ public class Character : MonoBehaviour
 
         if (HarvestTimeRemaining <= 0.0f)
         {
+            // Harvest tiles in a radius
             var game = GameObject.Find("Game").GetComponent<Game>();
             var res = game.GetComponent<Game>().Resources;
             var environment = GameObject.Find("Environment").GetComponent<Environment>();
@@ -220,16 +224,16 @@ public class Character : MonoBehaviour
                 environment.Harvest(t);
             }
 
+            // Add total resources
             res.Wood += totalWood;
             res.Stone += totalStone;
 
-            environment.Harvest(HarvestTarget);
-            HarvestTarget = null;
-
             game.AudioManager.Play("Rubble");
 
+            // Reset states
             mAnimator.SetBool("IsHarvesting", false);
             State = EState.Idle;
+            HarvestTarget = null;
         }
     }
 
@@ -242,6 +246,7 @@ public class Character : MonoBehaviour
     {
         bool didHit = false;
 
+        // Damage all zombies inside the player's collider
         foreach (var obj in AttackCollision.Colliders)
         {
             if(obj && obj.transform.GetComponent<Zombie>())
@@ -253,6 +258,7 @@ public class Character : MonoBehaviour
 
         GameObject.Find("Game").GetComponent<Game>().AudioManager.Play("Punch");
 
+        // Player an attack effect particle system is we hit a zombie
         if (didHit)
         {
             var effect = Instantiate(AttackEffect);
@@ -261,6 +267,7 @@ public class Character : MonoBehaviour
         }
     }
 
+    // Damage the player
     public void Damage(int Amount)
     {
         Health -= Amount;
