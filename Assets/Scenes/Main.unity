@@ -3996,6 +3996,11 @@ MonoBehaviour:
     Source: {fileID: 0}
     Volume: 1
     Pitch: 1
+  - Name: ZombieChase
+    Clip: {fileID: 8300000, guid: 7354de72c4c1c6b48af74f84609054cf, type: 3}
+    Source: {fileID: 0}
+    Volume: 1
+    Pitch: 1
 --- !u!1 &960069889
 GameObject:
   m_ObjectHideFlags: 0

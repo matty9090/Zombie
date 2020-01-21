@@ -16,6 +16,7 @@ public class StateWave : IState
     private readonly float mMoveSpeed = 16.6f;
     private readonly float mCharSpotlightIntensity = 8.0f;
     private readonly float mCharFacelightIntensity = 0.34f;
+    private readonly float mFadeOutMusicTime = 1.6f;
 
     public StateWave()
     {
@@ -97,6 +98,8 @@ public class StateWave : IState
 
         var hud = mGame.Hud.GetComponent<HUD>();
         hud.BuildUI.SetActive(true);
+
+        mGame.AudioManager.FadeOutSound("ZombieChase", mFadeOutMusicTime);
     }
 
     /* Helper coroutine to call a function every frame for a duration */
@@ -172,6 +175,8 @@ public class StateWave : IState
                 l.intensity = Mathf.SmoothStep(0.0f, maxIntensity, 1.0f - t);
             }
         });
+
+        mGame.AudioManager.Play("ZombieChase", true);
 
         // Allow the player to start moving about
         mGame.CharacterInst.Frozen = false;
