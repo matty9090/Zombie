@@ -88,6 +88,10 @@ public class StateWave : IState
         charLights[1].enabled = false;
         charLights[1].intensity = mCharFacelightIntensity;
 
+        // Reset range weapon state
+        var playerAnim = mGame.CharacterInst.GetComponentInChildren<Animator>();
+        playerAnim.SetBool("Aiming", false);
+
         // Destroy the weapon
         Object.Destroy(mWeapon);
 
