@@ -19,16 +19,24 @@ public class StateMenu : IState
         mGame.Menu.enabled = true;
         mGame.Hud.enabled = false;
 
+        mGame.MainCamera.enabled = false;
+        mGame.RotationCamera.enabled = true;
         mGame.AudioManager.Play("MenuMusic", true);
 
         // Hide character
         mGame.CharacterInst.gameObject.SetActive(false);
+
+        // Generate a map
+        mGame.Map.CleanUpWorld();
+        mGame.Map.GenerateWorld();
     }
 
     public void OnExit()
     {
         mGame.Menu.enabled = false;
         mGame.Hud.enabled = true;
+        mGame.RotationCamera.enabled = false;
+        mGame.MainCamera.enabled = true;
 
         mGame.AudioManager.FadeOutSound("MenuMusic", mFadeOutMusicTime);
         mGame.HoverTile.SetActive(true);

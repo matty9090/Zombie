@@ -20,6 +20,7 @@ public class Game : MonoBehaviour
     public Canvas Menu = null;
     public Canvas Hud = null;
     public Camera MainCamera = null;
+    public Camera RotationCamera = null;
     public Character Character = null;
     public Zombie Zombie = null;
     public GameObject HoverTile = null;
@@ -318,6 +319,7 @@ public class Game : MonoBehaviour
 
     public void Generate()
     {
+        Map.CleanUpWorld();
         Map.GenerateWorld();
     }
 
