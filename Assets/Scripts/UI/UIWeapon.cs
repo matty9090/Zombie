@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+/* Weapon UI element */
 public class UIWeapon : MonoBehaviour
 {
     public int Shortcut = 1;

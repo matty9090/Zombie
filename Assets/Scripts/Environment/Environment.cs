@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/* Encapsulates the map */
 public class Environment : MonoBehaviour
 {
     [SerializeField] private List<EnvironmentTile> AccessibleTiles = null;
@@ -11,8 +12,8 @@ public class Environment : MonoBehaviour
     [SerializeField] private List<EnvironmentTile> WaterTilesCorners = null;
     [SerializeField] private List<EnvironmentTile> WaterTilesInner = null;
     [SerializeField] private float AccessiblePercentage = 0.0f;
-    [SerializeField] private Texture2D HeightMap = null;
-    [SerializeField] private GameObject EffectPoof = null;
+    [SerializeField] private Texture2D HeightMap = null; // Allow a designer to design a map
+    [SerializeField] private GameObject EffectPoof = null; // Particle effect for when a resource is harvested
 
     private EnvironmentTile[][] mMap;
     private List<EnvironmentTile> mAll;
@@ -24,7 +25,7 @@ public class Environment : MonoBehaviour
     private readonly Vector3 NodeSize = Vector3.one * 9.0f; 
     private const float TileSize = 10.0f;
     private const float TileHeight = 2.5f;
-    private Vector2Int Size;
+    private Vector2Int Size; // Size of height map
 
     public EnvironmentTile Start { get; private set; }
 
@@ -120,8 +121,8 @@ public class Environment : MonoBehaviour
                 var pixel = HeightMap.GetPixel(x, y);
                 bool start = (x == startPos.x && y == startPos.y);
                 bool isAccessible = start || Random.value < AccessiblePercentage;
-                bool isWater = pixel.g < 0.5f;
-                bool isEdge = pixel.b > 0.5f;
+                bool isWater = pixel.g < 0.5f; // Extract water from height map
+                bool isEdge = pixel.b > 0.5f; // Extract edge from height map
 
                 isAccessible = isWater || isEdge ? false : isAccessible;
 
@@ -130,6 +131,7 @@ public class Environment : MonoBehaviour
 
                 if (isEdge)
                 {
+                    // Read neighbours from height map
                     ENbr[][] nbrs = new ENbr[3][];
 
                     for (int i = -1; i <= 1; ++i)
@@ -147,6 +149,7 @@ public class Environment : MonoBehaviour
                         }
                     }
 
+                    // 12 cases for deducing inner, outer and straight edge tiles (tiles on the edge around the island)
                     if (nbrs[0][1] == ENbr.Edge && nbrs[2][1] == ENbr.Edge && nbrs[1][0] == ENbr.Land)      // Top
                         prefab = WaterTilesStraight[0];
                     else if (nbrs[0][1] == ENbr.Edge && nbrs[2][1] == ENbr.Edge && nbrs[1][2] == ENbr.Land) // Bottom
@@ -186,13 +189,8 @@ public class Environment : MonoBehaviour
                 mMap[x][y] = tile;
                 mAll.Add(tile);
 
-                if (isEdge)
-                    mEdges.Add(tile);
-
-                if (start)
-                {
-                    Start = tile;
-                }
+                if (isEdge) mEdges.Add(tile);
+                if (start)  Start = tile;
 
                 position.z += TileSize;
             }
@@ -212,25 +210,10 @@ public class Environment : MonoBehaviour
                 EnvironmentTile tile = mMap[x][y];
                 tile.Connections = new List<EnvironmentTile>();
 
-                if (x > 0)
-                {
-                    tile.Connections.Add(mMap[x - 1][y]);
-                }
-
-                if (x < Size.x - 1)
-                {
-                    tile.Connections.Add(mMap[x + 1][y]);
-                }
-
-                if (y > 0)
-                {
-                    tile.Connections.Add(mMap[x][y - 1]);
-                }
-
-                if (y < Size.y - 1)
-                {
-                    tile.Connections.Add(mMap[x][y + 1]);
-                }
+                if (x > 0)          tile.Connections.Add(mMap[x - 1][y]);
+                if (x < Size.x - 1) tile.Connections.Add(mMap[x + 1][y]);
+                if (y > 0)          tile.Connections.Add(mMap[x][y - 1]);
+                if (y < Size.y - 1) tile.Connections.Add(mMap[x][y + 1]);
             }
         }
     }
@@ -387,25 +370,6 @@ public class Environment : MonoBehaviour
         mLastSolution = result;
 
         return result;
-    }
-
-    public EnvironmentTile FindNextDirectTile(EnvironmentTile current, EnvironmentTile destination)
-    {
-        EnvironmentTile closest = null;
-        float minDist = float.MaxValue;
-
-        foreach(EnvironmentTile tile in current.Connections)
-        {
-            float dist = Vector3.Distance(tile.Position, destination.Position);
-            
-            if (dist < minDist)
-            {
-                closest = tile;
-                minDist = dist;
-            }
-        }
-
-        return closest;
     }
 
     public void Harvest(Harvestable tile)

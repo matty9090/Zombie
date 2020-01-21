@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/* Settings for harvest tool */
 public class HarvestTool : MonoBehaviour
 {
     public string ToolName;

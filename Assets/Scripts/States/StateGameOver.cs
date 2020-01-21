@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
+/* Game over state */
 public class StateGameOver : IState
 {
     private Game mGame = null;
@@ -13,7 +14,10 @@ public class StateGameOver : IState
 
     public void OnEnter()
     {
+        // Destroy character
         Object.Destroy(mGame.CharacterInst);
+
+        // Fade in game over screen
         mAnim = mGame.GameOver.GetComponentInChildren<Animator>();
         mGame.GameOver.SetActive(true);
 

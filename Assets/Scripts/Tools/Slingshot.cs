@@ -5,33 +5,35 @@ using UnityEngine;
 public class Slingshot : Weapon
 {
     private enum ERangeWeaponState { Aiming, Cooldown, Idle };
-    private ERangeWeaponState RangeWeaponState = ERangeWeaponState.Idle;
+    private ERangeWeaponState mRangeWeaponState = ERangeWeaponState.Idle;
 
-    private readonly float AimTime = 0.88f;
-    private readonly float CooldownTime = 0.5f;
-    private float AimTimer = 0.0f;
-    private float CooldownTimer = 0.0f;
+    private readonly float mAimTime = 0.88f;
+    private readonly float mCooldownTime = 0.5f;
+    private float mAimTimer = 0.0f;
+    private float mCooldownTimer = 0.0f;
 
     public override void HandleState(Character character)
     {
         var animator = character.CurrentWeapon.GetComponent<Animator>();
         var playerAnim = character.GetComponentInChildren<Animator>();
 
-        if (RangeWeaponState == ERangeWeaponState.Aiming)
+        if (mRangeWeaponState == ERangeWeaponState.Aiming)
         {
-            AimTimer -= Time.deltaTime;
+            mAimTimer -= Time.deltaTime;
 
+            // Cancel aiming
             if (!Input.GetMouseButton(0))
             {
-                RangeWeaponState = ERangeWeaponState.Idle;
+                mRangeWeaponState = ERangeWeaponState.Idle;
                 animator.SetBool("Aiming", false);
                 playerAnim.SetBool("Aiming", false);
             }
-            else if (AimTimer <= 0.0f)
+            // Shoot if holding down left click and ready
+            else if (mAimTimer <= 0.0f)
             {
-                RangeWeaponState = ERangeWeaponState.Cooldown;
-                CooldownTimer = CooldownTime;
-                AimTimer = AimTime;
+                mRangeWeaponState = ERangeWeaponState.Cooldown;
+                mCooldownTimer = mCooldownTime;
+                mAimTimer = mAimTime;
                 
                 animator.SetTrigger("Shoot");
                 playerAnim.SetBool("Aiming", false);
@@ -42,26 +44,28 @@ public class Slingshot : Weapon
                 GameObject.Find("Game").GetComponent<Game>().AudioManager.PlayLayered("SlingshotFire");
             }
         }
-        else if (RangeWeaponState == ERangeWeaponState.Idle)
+        // Start aiming if left click is down
+        else if (mRangeWeaponState == ERangeWeaponState.Idle)
         {
             animator.SetBool("Aiming", false);
 
             if (Input.GetMouseButton(0))
             {
-                AimTimer = AimTime;
-                RangeWeaponState = ERangeWeaponState.Aiming;
+                mAimTimer = mAimTime;
+                mRangeWeaponState = ERangeWeaponState.Aiming;
                 animator.SetBool("Aiming", true);
                 playerAnim.SetBool("Aiming", true);
 
                 GameObject.Find("Game").GetComponent<Game>().AudioManager.PlayLayered("SlingshotLoad");
             }
         }
-        else if (RangeWeaponState == ERangeWeaponState.Cooldown)
+        // Go to idle state when cooldown has finished
+        else if (mRangeWeaponState == ERangeWeaponState.Cooldown)
         {
-            CooldownTimer -= Time.deltaTime;
+            mCooldownTimer -= Time.deltaTime;
 
-            if (CooldownTimer <= 0.0f)
-                RangeWeaponState = ERangeWeaponState.Idle;
+            if (mCooldownTimer <= 0.0f)
+                mRangeWeaponState = ERangeWeaponState.Idle;
         }
     }
 }

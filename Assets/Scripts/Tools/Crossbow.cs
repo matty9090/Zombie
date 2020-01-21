@@ -5,27 +5,28 @@ using UnityEngine;
 public class Crossbow : Weapon
 {
     private enum ERangeWeaponState { Loading, Cooldown, Idle };
-    private ERangeWeaponState RangeWeaponState = ERangeWeaponState.Idle;
+    private ERangeWeaponState mRangeWeaponState = ERangeWeaponState.Idle;
 
-    private readonly float LoadTime = 1.6f;
-    private readonly float CooldownTime = 0.5f;
-    private float LoadTimer = 0.0f;
-    private float CooldownTimer = 0.0f;
+    private readonly float mLoadTime = 1.6f;
+    private readonly float mCooldownTime = 0.5f;
+    private float mLoadTimer = 0.0f;
+    private float mCooldownTimer = 0.0f;
 
     public override void HandleState(Character character)
     {
         var animator = character.CurrentWeapon.GetComponent<Animator>();
         var playerAnim = character.GetComponentInChildren<Animator>();
 
-        if (RangeWeaponState == ERangeWeaponState.Loading)
+        if (mRangeWeaponState == ERangeWeaponState.Loading)
         {
-            LoadTimer -= Time.deltaTime;
+            mLoadTimer -= Time.deltaTime;
 
-            if (LoadTimer <= 0.0f && Input.GetMouseButtonDown(0))
+            // If loaded and left click pressed, then shoot and go into the cooldown state
+            if (mLoadTimer <= 0.0f && Input.GetMouseButtonDown(0))
             {
-                RangeWeaponState = ERangeWeaponState.Cooldown;
-                CooldownTimer = CooldownTime;
-                LoadTimer = LoadTime;
+                mRangeWeaponState = ERangeWeaponState.Cooldown;
+                mCooldownTimer = mCooldownTime;
+                mLoadTimer = mLoadTime;
 
                 animator.SetTrigger("Shoot");
                 playerAnim.SetBool("Aiming", false);
@@ -36,26 +37,28 @@ public class Crossbow : Weapon
                 GameObject.Find("Game").GetComponent<Game>().AudioManager.PlayLayered("CrossbowShoot");
             }
         }
-        else if (RangeWeaponState == ERangeWeaponState.Idle)
+        // If left click if pressed then load the crossbow
+        else if (mRangeWeaponState == ERangeWeaponState.Idle)
         {
             if (Input.GetMouseButtonDown(0))
             {
-                LoadTimer = LoadTime;
-                RangeWeaponState = ERangeWeaponState.Loading;
+                mLoadTimer = mLoadTime;
+                mRangeWeaponState = ERangeWeaponState.Loading;
                 animator.SetTrigger("Load");
                 playerAnim.SetBool("Aiming", true);
 
                 GameObject.Find("Game").GetComponent<Game>().AudioManager.PlayLayered("CrossbowLoad");
             }
         }
-        else if (RangeWeaponState == ERangeWeaponState.Cooldown)
+        // Go to idle state once cooldown has finished
+        else if (mRangeWeaponState == ERangeWeaponState.Cooldown)
         {
-            CooldownTimer -= Time.deltaTime;
+            mCooldownTimer -= Time.deltaTime;
 
-            if (CooldownTimer <= 0.0f)
+            if (mCooldownTimer <= 0.0f)
             {
                 animator.SetTrigger("Ready");
-                RangeWeaponState = ERangeWeaponState.Idle;
+                mRangeWeaponState = ERangeWeaponState.Idle;
             }
         }
     }    

@@ -14,7 +14,7 @@ public class HUD : MonoBehaviour
     public GameObject BuildUI = null;
     public GameObject WaveUI = null;
 
-    private Resources Resources;
+    private Resources mResources;
 
     void Start()
     {
@@ -22,8 +22,10 @@ public class HUD : MonoBehaviour
         Game.ToolUnlocked.AddListener(UnlockHarvestTool);
         Game.WeaponUnlocked.AddListener(UnlockWeapon);
 
-        Resources = Game.Resources;
-        Resources.ResourcesChangedEvent.AddListener(ResourcesChanged);
+        mResources = Game.Resources;
+        mResources.ResourcesChangedEvent.AddListener(ResourcesChanged);
+
+        // Disable building and weapons that haven't been unlocked yet
 
         for (int i = Game.NumBuildingsUnlocked; i < BuildingsLayout.childCount; ++i)
             BuildingsLayout.GetChild(i).gameObject.SetActive(false);
@@ -32,24 +34,28 @@ public class HUD : MonoBehaviour
             WeaponsLayout.GetChild(i).gameObject.SetActive(false);
     }
 
+    /* Update UI resource values */
     void ResourcesChanged()
     {
-        ResourceTexts[(int)EResource.Wood].text = "" + Resources.Wood;
-        ResourceTexts[(int)EResource.Stone].text = "" + Resources.Stone;
+        ResourceTexts[(int)EResource.Wood].text = "" + mResources.Wood;
+        ResourceTexts[(int)EResource.Stone].text = "" + mResources.Stone;
     }
 
     public void UnlockBuilding()
     {
         if (BuildingsLayout.childCount >= Game.NumBuildingsUnlocked)
         {
+            // Reveal the building UI
             var buildingLayout = BuildingsLayout.GetChild(Game.NumBuildingsUnlocked - 1);
             buildingLayout.gameObject.SetActive(true);
             buildingLayout.GetComponent<Animator>().SetTrigger("Unlocked");
 
+            // Show fireworks effect behind the UI element
             var fireworks = buildingLayout.Find("Fireworks").gameObject;
             fireworks.SetActive(true);
             Destroy(fireworks, 5.0f);
 
+            // Show unlock popup
             var building = Game.Buildings[Game.NumBuildingsUnlocked - 1].GetComponent<Building>();
             Popup.Name = building.BuildingName;
             Popup.Desc = building.BuildingDesc;
@@ -61,9 +67,11 @@ public class HUD : MonoBehaviour
     {
         if (WeaponsLayout.childCount >= Game.NumWeaponsUnlocked)
         {
+            // Reveal the new weapon UI
             var weaponLayout = WeaponsLayout.GetChild(Game.NumWeaponsUnlocked - 1);
             weaponLayout.gameObject.SetActive(true);
 
+            // Show unlock popup
             var weapon = Game.AttackTools[Game.NumWeaponsUnlocked - 1].GetComponent<Weapon>();
             Popup.Name = weapon.ToolName;
             Popup.Desc = weapon.ToolDesc;
@@ -73,6 +81,7 @@ public class HUD : MonoBehaviour
 
     public void UnlockHarvestTool()
     {
+        // Show unlock popup
         var tool = Game.HarvestTools[Game.NumToolsUnlocked - 1].GetComponent<HarvestTool>();
         Popup.Name = tool.ToolName;
         Popup.Desc = tool.ToolDesc;

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/* Finished wave state */
 public class StateFinishedWave : IState
 {
     private Game mGame = null;
@@ -15,9 +16,11 @@ public class StateFinishedWave : IState
 
     public void OnExit()
     {
+        // Regenerate the map
         mGame.Map.CleanUpWorld();
         mGame.Map.GenerateWorld();
 
+        // Reset character position
         mGame.CharacterInst.transform.position = mGame.Map.Start.Position;
         mGame.CharacterInst.transform.rotation = Quaternion.identity;
         mGame.CharacterInst.CurrentPosition = mGame.Map.Start;

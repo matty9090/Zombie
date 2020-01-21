@@ -14,8 +14,8 @@ public class Game : MonoBehaviour
     [SerializeField] private Text UICountdownText = null;
     [SerializeField] private int BuildingTime = 90;
     [SerializeField] private List<ELevelUp> LevelUps = null;
-    [SerializeField] private GameObject PausePanel;
-    [SerializeField] private GameObject ConfirmExitBox;
+    [SerializeField] private GameObject PausePanel = null;
+    [SerializeField] private GameObject ConfirmExitBox = null;
 
     public Canvas Menu = null;
     public Canvas Hud = null;

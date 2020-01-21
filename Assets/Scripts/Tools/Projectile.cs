@@ -12,6 +12,7 @@ public class Projectile : MonoBehaviour
         Destroy(gameObject, Lifetime);
     }
 
+    /* Damage an enemy if it collided with one */
     private void OnCollisionEnter(Collision collision)
     {
         var zombie = collision.gameObject.GetComponent<Zombie>();

@@ -12,8 +12,10 @@ public class Weapon : MonoBehaviour
     public float ProjectileSpeed;
     public Transform LaunchPosition;
 
+    // Some weapons may have their own state to handle (e.g. reloads)
     public virtual void HandleState(Character character) {}
 
+    /* Helper method to launch a projectile in a direction from a point */
     protected void LaunchProjectile(GameObject obj, Transform launchPoint, float speed, int damage)
     {
         var proj = Instantiate(obj, launchPoint.position, launchPoint.rotation * Quaternion.Euler(0.0f, 90.0f, 0.0f));

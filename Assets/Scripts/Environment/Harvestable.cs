@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/* Something which can be harvested */
 public class Harvestable : MonoBehaviour, IDestroyable
 {
     [SerializeField] private int Health = 100;
@@ -11,6 +12,7 @@ public class Harvestable : MonoBehaviour, IDestroyable
     public EResource Type;
     public string GatherSound = "GatherStone";
 
+    // IDestroyable
     public bool DamageObject()
     {
         Health -= DamageAmount;

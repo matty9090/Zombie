@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/* This component is used as a trigger to damage zombies  */
 public class Damagable : MonoBehaviour
 {
     [SerializeField]

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Spikes : MonoBehaviour
 {
-    [SerializeField] private float DamageTime = 0.4f;
+    [SerializeField] private float DamageTime = 0.4f; // How often to damage a zombie
     [SerializeField] private int DamageAmount = 6;
     private float mDamageTimer = 0.0f;
 
@@ -15,6 +15,7 @@ public class Spikes : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
+        // Damage zombie every x seconds
         if (other.GetComponent<Zombie>() != null)
         {
             mDamageTimer -= Time.deltaTime;

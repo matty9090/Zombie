@@ -2,36 +2,42 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/* Menu state */
 public class StateMenu : IState
 {
-    private Game Game = null;
-    private float FadeOutMusicTime = 1.6f;
+    private Game mGame = null;
+    private float mFadeOutMusicTime = 1.6f;
 
     public StateMenu()
     {
-        Game = GameObject.Find("Game").GetComponent<Game>();
+        mGame = GameObject.Find("Game").GetComponent<Game>();
     }
 
     public void OnEnter()
     {
-        Game.Menu.enabled = true;
-        Game.Hud.enabled = false;
+        // Show menu UI
+        mGame.Menu.enabled = true;
+        mGame.Hud.enabled = false;
 
-        Game.AudioManager.Play("MenuMusic", true);
-        Game.CharacterInst.gameObject.SetActive(false);
+        mGame.AudioManager.Play("MenuMusic", true);
+
+        // Hide character
+        mGame.CharacterInst.gameObject.SetActive(false);
     }
 
     public void OnExit()
     {
-        Game.Menu.enabled = false;
-        Game.Hud.enabled = true;
+        mGame.Menu.enabled = false;
+        mGame.Hud.enabled = true;
 
-        Game.AudioManager.FadeOutSound("MenuMusic", FadeOutMusicTime);
-        Game.CharacterInst.gameObject.SetActive(true);
-        Game.CharacterInst.transform.position = Game.Map.Start.Position;
-        Game.CharacterInst.transform.rotation = Quaternion.identity;
-        Game.CharacterInst.CurrentPosition = Game.Map.Start;
-        Game.HoverTile.SetActive(true);
+        mGame.AudioManager.FadeOutSound("MenuMusic", mFadeOutMusicTime);
+        mGame.HoverTile.SetActive(true);
+
+        // Reset character position to centre of map
+        mGame.CharacterInst.gameObject.SetActive(true);
+        mGame.CharacterInst.transform.position = mGame.Map.Start.Position;
+        mGame.CharacterInst.transform.rotation = Quaternion.identity;
+        mGame.CharacterInst.CurrentPosition = mGame.Map.Start;
     }
 
     public void Update()

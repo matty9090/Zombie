@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/* Container for a tile on the map */
 public class EnvironmentTile : MonoBehaviour
 {
     public List<EnvironmentTile> Connections { get; set; }

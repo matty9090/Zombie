@@ -18,13 +18,11 @@ public class Building : MonoBehaviour
         set { mHealth = value; UpdateHealth(); }
     }
 
-    private GameObject HealthBarInst;
+    private GameObject mHealthBarInst;
 
     private void Start()
     {
         var game = GameObject.Find("Game").GetComponent<Game>();
-
-        game.MatchStarted.AddListener(OnMatchStarted);
         game.MatchEnded.AddListener(OnMatchEnded);
         
         Health = MaxHealth;
@@ -36,7 +34,6 @@ public class Building : MonoBehaviour
 
         if (game)
         {
-            game.GetComponent<Game>().MatchStarted.RemoveListener(OnMatchStarted);
             game.GetComponent<Game>().MatchEnded.RemoveListener(OnMatchEnded);
             game.GetComponent<Game>().AudioManager.Play("Rubble");
         }
@@ -44,39 +41,38 @@ public class Building : MonoBehaviour
 
     public void Place()
     {
-        HealthBarInst = Instantiate(HealthBar);
-        HealthBarInst.SetActive(false);
+        // Create health bar
+        mHealthBarInst = Instantiate(HealthBar);
+        mHealthBarInst.SetActive(false);
 
-        if(HealthBarInst != null)
-            HealthBarInst.transform.position = transform.position + Vector3.up * 9.4f;
+        if(mHealthBarInst != null)
+            mHealthBarInst.transform.position = transform.position + Vector3.up * 9.4f;
     }
 
-    private void OnMatchStarted()
-    {
-        
-    }
-
+    /* Don't show health bar when the wave has ended */
     private void OnMatchEnded()
     {
-        HealthBarInst.SetActive(false);
+        mHealthBarInst.SetActive(false);
     }
 
     private void UpdateHealth()
     {
-        if (HealthBarInst == null)
+        if (mHealthBarInst == null)
             return;
         
         float frac = (float)mHealth / MaxHealth;
-        HealthBarInst.GetComponentInChildren<Image>().transform.localScale = new Vector3(Mathf.Clamp(frac, 0.0f, 1.0f), 1, 1);
+        mHealthBarInst.GetComponentInChildren<Image>().transform.localScale = new Vector3(Mathf.Clamp(frac, 0.0f, 1.0f), 1, 1);
 
         if (frac <= 0.0f)
         {
-            Destroy(HealthBarInst);
+            // Destroy health bar and building if health <= 0
+            Destroy(mHealthBarInst);
             Destroy(gameObject);
         }
         else if (frac < 1.0f)
         {
-            HealthBarInst.SetActive(true);
+            // Only show health bar if building is damaged
+            mHealthBarInst.SetActive(true);
         }
     }
 }
