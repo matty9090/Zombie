@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7449865857852827681}
   - component: {fileID: 2261807917520501368}
   - component: {fileID: 7590971319125391256}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Wire.002
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -89,7 +89,7 @@ GameObject:
   - component: {fileID: 5639913969342382841}
   - component: {fileID: 7009867824241149397}
   - component: {fileID: 3217717304140132797}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Cylinder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -170,7 +170,7 @@ GameObject:
   - component: {fileID: 2016320405024782371}
   - component: {fileID: 2438882766823834425}
   - component: {fileID: 7856208982744507226}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: ElectricFence
   m_TagString: Untagged
   m_Icon: {fileID: 0}
