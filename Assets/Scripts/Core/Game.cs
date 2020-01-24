@@ -16,9 +16,11 @@ public class Game : MonoBehaviour
     [SerializeField] private List<ELevelUp> LevelUps = null;
     [SerializeField] private GameObject PausePanel = null;
     [SerializeField] private GameObject ConfirmExitBox = null;
+    [SerializeField] private Canvas ScoreSubmitBox = null;
 
     public Canvas Menu = null;
     public Canvas Hud = null;
+    public Canvas Leaderboard = null;
     public Camera MainCamera = null;
     public Camera RotationCamera = null;
     public Character Character = null;
@@ -36,6 +38,7 @@ public class Game : MonoBehaviour
     public List<GameObject> HarvestTools = null;
     public List<GameObject> AttackTools = null;
     public List<GameObject> Buildings = null;
+    public string ApiURL = "http://mlowe.net/api/zombie/";
 
     public Character CharacterInst { get; private set; }
     public Resources Resources { get; set; }
@@ -58,10 +61,9 @@ public class Game : MonoBehaviour
     public UnityEvent WeaponUnlocked { get; private set; }
     public UnityEvent ToolUnlocked { get; private set; }
 
-    private enum EGameState { Menu, Building, Wave, FinishedWave, GameOver };
+    private enum EGameState { Menu, Building, Wave, FinishedWave, Leaderboard, GameOver };
     private enum ELevelUp { Building, Tool, Weapon };
     private EGameState mGameState = EGameState.Menu;
-    private int mCurrentWave = 0;
     private float mBuildingTimer = 0.0f;
     private bool mIsPaused = false;
 
@@ -69,6 +71,7 @@ public class Game : MonoBehaviour
     public int XPLevel = 0;
     public int CurrentXPCap = 100;
     public int CurrentHarvestTool = 0;
+    public int CurrentWave { get; private set; }
 
     public int XP {
         get { return mXP; }
@@ -114,6 +117,7 @@ public class Game : MonoBehaviour
         mStates = new Dictionary<EGameState, IState>
         {
             [EGameState.Menu] = new StateMenu(),
+            [EGameState.Leaderboard] = new StateLeaderboard(),
             [EGameState.Building] = new StateBuilding(),
             [EGameState.Wave] = new StateWave(),
             [EGameState.FinishedWave] = new StateFinishedWave(),
@@ -204,7 +208,7 @@ public class Game : MonoBehaviour
     {
         if (CharacterInst.Health <= 0 && mGameState == EGameState.Wave)
         {
-            GameOver.transform.Find("Result").GetComponent<Text>().text = "You made it to wave " + mCurrentWave;
+            GameOver.transform.Find("Result").GetComponent<Text>().text = "You made it to wave " + CurrentWave;
             SwitchState(EGameState.GameOver);
         }
     }
@@ -247,9 +251,9 @@ public class Game : MonoBehaviour
     public void StartWave()
     {
         mBuildingTimer = BuildingTime;
-        ++mCurrentWave;
+        ++CurrentWave;
         
-        UIWaveText.text = "Wave " + mCurrentWave;
+        UIWaveText.text = "Wave " + CurrentWave;
         UICountdownText.GetComponent<Animator>().Play("Countdown");
 
         GameObject.Find("StartWave").GetComponent<Button>().enabled = false;
@@ -259,6 +263,21 @@ public class Game : MonoBehaviour
     public void StartGame()
     {
         SwitchState(EGameState.Building);
+    }
+
+    public void ViewLeaderboard()
+    {
+        SwitchState(EGameState.Leaderboard);
+    }
+
+    public void ShowScoreSubmit()
+    {
+        ScoreSubmitBox.enabled = true;
+    }
+
+    public void CloseScoreSubmit()
+    {
+        ScoreSubmitBox.enabled = false;
     }
 
     public void BackToMainMenu()

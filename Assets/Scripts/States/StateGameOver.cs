@@ -21,6 +21,9 @@ public class StateGameOver : IState
         mAnim = mGame.GameOver.GetComponentInChildren<Animator>();
         mGame.GameOver.SetActive(true);
 
+        // Make sure submit score box is hidden initially
+        mGame.CloseScoreSubmit();
+
         GameObject.Find("GameOverBackBtn").GetComponent<Button>().onClick.AddListener(BackClicked);
     }
 

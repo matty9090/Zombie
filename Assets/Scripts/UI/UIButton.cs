@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class UIButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler
+public class UIButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, IPointerUpHandler
 {
     [SerializeField] private CanvasGroup Tooltip = null;
 
@@ -22,5 +22,11 @@ public class UIButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     public void OnPointerDown(PointerEventData ped)
     {
         GameObject.Find("Game").GetComponent<Game>().AudioManager.Play("ButtonClick");
+    }
+
+    public void OnPointerUp(PointerEventData eventData)
+    {
+        if (GetComponent<Animator>() != null)
+            GetComponent<Animator>().SetTrigger("Normal");
     }
 }
